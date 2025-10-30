@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SAMBASHIVA MILK AGENCY</title>
+<style>
+  body {
+    font-family: "Segoe UI", sans-serif;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  header {
+    background: linear-gradient(to right, #ff8800, #ffb84d);
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header .top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  header img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+  }
+  header h1 {
+    margin: 0;
+    font-size: 1.6rem;
+  }
+  header p {
+    margin: 3px 0;
+    font-size: 0.9rem;
+  }
+  .controls {
+    margin: 10px;
+    text-align: center;
+  }
+  .controls button, .controls input[type="date"] {
+    background: #ff8800;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin: 5px;
+    font-size: 0.9rem;
+  }
+  .controls button:hover {
+    background: #e67300;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 60px;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    text-align: center;
+    padding: 6px;
+  }
+  th {
+    background: #ffe0b3;
+    position: sticky;
+    top: 130px;
+    z-index: 5;
+  }
+  tfoot td {
+    background: #fff4e0;
+    font-weight: bold;
+  }
+  @media (max-width: 768px) {
+    header h1 {
+      font-size: 1.2rem;
+    }
+    th, td {
+      font-size: 0.8rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<audio id="chime" src="https://actions.google.com/sounds/v1/alarms/medium_bell_ringing.ogg" preload="auto"></audio>
+
+<header>
+  <div class="top-row">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Milk_bottle_icon.png" alt="Left Logo">
+    <div>
+      <h1>SAMBASHIVA MILK AGENCY</h1>
+      <p>Prop: K. AJAY KUMAR REDDY</p>
+      <p>Mobile: 7330892694</p>
+    </div>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/21/Milk_bottle_icon.png" alt="Right Logo">
+  </div>
+</header>
+
+<div class="controls">
+  <input type="date" id="datePicker">
+  <button onclick="addShop()">Add Shop</button>
+  <button onclick="copyPreviousDay()">Copy Previous Day</button>
+  <button onclick="downloadCSV()">Download CSV</button>
+  <button onclick="clearAll()">Clear All</button>
+</div>
+
+<table id="milkTable">
+  <thead>
+    <tr>
+      <th>Shop Name</th>
+      <th>Mobile</th>
+      <th>TM</th>
+      <th>SM</th>
+      <th>SMALL M</th>
+      <th>SMALL C</th>
+      <th>A400</th>
+      <th>H500</th>
+      <th>FC400</th>
+      <th>FC1L</th>
+      <th>PAID</th>
+      <th>DUE</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+  <tfoot id="totalsFooter">
+    <tr id="availableRow">
+      <td colspan="13">Litres Available (editable)</td>
+    </tr>
+    <tr id="soldRow">
+      <td colspan="13">Litres Sold</td>
+    </tr>
+    <tr id="remainingRow">
+      <td colspan="13">Litres Remaining</td>
+    </tr>
+  </tfoot>
+</table>
+
+<script>
+const tableBody = document.getElementById('tableBody');
+const datePicker = document.getElementById('datePicker');
+const chime = document.getElementById('chime');
+let available = {}, sold = {}, remaining = {};
+let prices = ["TM","SM","SMALL M","SMALL C","A400","H500","FC400","FC1L"];
+
+function playChime(){chime.play().catch(()=>{});}
+
+function getToday(){return new Date().toISOString().split('T')[0];}
+
+function saveData(){
+  const data = [];
+  tableBody.querySelectorAll('tr').forEach(row=>{
+    const rowData = {};
+    row.querySelectorAll('input').forEach(inp=>{
+      rowData[inp.name] = inp.value;
+    });
+    data.push(rowData);
+  });
+  localStorage.setItem('milk_'+datePicker.value, JSON.stringify(data));
+}
+
+function loadData(date){
+  tableBody.innerHTML = '';
+  const data = JSON.parse(localStorage.getItem('milk_'+date) || '[]');
+  data.forEach(row=>{
+    addShop(row);
+  });
+  updateTotals();
+}
+
+function addShop(values={}){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input name="shop" value="${values.shop||''}" oninput="saveData()"></td>
+    <td><input name="mobile" value="${values.mobile||''}" oninput="saveData()"></td>
+    ${prices.map(p=>`<td><input name="${p}" type="number" min="0" value="${values[p]||0}" oninput="calcDue(this)"></td>`).join('')}
+    <td><input name="PAID" type="number" value="${values.PAID||0}" oninput="calcDue(this)"></td>
+    <td><input name="DUE" type="number" value="${values.DUE||0}" readonly></td>
+    <td><button onclick="deleteRow(this)">X</button></td>
+  `;
+  tableBody.appendChild(tr);
+  saveData();
+}
+
+function deleteRow(btn){
+  btn.closest('tr').remove();
+  saveData();
+  updateTotals();
+}
+
+function calcDue(el){
+  const row = el.closest('tr');
+  let total = prices.reduce((sum,p)=>sum+(parseFloat(row.querySelector(`[name='${p}']`).value)||0),0);
+  let paid = parseFloat(row.querySelector("[name='PAID']").value)||0;
+  row.querySelector("[name='DUE']").value = (total - paid).toFixed(2);
+  saveData();
+  updateTotals();
+}
+
+function updateTotals(){
+  let totals = {};
+  prices.forEach(p=>totals[p]=0);
+  tableBody.querySelectorAll('tr').forEach(row=>{
+    prices.forEach(p=>{
+      totals[p]+=parseFloat(row.querySelector(`[name='${p}']`).value)||0;
+    });
+  });
+  let soldRow=document.getElementById('soldRow');
+  soldRow.innerHTML='<td>Total Sold:</td>'+prices.map(p=>`<td>${totals[p]}</td>`).join('')+'<td colspan="5"></td>';
+}
+
+function clearAll(){
+  if(confirm("Are you sure you want to clear all data for today?")){
+    localStorage.removeItem('milk_'+datePicker.value);
+    tableBody.innerHTML='';
+    saveData();
+    updateTotals();
+  }
+}
+
+function copyPreviousDay(){
+  const d=new Date(datePicker.value);
+  d.setDate(d.getDate()-1);
+  const prevData=localStorage.getItem('milk_'+d.toISOString().split('T')[0]);
+  if(prevData){localStorage.setItem('milk_'+datePicker.value, prevData);loadData(datePicker.value);}
+}
+
+function downloadCSV(){
+  let csv='Shop,Mobile,'+prices.join(',')+',PAID,DUE\n';
+  tableBody.querySelectorAll('tr').forEach(row=>{
+    let rowData=[];
+    row.querySelectorAll('input').forEach(inp=>rowData.push(inp.value));
+    csv+=rowData.join(',')+'\n';
+  });
+  const blob=new Blob([csv],{type:'text/csv'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='milk-'+datePicker.value+'.csv';
+  a.click();
+}
+
+datePicker.value=getToday();
+loadData(datePicker.value);
+playChime();
+</script>
+</body>
+</html>
