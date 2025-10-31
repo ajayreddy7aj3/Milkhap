@@ -63,18 +63,30 @@
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
+      table-layout: fixed; /* Makes columns smaller and uniform */
     }
     th, td {
       border: 1px solid #ddd;
       text-align: center;
       padding: 4px;
+      word-wrap: break-word;
     }
     th {
       background-color: #ffe5b4;
       position: sticky;
       top: 65px;
       z-index: 10;
+    }
+    th:nth-child(n),
+    td:nth-child(n) {
+      width: 70px; /* Reduce width for smaller columns */
+    }
+    th:first-child, td:first-child {
+      width: 120px; /* Shop name slightly wider */
+    }
+    th:nth-child(2), td:nth-child(2) {
+      width: 100px; /* Mobile column a bit wider */
     }
     tfoot td {
       background-color: #fff3e0;
@@ -85,7 +97,7 @@
       font-weight: bold;
     }
     @media (max-width: 768px) {
-      table { font-size: 0.75rem; }
+      table { font-size: 0.7rem; }
       th, td { padding: 2px; }
       header h1 { font-size: 1rem; }
     }
@@ -268,10 +280,8 @@
       });
       for (let k in sold) {
         document.getElementById("sold"+k).innerText = sold[k];
-        const avail = parseFloat(document.querySelector(`tfoot td[contenteditable][contenteditable][contenteditable][contenteditable][contenteditable]`) || 0);
-        const remain = document.getElementById("remain"+k);
         const availVal = parseFloat(document.querySelector(`tfoot td:nth-child(${Object.keys(sold).indexOf(k)+3})`).innerText) || 0;
-        remain.innerText = (availVal - sold[k]).toFixed(0);
+        document.getElementById("remain"+k).innerText = (availVal - sold[k]).toFixed(0);
       }
     }
 
@@ -285,18 +295,16 @@
     };
     dateInput.addEventListener("change", loadData);
 
-    // Download PDF
+    // Download PDF (direct download, portrait)
     downloadPDF.addEventListener("click", async () => {
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
       const content = document.body;
-      const canvas = await html2canvas(content, { scale: 1.5 });
+      const canvas = await html2canvas(content, { scale: 1.5, useCORS: true });
       const imgData = canvas.toDataURL("image/png");
       const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = pageWidth;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      const imgHeight = (canvas.height * pageWidth) / canvas.width;
+      pdf.addImage(imgData, "PNG", 0, 0, pageWidth, imgHeight);
       pdf.save(`milk_${dateInput.value}.pdf`);
     });
 
