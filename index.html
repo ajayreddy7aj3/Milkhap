@@ -4,7 +4,6 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>SAMBASHIVA MILK AGENCY</title>
-<link rel="icon" href="data:,">
 <style>
   :root{
     --orange:#f97316;
@@ -12,52 +11,72 @@
     --bg:#faf7f3;
     --card:#ffffff;
     --muted:#6b7280;
-    --input-h:44px;
-    --header-h:96px;
+    --input-h:40px;
+    --header-h:92px;
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:#222;padding-bottom:140px}
+  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:#222;padding-bottom:120px}
   header{position:sticky;top:0;z-index:320;background:linear-gradient(90deg,var(--orange),var(--orange-dark));color:white;padding:12px 14px;box-shadow:0 6px 20px rgba(0,0,0,0.12)}
-  .container{max-width:1100px;margin:0 auto;padding:0 14px}
+  .container{max-width:1200px;margin:0 auto;padding:0 14px}
   .header-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .logo{width:52px;height:52px;flex:0 0 52px}
+  .logo{width:44px;height:44px;flex:0 0 44px}
   .title-block{text-align:center;flex:1}
   .title{font-size:1.18rem;font-weight:800;margin:0;display:flex;align-items:center;justify-content:center;gap:10px;color:#fff}
   .subtitle{font-size:0.92rem;margin-top:6px;color:#fff}
-  .date-input{background:var(--card);border:0;padding:6px 10px;border-radius:8px;height:36px;font-weight:700}
+  .date-input{background:var(--card);border:0;padding:6px 10px;border-radius:8px;height:34px;font-weight:700}
   .controls{display:flex;gap:8px;justify-content:flex-end;margin:12px 0;align-items:center;flex-wrap:wrap}
-  .btn{background:var(--orange);color:#fff;border:0;padding:10px 12px;border-radius:8px;font-weight:700;cursor:pointer}
+  .btn{background:var(--orange);color:#fff;border:0;padding:8px 10px;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px}
   .btn.ghost{background:#fff;color:var(--orange);border:1px solid rgba(0,0,0,0.06)}
   .btn.clear{background:#ef4444}
-  .btn.small{padding:8px 10px;font-size:13px}
+  .btn.small{padding:6px 8px;font-size:13px}
   .price-panel{display:flex;gap:8px;overflow:auto;padding-bottom:8px;margin-bottom:6px}
-  .price-item{background:var(--card);padding:8px;border-radius:8px;min-width:100px;box-shadow:0 6px 18px rgba(2,6,23,0.04);text-align:center}
+  .price-item{background:var(--card);padding:8px;border-radius:8px;min-width:86px;box-shadow:0 6px 18px rgba(2,6,23,0.04);text-align:center}
   .price-item label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}
-  .price-item input{width:86px;padding:8px;border-radius:6px;border:1px solid #e6e6e6;height:var(--input-h);text-align:center}
-  .table-wrap{overflow:auto;background:var(--card);border-radius:10px;box-shadow:0 8px 30px rgba(2,6,23,0.06)}
-  table{width:100%;border-collapse:collapse;min-width:1000px;table-layout:fixed}
-  th,td{padding:6px;border-bottom:1px solid #f3f3f3;text-align:center;font-size:13px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-  thead th{background:linear-gradient(180deg,var(--orange),var(--orange-dark));color:white;position:sticky;top:calc(var(--header-h) - 8px);z-index:280}
+  .price-item input{width:78px;padding:6px;border-radius:6px;border:1px solid #e6e6e6;height:34px;text-align:center;font-size:13px}
+  .table-wrap{background:var(--card);border-radius:10px;box-shadow:0 8px 30px rgba(2,6,23,0.06);padding:8px}
+  table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
+  thead th{background:linear-gradient(180deg,var(--orange),var(--orange-dark));color:white;position:sticky;top:calc(var(--header-h) - 8px);z-index:280;padding:8px 6px}
+  th,td{padding:6px;border-bottom:1px solid #f3f3f3;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
   .planned-row td{background:#fff7f0;color:#4b2f0a;font-weight:800}
-  input[type="number"],input[type="text"],input[type="tel"]{padding:6px;border-radius:6px;border:1px solid #eaeaea;text-align:center;font-size:13px;height:36px}
+  input[type="number"],input[type="text"],input[type="tel"]{padding:6px;border-radius:6px;border:1px solid #eaeaea;text-align:center;font-size:13px;height:34px;min-width:44px}
   .total-cell,.due-cell{font-weight:800}
-  .send-btn{background:#25D366;border:0;color:white;padding:6px 10px;border-radius:6px;cursor:pointer;height:34px}
-  .delete-btn{background:#ef4444;border:0;color:white;padding:6px 10px;border-radius:6px;cursor:pointer;height:34px}
-  .custom-btn{background:#ffd27a;border:0;color:#6b3d00;padding:6px 10px;border-radius:6px;cursor:pointer;height:34px}
+  .send-btn{background:#25D366;border:0;color:white;padding:6px 8px;border-radius:6px;cursor:pointer;height:34px;font-size:13px}
+  .delete-btn{background:#ef4444;border:0;color:white;padding:6px 8px;border-radius:6px;cursor:pointer;height:34px;font-size:13px}
+  .custom-btn{background:#ffd27a;border:0;color:#6b3d00;padding:6px 8px;border-radius:6px;cursor:pointer;height:34px;font-size:13px}
   .custom-price-row td{background:#fff8ed;padding:8px}
   .footer-note{text-align:center;color:var(--muted);margin-top:8px}
   .bottom-summary{margin-top:12px;background:#fff6ee;padding:10px;border-radius:8px;box-shadow:0 6px 18px rgba(2,6,23,0.04)}
-  .summary-grid{display:grid;grid-template-columns:160px repeat(8,1fr);gap:8px;align-items:center}
+  .summary-grid{display:grid;grid-template-columns:160px repeat(8,1fr);gap:8px;align-items:center;font-size:13px}
   .summary-label{font-weight:800;color:#4b2f0a}
   .summary-cell{background:var(--card);padding:8px;border-radius:6px;text-align:center}
   .toast{position:fixed;right:16px;bottom:110px;background:#111;color:#fff;padding:10px 12px;border-radius:8px;opacity:0;transform:translateY(8px);transition:all .18s;z-index:360}
   .toast.show{opacity:1;transform:none}
-  .icons-small{width:34px;height:34px}
-  .small-num { width:72px; max-width:72px; min-width:60px; display:inline-block; }
-  .col-shop { width:160px; max-width:220px; min-width:120px; text-align:left; padding-left:8px; }
-  .col-mobile { width:110px; max-width:140px; min-width:100px; }
-  @media (max-width:980px){ table{min-width:900px} .summary-grid{grid-template-columns:140px repeat(8,1fr)} }
-  @media (max-width:720px){ .logo{width:44px;height:44px} .title{font-size:1.02rem} table{min-width:820px} }
+
+  /* tuned widths */
+  .col-shop { width:220px; min-width:160px; text-align:left; padding-left:8px; }
+  .col-mobile { width:140px; min-width:110px; }
+  .small-num { width:64px; min-width:52px; max-width:80px; }
+
+  /* Desktop: fit table within container — avoid horizontal scroll */
+  @media (min-width:1100px){
+    table{font-size:13px}
+    .col-shop { width:260px; }
+    .col-mobile { width:150px; }
+    .small-num { width:60px; }
+  }
+
+  /* Mobile: allow horizontal scroll for narrow screens (so inputs stay usable) */
+  @media (max-width:899px){
+    .container{padding:0 8px}
+    table{min-width:980px} /* allow the table to be scrollable on small screens */
+    .price-item input{width:72px}
+  }
+
+  @media (max-width:480px){
+    .title{font-size:16px}
+    .price-item{min-width:86px}
+    .small-num{width:72px}
+  }
 </style>
 </head>
 <body>
@@ -65,7 +84,6 @@
     <div class="container header-row">
       <div style="display:flex;align-items:center;gap:8px">
         <div class="logo" aria-hidden="true">
-          <!-- Demo HAP logo left -->
           <svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <circle cx="50" cy="50" r="48" fill="#fff" stroke="#f97316" stroke-width="4"/>
             <text x="50" y="58" font-family="sans-serif" font-weight="800" font-size="26" fill="#f97316" text-anchor="middle">HAP</text>
@@ -82,8 +100,7 @@
 
       <div style="display:flex;align-items:center;gap:10px">
         <input id="dateInput" class="date-input" type="date" />
-        <div style="width:46px;height:46px">
-          <!-- demo icon right -->
+        <div style="width:42px;height:42px">
           <svg viewBox="0 0 64 64" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <rect width="64" height="64" rx="8" fill="#fff" stroke="#f97316" stroke-width="2"/>
             <path d="M32 10c6 0 10 3 10 7s-4 7-10 7-10-3-10-7 4-7 10-7z" fill="#f97316"/>
@@ -94,7 +111,7 @@
     </div>
   </header>
 
-  <main style="padding:14px 12px 160px">
+  <main style="padding:14px 12px 140px">
     <div class="container">
 
       <div class="price-panel" aria-label="Global prices">
@@ -115,7 +132,6 @@
         <button id="copyPrevBtn" class="btn ghost small" title="Copy shops from previous day">📋 Copy Prev Day</button>
         <button id="clearBtn" class="btn clear small" title="Clear all data">Clear All</button>
         <button id="saveBtn" class="btn ghost small">Save Data</button>
-        <!--<button id="exportBtn" class="btn ghost small">Download CSV</button>--> 
       </div>
 
       <div class="table-wrap" role="region" aria-label="Shops table">
@@ -282,7 +298,6 @@
     clearTimeout(toast._t); toast._t = setTimeout(()=>{ toast.classList.remove('show'); toast.setAttribute('aria-hidden','true'); }, ms);
   }
 
-  // storage helpers
   function keyForDate(d){ return STORAGE_PREFIX + d; }
   function listSavedDates(){
     const keys = [];
@@ -307,12 +322,11 @@
     return deleted;
   }
 
-  // row creation
   function createRow(data){
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td><input class="shop" type="text" placeholder="Full name"/></td>
-      <td><input class="mobile" type="tel" placeholder="10-digit mobile"/></td>
+      <td class="col-shop"><input class="shop" type="text" placeholder="Full name"/></td>
+      <td class="col-mobile"><input class="mobile" type="tel" placeholder="10-digit mobile"/></td>
       <td><input class="tm small-num" type="number" min="0" inputmode="numeric"/></td>
       <td><input class="sm small-num" type="number" min="0" inputmode="numeric"/></td>
       <td><input class="smm small-num" type="number" min="0" inputmode="numeric"/></td>
@@ -375,7 +389,7 @@
       </div></td>`;
     tr.parentNode.insertBefore(row, tr.nextSibling);
 
-    const g = readGlobalPrices();
+    const g = readGlobalPricesSafe();
     row.querySelector('.c_tm').value = (tr._customPrices && typeof tr._customPrices.TM === 'number') ? tr._customPrices.TM : g.TM;
     row.querySelector('.c_sm').value = (tr._customPrices && typeof tr._customPrices.SM === 'number') ? tr._customPrices.SM : g.SM;
     row.querySelector('.c_smm').value = (tr._customPrices && typeof tr._customPrices['SMALL M'] === 'number') ? tr._customPrices['SMALL M'] : g['SMALL M'];
@@ -401,15 +415,6 @@
     row.querySelector('.cancel-cust').addEventListener('click', ()=>{ if(row && row.parentNode) row.parentNode.removeChild(row); });
   }
 
-  function readGlobalPrices(){
-    return {
-      TM: Number(priceInputs.TM.value||0), SM: Number(priceInputs.SM.value||0),
-      'SMALL M': Number(priceInputs['SMALL M'].value||0), 'SMALL C': Number(priceInputs['SMALL C'].value||0),
-      A400: Number(priceInputs.A400.value||0), H500: Number(priceInputs.H500].value||0),
-      FC400: Number(priceInputs.FC400.value||0), FC1L: Number(priceInputs.FC1L.value||0)
-    };
-  }
-  // Note: small correction in above if your browser throws - I will fallback below if necessary
   function readGlobalPricesSafe(){
     return {
       TM: Number(document.getElementById('price_TM').value||0),
@@ -426,9 +431,7 @@
   function formatNum(n){ if(!isFinite(n)) return '0'; if(Math.round(n)===n) return String(Math.round(n)); return Number(n).toFixed(2); }
 
   function calculateRow(tr){
-    // try main read, fallback to safe
-    let global;
-    try{ global = readGlobalPrices(); }catch(e){ global = readGlobalPricesSafe(); }
+    const global = readGlobalPricesSafe();
     const custom = tr._customPrices || null;
     const tm = Number(tr.querySelector('.tm').value||0), sm = Number(tr.querySelector('.sm').value||0),
       smm = Number(tr.querySelector('.smm').value||0), smc = Number(tr.querySelector('.smc').value||0),
@@ -617,8 +620,8 @@
     window.scrollTo({top: absoluteTop - headerH, behavior: 'smooth'});
   }
 
+  // Optional CSV export kept (not shown in UI)
   function exportCSV(){
-    // kept for compatibility - not used in UI but available
     const cur = dateInput.value || TODAY;
     const rows = collectRows();
     const types = ['TM','SM','SMALL M','SMALL C','A400','H500','FC400','FC1L'];
@@ -669,25 +672,18 @@
   async function downloadPdfDirect(){
     try{
       showToast('Preparing PDF...');
-      // temporarily expand table layout for a cleaner capture (optional)
-      const originalBg = document.body.style.backgroundColor;
-      // capture container only (main section)
       const container = document.querySelector('main');
-      // Use html2canvas
       const canvas = await html2canvas(container, { scale: 2, useCORS:true, allowTaint:true });
       const imgData = canvas.toDataURL('image/png');
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
-      // fit image to page width
       const imgWidth = pageWidth;
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      // if image height > pageHeight, split into pages
       if(imgHeight <= pageHeight){
         pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
       } else {
-        // split tall image into slices
         const canvasH = canvas.height;
         const sliceHeight = Math.floor(canvas.width * (pageHeight / pageWidth));
         let y = 0;
@@ -715,7 +711,6 @@
     const deleted = deleteOldRecords();
     if(deleted) showToast(`🧹 Deleted ${deleted} old record(s)`);
     loadForDate(TODAY, true);
-    // soft chime:
     try{
       const Ctx = window.AudioContext || window.webkitAudioContext;
       if(Ctx){
@@ -735,9 +730,7 @@
     });
     saveBtn.addEventListener('click', ()=>{ saveForDate(dateInput.value||TODAY); showToast('Saved'); });
     downloadPdfBtn.addEventListener('click', ()=>{ downloadPdfDirect(); });
-    // price changes
     Object.values(priceInputs).forEach(inp => inp.addEventListener('input', ()=>{ Array.from(dataBody.querySelectorAll('tr')).forEach(tr=>{ if(!tr.classList.contains('custom-price-row')) calculateRow(tr); }); updateAllSums(); autosaveSilent(); }));
-    // plan changes
     Object.values(planEls).forEach(inp => inp.addEventListener('input', ()=>{ updateAllSums(); autosaveSilent(); }));
     dateInput.addEventListener('change', ()=>{ const newDate = dateInput.value || TODAY; loadForDate(newDate, true); showToast(`Loaded ${newDate}`); });
     window.addEventListener('beforeunload', ()=>{ saveForDate(dateInput.value || TODAY); });
@@ -759,12 +752,8 @@
     }catch(e){ console.error(e); alert('Copy failed'); }
   }
 
-  // small helper watchers are already built in via event listeners
-
-  // boot
   init();
 
-  // expose api
   window._milkApp = { loadForDate, saveForDate, listSavedDates, deleteOldRecords, collectRows, downloadPdfDirect };
 
 })();
