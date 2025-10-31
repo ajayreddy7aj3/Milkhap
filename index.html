@@ -232,533 +232,193 @@
   const STORAGE_PREFIX = 'milkData_';
   const MAX_DAYS = 365;
   const todayStr = d => d.toISOString().slice(0,10);
-  const now = new Date();
-  const TODAY = todayStr(now);
+  const TODAY = todayStr(new Date());
 
-  // elements
   const dateInput = document.getElementById('dateInput');
   const addBtn = document.getElementById('addBtn');
-  const copyPrevBtn = document.getElementById('copyPrevBtn');
-  const clearBtn = document.getElementById('clearBtn');
-  const saveBtn = document.getElementById('saveBtn');
-  const downloadPdfBtn = document.getElementById('downloadPdfBtn');
   const dataBody = document.getElementById('dataBody');
   const toast = document.getElementById('toast');
-  const plan_total = document.getElementById('plan_total');
-  const grandTotalEl = document.getElementById('grandTotal');
-  const grandLitresEl = document.getElementById('grandLitres');
 
-  const priceInputs = {
-    TM: document.getElementById('price_TM'),
-    SM: document.getElementById('price_SM'),
-    'SMALL M': document.getElementById('price_SMM'),
-    'SMALL C': document.getElementById('price_SMC'),
-    A400: document.getElementById('price_A400'),
-    H500: document.getElementById('price_H500'),
-    FC400: document.getElementById('price_FC400'),
-    FC1L: document.getElementById('price_FC1L')
-  };
-
-  const planEls = {
-    TM: document.getElementById('plan_TM'),
-    SM: document.getElementById('plan_SM'),
-    'SMALL M': document.getElementById('plan_SMM'),
-    'SMALL C': document.getElementById('plan_SMC'),
-    A400: document.getElementById('plan_A400'),
-    H500: document.getElementById('plan_H500'),
-    FC400: document.getElementById('plan_FC400'),
-    FC1L: document.getElementById('plan_FC1L')
-  };
-
-  const b_sold = { TM: document.getElementById('b_sold_TM'), SM: document.getElementById('b_sold_SM'), 'SMALL M': document.getElementById('b_sold_SMM'), 'SMALL C': document.getElementById('b_sold_SMC'), A400: document.getElementById('b_sold_A400'), H500: document.getElementById('b_sold_H500'), FC400: document.getElementById('b_sold_FC400'), FC1L: document.getElementById('b_sold_FC1L') };
-  const b_plan = { TM: document.getElementById('b_plan_TM'), SM: document.getElementById('b_plan_SM'), 'SMALL M': document.getElementById('b_plan_SMM'), 'SMALL C': document.getElementById('b_plan_SMC'), A400: document.getElementById('b_plan_A400'), H500: document.getElementById('b_plan_H500'), FC400: document.getElementById('b_plan_FC400'), FC1L: document.getElementById('b_plan_FC1L') };
-  const b_remain = { TM: document.getElementById('b_remain_TM'), SM: document.getElementById('b_remain_SM'), 'SMALL M': document.getElementById('b_remain_SMM'), 'SMALL C': document.getElementById('b_remain_SMC'), A400: document.getElementById('b_remain_A400'), H500: document.getElementById('b_remain_H500'), FC400: document.getElementById('b_remain_FC400'), FC1L: document.getElementById('b_remain_FC1L') };
-
-  const totEls = {
-    tm: document.getElementById('tot_tm'), sm: document.getElementById('tot_sm'), smm: document.getElementById('tot_smm'), smc: document.getElementById('tot_smc'),
-    a400: document.getElementById('tot_a400'), h500: document.getElementById('tot_h500'), fc400: document.getElementById('tot_fc400'), fc1l: document.getElementById('tot_fc1l'),
-    total: document.getElementById('tot_total'), paid: document.getElementById('tot_paid'), due: document.getElementById('tot_due')
-  };
-
-  function showToast(msg, ms=1600){
-    toast.textContent = msg; toast.classList.add('show'); toast.setAttribute('aria-hidden','false');
-    clearTimeout(toast._t); toast._t = setTimeout(()=>{ toast.classList.remove('show'); toast.setAttribute('aria-hidden','true'); }, ms);
-  }
-
-  // storage helpers
-  function keyForDate(d){ return STORAGE_PREFIX + d; }
-  function listSavedDates(){
-    const keys = [];
-    for(let i=0;i<localStorage.length;i++){
-      const k = localStorage.key(i);
-      if(k && k.startsWith(STORAGE_PREFIX)) keys.push(k.slice(STORAGE_PREFIX.length));
+  const showToast = (msg, ms=2000, undoFn=null)=>{
+    toast.innerHTML = undoFn ? `${msg} <button style="margin-left:8px;padding:3px 8px;border:0;border-radius:4px;background:#fff;color:#111;cursor:pointer">Undo</button>` : msg;
+    toast.classList.add('show');
+    toast.setAttribute('aria-hidden','false');
+    if(undoFn){
+      const btn = toast.querySelector('button');
+      btn.onclick = ()=>{ undoFn(); hideToast(); };
     }
-    return keys.sort();
-  }
+    clearTimeout(toast._t);
+    toast._t = setTimeout(hideToast, ms);
+  };
+  const hideToast = ()=>{
+    toast.classList.remove('show');
+    toast.setAttribute('aria-hidden','true');
+  };
 
-  function deleteOldRecords(){
-    const keys = listSavedDates();
-    if(!keys.length) return 0;
-    const now = new Date();
-    const cutoff = new Date(now); cutoff.setDate(cutoff.getDate() - MAX_DAYS);
-    let deleted = 0;
-    keys.forEach(d=>{
-      const dt = new Date(d + 'T00:00:00');
-      if(dt < cutoff){ localStorage.removeItem(keyForDate(d)); deleted++; }
+  function readGlobalPricesSafe(){
+    const ids=['TM','SM','SMM','SMC','A400','H500','FC400','FC1L'];
+    const o={};
+    ids.forEach(id=>{
+      const el=document.getElementById('price_'+id);
+      if(el) o[id.replace('SMM','SMALL M').replace('SMC','SMALL C').replace('FC400','FC400').replace('FC1L','FC1L')]=Number(el.value||0);
     });
-    if(deleted) showToast(`🧹 Deleted ${deleted} old record(s)`);
-    return deleted;
+    return o;
   }
 
-  // row creation
+  function formatNum(n){return (!isFinite(n)?'0':(Math.round(n)==n?Math.round(n):n.toFixed(2)));}
+
+  // ---- Row Creation ----
   function createRow(data){
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td class="col-shop"><input class="shop" type="text" placeholder="Full name"/></td>
-      <td class="col-mobile"><input class="mobile" type="tel" placeholder="10-digit mobile"/></td>
-      <td><input class="tm small-num" type="number" min="0" inputmode="numeric"/></td>
-      <td><input class="sm small-num" type="number" min="0" inputmode="numeric"/></td>
-      <td><input class="smm small-num" type="number" min="0" inputmode="numeric"/></td>
-      <td><input class="smc small-num" type="number" min="0" inputmode="numeric"/></td>
-      <td><input class="a400 small-num" type="number" min="0" inputmode="numeric"/></td>
-      <td><input class="h500 small-num" type="number" min="0" inputmode="numeric"/></td>
-      <td><input class="fc400 small-num" type="number" min="0" inputmode="numeric"/></td>
-      <td><input class="fc1l small-num" type="number" min="0" inputmode="numeric"/></td>
-      <td class="total-cell small-num">0</td>
-      <td><input class="paid small-num" type="number" min="0" inputmode="numeric"/></td>
-      <td class="due-cell small-num">0</td>
-      <td><button class="send-btn" type="button">Send</button></td>
-      <td><button class="custom-btn" type="button">Edit</button></td>
-      <td><button class="delete-btn" type="button">Delete</button></td>
-    `;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td><input class="shop" placeholder="Full name"></td>
+      <td><input class="mobile" type="tel" placeholder="Mobile"></td>
+      <td><input class="tm" type="number"></td>
+      <td><input class="sm" type="number"></td>
+      <td><input class="smm" type="number"></td>
+      <td><input class="smc" type="number"></td>
+      <td><input class="a400" type="number"></td>
+      <td><input class="h500" type="number"></td>
+      <td><input class="fc400" type="number"></td>
+      <td><input class="fc1l" type="number"></td>
+      <td class="total-cell">0</td>
+      <td><input class="paid" type="number"></td>
+      <td class="due-cell">0</td>
+      <td><button class="send-btn">Send</button></td>
+      <td><button class="custom-btn">Edit</button></td>
+      <td><button class="delete-btn">Delete</button></td>`;
     if(data){
-      tr.querySelector('.shop').value = data.shop || '';
-      tr.querySelector('.mobile').value = data.mobile || '';
-      tr.querySelector('.tm').value = data.TM || '';
-      tr.querySelector('.sm').value = data.SM || '';
-      tr.querySelector('.smm').value = data.SMALLM || '';
-      tr.querySelector('.smc').value = data.SMALLC || '';
-      tr.querySelector('.a400').value = data.A400 || '';
-      tr.querySelector('.h500').value = data.H500 || '';
-      tr.querySelector('.fc400').value = data.FC400 || '';
-      tr.querySelector('.fc1l').value = data.FC1L || '';
-      tr.querySelector('.paid').value = data.paid || '';
-      if(data.customPrices) tr._customPrices = data.customPrices;
+      tr.querySelector('.shop').value=data.shop||'';
+      tr.querySelector('.mobile').value=data.mobile||'';
+      ['tm','sm','smm','smc','a400','h500','fc400','fc1l','paid'].forEach(k=>{
+        if(data[k.toUpperCase()]) tr.querySelector('.'+k).value=data[k.toUpperCase()];
+      });
+      if(data.customPrices) tr._customPrices=data.customPrices;
     }
 
-    // input handlers
-    tr.querySelectorAll('input').forEach(inp => inp.addEventListener('input', ()=>{
-      calculateRow(tr); updateAllSums(); autosaveSilent();
-    }));
-
-    // delete row
-    tr.querySelector('.delete-btn').addEventListener('click', ()=>{
-      if(confirm('Delete this row?')){
-        if(tr.nextSibling && tr.nextSibling.classList && tr.nextSibling.classList.contains('custom-price-row')) tr.parentNode.removeChild(tr.nextSibling);
-        tr.parentNode.removeChild(tr);
-        updateAllSums(); autosaveSilent();
-      }
-    });
-
-    // edit (open custom price row)
-    tr.querySelector('.custom-btn').addEventListener('click', ()=> toggleCustomRow(tr));
-
-    // send (whatsapp)
-    tr.querySelector('.send-btn').addEventListener('click', ()=> sendWhatsAppForRow(tr));
-
+    tr.querySelectorAll('input').forEach(i=>i.addEventListener('input',()=>{calcRow(tr);updateAll();autosaveSilent();}));
+    tr.querySelector('.delete-btn').addEventListener('click',()=>deleteRow(tr));
+    tr.querySelector('.custom-btn').addEventListener('click',()=>toggleCustom(tr));
+    tr.querySelector('.send-btn').addEventListener('click',()=>sendWhatsApp(tr));
     return tr;
   }
 
-  function toggleCustomRow(tr){
-    if(tr.nextSibling && tr.nextSibling.classList && tr.nextSibling.classList.contains('custom-price-row')){
-      tr.parentNode.removeChild(tr.nextSibling); updateAllSums(); autosaveSilent(); return;
-    }
-    const row = document.createElement('tr'); row.classList.add('custom-price-row');
-    row.innerHTML = `<td colspan="16" style="background:#fff8ed;padding:10px">
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <div style="font-weight:800;color:#7a4300">Custom prices (this shop):</div>
-        <label>TM ₹<input class="c_tm" type="number" min="0" style="width:92px;padding:6px" /></label>
-        <label>SM ₹<input class="c_sm" type="number" min="0" style="width:92px;padding:6px" /></label>
-        <label>SML M ₹<input class="c_smm" type="number" min="0" style="width:92px;padding:6px" /></label>
-        <label>SML C ₹<input class="c_smc" type="number" min="0" style="width:92px;padding:6px" /></label>
-        <label>A400 ₹<input class="c_a400" type="number" min="0" style="width:92px;padding:6px" /></label>
-        <label>H500 ₹<input class="c_h500" type="number" min="0" style="width:92px;padding:6px" /></label>
-        <label>FCM ₹<input class="c_fc400" type="number" min="0" style="width:92px;padding:6px" /></label>
-        <label>FC1L ₹<input class="c_fc1l" type="number" min="0" style="width:92px;padding:6px" /></label>
-        <button class="btn small save-cust">Save</button>
-        <button class="btn small ghost cancel-cust">Cancel</button>
-      </div></td>`;
-    tr.parentNode.insertBefore(row, tr.nextSibling);
-
-    const g = readGlobalPricesSafe();
-    row.querySelector('.c_tm').value = (tr._customPrices && typeof tr._customPrices.TM === 'number') ? tr._customPrices.TM : g.TM;
-    row.querySelector('.c_sm').value = (tr._customPrices && typeof tr._customPrices.SM === 'number') ? tr._customPrices.SM : g.SM;
-    row.querySelector('.c_smm').value = (tr._customPrices && typeof tr._customPrices['SMALL M'] === 'number') ? tr._customPrices['SMALL M'] : g['SMALL M'];
-    row.querySelector('.c_smc').value = (tr._customPrices && typeof tr._customPrices['SMALL C'] === 'number') ? tr._customPrices['SMALL C'] : g['SMALL C'];
-    row.querySelector('.c_a400').value = (tr._customPrices && typeof tr._customPrices.A400 === 'number') ? tr._customPrices.A400 : g.A400;
-    row.querySelector('.c_h500').value = (tr._customPrices && typeof tr._customPrices.H500 === 'number') ? tr._customPrices.H500 : g.H500;
-    row.querySelector('.c_fc400').value = (tr._customPrices && typeof tr._customPrices.FC400 === 'number') ? tr._customPrices.FC400 : g.FC400;
-    row.querySelector('.c_fc1l').value = (tr._customPrices && typeof tr._customPrices.FC1L === 'number') ? tr._customPrices.FC1L : g.FC1L;
-
-    row.querySelector('.save-cust').addEventListener('click', ()=>{
-      tr._customPrices = {
-        TM: Number(row.querySelector('.c_tm').value||0),
-        SM: Number(row.querySelector('.c_sm').value||0),
-        'SMALL M': Number(row.querySelector('.c_smm').value||0),
-        'SMALL C': Number(row.querySelector('.c_smc').value||0),
-        A400: Number(row.querySelector('.c_a400').value||0),
-        H500: Number(row.querySelector('.c_h500').value||0),
-        FC400: Number(row.querySelector('.c_fc400').value||0),
-        FC1L: Number(row.querySelector('.c_fc1l').value||0)
-      };
-      calculateRow(tr); updateAllSums(); autosaveSilent(); showToast('Custom prices saved');
-    });
-    row.querySelector('.cancel-cust').addEventListener('click', ()=>{ if(row && row.parentNode) row.parentNode.removeChild(row); });
-  }
-
-  function readGlobalPricesSafe(){
-    return {
-      TM: Number(document.getElementById('price_TM').value||0),
-      SM: Number(document.getElementById('price_SM').value||0),
-      'SMALL M': Number(document.getElementById('price_SMM').value||0),
-      'SMALL C': Number(document.getElementById('price_SMC').value||0),
-      A400: Number(document.getElementById('price_A400').value||0),
-      H500: Number(document.getElementById('price_H500').value||0),
-      FC400: Number(document.getElementById('price_FC400').value||0),
-      FC1L: Number(document.getElementById('price_FC1L').value||0)
+  function calcRow(tr){
+    const g=readGlobalPricesSafe();
+    const c=tr._customPrices||{};
+    const v=n=>Number(tr.querySelector('.'+n).value||0);
+    const tm=v('tm'),sm=v('sm'),smm=v('smm'),smc=v('smc'),a400=v('a400'),h500=v('h500'),fc400=v('fc400'),fc1l=v('fc1l'),paid=v('paid');
+    const prices={
+      TM:c.TM??g.TM,SM:c.SM??g.SM,'SMALL M':c['SMALL M']??g['SMALL M'],'SMALL C':c['SMALL C']??g['SMALL C'],
+      A400:c.A400??g.A400,H500:c.H500??g.H500,FC400:c.FC400??g.FC400,FC1L:c.FC1L??g.FC1L
     };
+    const total=tm*prices.TM+sm*prices.SM+smm*prices['SMALL M']+smc*prices['SMALL C']+a400*prices.A400+h500*prices.H500+fc400*prices.FC400+fc1l*prices.FC1L;
+    const due=Math.max(0,total-paid);
+    tr.querySelector('.total-cell').textContent=formatNum(total);
+    tr.querySelector('.due-cell').textContent=formatNum(due);
+    updateRowStyle(tr);
   }
 
-  function formatNum(n){ if(!isFinite(n)) return '0'; if(Math.round(n)===n) return String(Math.round(n)); return Number(n).toFixed(2); }
-
-  function calculateRow(tr){
-    const global = readGlobalPricesSafe();
-    const custom = tr._customPrices || null;
-    const tm = Number(tr.querySelector('.tm').value||0), sm = Number(tr.querySelector('.sm').value||0),
-      smm = Number(tr.querySelector('.smm').value||0), smc = Number(tr.querySelector('.smc').value||0),
-      a400 = Number(tr.querySelector('.a400').value||0), h500 = Number(tr.querySelector('.h500').value||0),
-      fc400 = Number(tr.querySelector('.fc400').value||0), fc1l = Number(tr.querySelector('.fc1l').value||0),
-      paid = Number(tr.querySelector('.paid').value||0);
-
-    const p = {
-      TM: (custom && typeof custom.TM === 'number') ? custom.TM : global.TM,
-      SM: (custom && typeof custom.SM === 'number') ? custom.SM : global.SM,
-      'SMALL M': (custom && typeof custom['SMALL M'] === 'number') ? custom['SMALL M'] : global['SMALL M'],
-      'SMALL C': (custom && typeof custom['SMALL C'] === 'number') ? custom['SMALL C'] : global['SMALL C'],
-      A400: (custom && typeof custom.A400 === 'number') ? custom.A400 : global.A400,
-      H500: (custom && typeof custom.H500 === 'number') ? custom.H500 : global.H500,
-      FC400: (custom && typeof custom.FC400 === 'number') ? custom.FC400 : global.FC400,
-      FC1L: (custom && typeof custom.FC1L === 'number') ? custom.FC1L : global.FC1L
-    };
-
-    const total = (tm * p.TM) + (sm * p.SM) + (smm * p['SMALL M']) + (smc * p['SMALL C'])
-                  + (a400 * p.A400) + (h500 * p.H500) + (fc400 * p.FC400) + (fc1l * p.FC1L);
-    const due = Math.max(0, total - paid);
-    tr.querySelector('.total-cell').textContent = formatNum(total);
-    tr.querySelector('.due-cell').textContent = formatNum(due);
+  function updateRowStyle(tr){
+    tr.style.background='';
+    if(tr._customPrices) tr.style.background='#fff8e1';
+    const due=Number(tr.querySelector('.due-cell').textContent||0);
+    if(due>0) tr.style.background='#ffe5e5';
   }
 
-  function updateAllSums(){
-    let tmSum=0, smSum=0, smmSum=0, smcSum=0, a400Sum=0, h500Sum=0, fc400Sum=0, fc1lSum=0;
-    let totalMoney=0, paidSum=0, dueSum=0;
-    const rows = Array.from(dataBody.querySelectorAll('tr')).filter(r=>!r.classList.contains('custom-price-row'));
-    rows.forEach(tr=>{
-      const tm = Number(tr.querySelector('.tm').value||0), sm = Number(tr.querySelector('.sm').value||0),
-        smm = Number(tr.querySelector('.smm').value||0), smc = Number(tr.querySelector('.smc').value||0),
-        a400 = Number(tr.querySelector('.a400').value||0), h500 = Number(tr.querySelector('.h500').value||0),
-        fc400 = Number(tr.querySelector('.fc400').value||0), fc1l = Number(tr.querySelector('.fc1l').value||0);
-      const total = parseFloat((tr.querySelector('.total-cell').textContent||'0').replace(/,/g,''))||0;
-      const paid = Number(tr.querySelector('.paid').value||0);
-      const due = parseFloat((tr.querySelector('.due-cell').textContent||'0').replace(/,/g,''))||0;
-      tmSum += tm; smSum += sm; smmSum += smm; smcSum += smc; a400Sum += a400; h500Sum += h500; fc400Sum += fc400; fc1lSum += fc1l;
-      totalMoney += total; paidSum += paid; dueSum += due;
+  function toggleCustom(tr){
+    if(tr._customOpen){ tr._customEl.remove(); tr._customOpen=false; return;}
+    const row=document.createElement('tr');
+    row.classList.add('custom-price-row');
+    row.innerHTML=`<td colspan="16" style="background:#fff8ed;padding:8px">
+      <strong>Custom Prices:</strong>
+      ${['TM','SM','SMALL M','SMALL C','A400','H500','FC400','FC1L'].map(t=>`${t} ₹<input data-k="${t}" type="number" style="width:80px">`).join(' ')}
+      <button class="btn small save">Save</button>
+      <button class="btn small ghost cancel">Cancel</button>
+    </td>`;
+    tr.insertAdjacentElement('afterend',row);
+    tr._customEl=row; tr._customOpen=true;
+    const g=readGlobalPricesSafe();
+    row.querySelectorAll('input').forEach(i=>{
+      const k=i.dataset.k;
+      i.value=(tr._customPrices && tr._customPrices[k])||g[k];
     });
+    row.querySelector('.save').onclick=()=>{
+      const vals={}; row.querySelectorAll('input').forEach(i=>vals[i.dataset.k]=Number(i.value||0));
+      tr._customPrices=vals; calcRow(tr); updateAll(); autosaveSilent(); showToast('Custom prices saved');
+    };
+    row.querySelector('.cancel').onclick=()=>{row.remove();tr._customOpen=false;};
+  }
 
-    b_sold.TM.textContent = formatNum(tmSum);
-    b_sold.SM.textContent = formatNum(smSum);
-    b_sold['SMALL M'].textContent = formatNum(smmSum);
-    b_sold['SMALL C'].textContent = formatNum(smcSum);
-    b_sold.A400.textContent = formatNum(a400Sum);
-    b_sold.H500.textContent = formatNum(h500Sum);
-    b_sold.FC400.textContent = formatNum(fc400Sum);
-    b_sold.FC1L.textContent = formatNum(fc1lSum);
+  // ---- Delete with undo ----
+  let lastDeleted=null;
+  function deleteRow(tr){
+    if(!confirm('Are you sure you want to delete this shop?')) return;
+    lastDeleted={html:tr.outerHTML,index:[...dataBody.children].indexOf(tr)};
+    tr.remove();
+    updateAll();autosaveSilent();
+    showToast('Shop deleted.',4000,()=>{ if(lastDeleted){ const temp=document.createElement('tbody'); temp.innerHTML=lastDeleted.html; const restored=temp.firstChild; if(lastDeleted.index>=dataBody.children.length)dataBody.appendChild(restored); else dataBody.insertBefore(restored,dataBody.children[lastDeleted.index]); attachEvents(restored); updateAll(); autosaveSilent(); showToast('Restored'); lastDeleted=null; }});
+  }
 
-    const types = ['TM','SM','SMALL M','SMALL C','A400','H500','FC400','FC1L'];
-    let plannedSum = 0; types.forEach(t=> plannedSum += Number(planEls[t].value||0));
-    plan_total.textContent = formatNum(plannedSum);
-    types.forEach(t => b_plan[t].value = Number(planEls[t].value||0));
-    types.forEach(t => b_remain[t].textContent = formatNum(Math.max(0, Number(b_plan[t].value||0) - Number(b_sold[t].textContent||0))));
+  function attachEvents(tr){
+    tr.querySelectorAll('input').forEach(i=>i.addEventListener('input',()=>{calcRow(tr);updateAll();autosaveSilent();}));
+    tr.querySelector('.delete-btn').addEventListener('click',()=>deleteRow(tr));
+    tr.querySelector('.custom-btn').addEventListener('click',()=>toggleCustom(tr));
+    tr.querySelector('.send-btn').addEventListener('click',()=>sendWhatsApp(tr));
+  }
 
-    totEls.tm.textContent = formatNum(tmSum); totEls.sm.textContent = formatNum(smSum); totEls.smm.textContent = formatNum(smmSum);
-    totEls.smc.textContent = formatNum(smcSum); totEls.a400.textContent = formatNum(a400Sum); totEls.h500.textContent = formatNum(h500Sum);
-    totEls.fc400.textContent = formatNum(fc400Sum); totEls.fc1l.textContent = formatNum(fc1lSum);
-    totEls.total.textContent = formatNum(totalMoney); totEls.paid.textContent = formatNum(paidSum); totEls.due.textContent = formatNum(dueSum);
+  // ---- WhatsApp ----
+  function sendWhatsApp(tr){
+    const shop=tr.querySelector('.shop').value||'Customer';
+    let mobile=(tr.querySelector('.mobile').value||'').replace(/\D/g,'');
+    if(!mobile){alert('Enter mobile');return;}
+    if(mobile.length>10&&mobile.startsWith('91'))mobile=mobile.slice(-10);
+    if(mobile.length!=10){alert('Invalid number');return;}
+    const total=tr.querySelector('.total-cell').textContent;
+    const due=tr.querySelector('.due-cell').textContent;
+    const date=dateInput.value||TODAY;
+    const msg=`Hello ${shop}, your milk bill for ${date}: Total ₹${total}, Due ₹${due}. - Sambashiva Milk Agency`;
+    window.open(`https://wa.me/91${mobile}?text=${msg}`,'_blank');
+  }
 
-    grandTotalEl.textContent = `₹${formatNum(totalMoney)}`;
-    const litresSold = tmSum + smSum + smmSum + smcSum + a400Sum + h500Sum + fc400Sum + fc1lSum;
-    grandLitresEl.textContent = formatNum(litresSold);
-
-    autosaveSilent();
+  function updateAll(){
+    dataBody.querySelectorAll('tr').forEach(tr=>calcRow(tr));
   }
 
   function collectRows(){
-    const out = [];
-    const rows = Array.from(dataBody.querySelectorAll('tr')).filter(r=>!r.classList.contains('custom-price-row'));
-    rows.forEach(tr=>{
-      out.push({
-        shop: tr.querySelector('.shop').value||'',
-        mobile: tr.querySelector('.mobile').value||'',
-        TM: tr.querySelector('.tm').value||0,
-        SM: tr.querySelector('.sm').value||0,
-        SMALLM: tr.querySelector('.smm').value||0,
-        SMALLC: tr.querySelector('.smc').value||0,
-        A400: tr.querySelector('.a400').value||0,
-        H500: tr.querySelector('.h500').value||0,
-        FC400: tr.querySelector('.fc400').value||0,
-        FC1L: tr.querySelector('.fc1l').value||0,
-        paid: tr.querySelector('.paid').value||0,
-        customPrices: tr._customPrices || null
+    const rows=[]; dataBody.querySelectorAll('tr').forEach(tr=>{
+      if(tr.classList.contains('custom-price-row'))return;
+      rows.push({
+        shop:tr.querySelector('.shop').value,mobile:tr.querySelector('.mobile').value,
+        TM:tr.querySelector('.tm').value,SM:tr.querySelector('.sm').value,SMALLM:tr.querySelector('.smm').value,
+        SMALLC:tr.querySelector('.smc').value,A400:tr.querySelector('.a400').value,H500:tr.querySelector('.h500').value,
+        FC400:tr.querySelector('.fc400').value,FC1L:tr.querySelector('.fc1l').value,paid:tr.querySelector('.paid').value,
+        customPrices:tr._customPrices||null
       });
     });
-    return out;
+    return rows;
   }
 
-  function saveForDate(dateStr){
-    try{
-      const payload = { date: dateStr, prices: readGlobalPricesSafe(), plan: { TM: Number(planEls.TM.value||0), SM: Number(planEls.SM.value||0), 'SMALL M': Number(planEls['SMALL M'].value||0), 'SMALL C': Number(planEls['SMALL C'].value||0), A400: Number(planEls.A400.value||0), H500: Number(planEls.H500.value||0), FC400: Number(planEls.FC400.value||0), FC1L: Number(planEls.FC1L.value||0) }, rows: collectRows() };
-      localStorage.setItem(STORAGE_PREFIX+dateStr, JSON.stringify(payload));
-      return true;
-    }catch(e){ console.error(e); return false; }
+  function saveForDate(d){
+    const payload={rows:collectRows()}; localStorage.setItem(STORAGE_PREFIX+d,JSON.stringify(payload));
   }
+  const autosaveSilent=()=>saveForDate(dateInput.value||TODAY);
 
-  function autosaveSilent(){
-    const cur = dateInput.value || TODAY;
-    saveForDate(cur);
-  }
-
-  function loadForDate(dateStr, autoCopyPrev=true){
-    const curNow = dateInput._current || TODAY;
-    if(curNow && curNow !== dateStr) saveForDate(curNow);
-
-    dateInput._current = dateStr;
-    dateInput.value = dateStr;
-
-    const raw = localStorage.getItem(STORAGE_PREFIX + dateStr);
+  function loadForDate(d){
+    const raw=localStorage.getItem(STORAGE_PREFIX+d);
+    dataBody.innerHTML='';
     if(raw){
       try{
-        const data = JSON.parse(raw);
-        if(data.prices){
-          if(typeof data.prices.TM !== 'undefined') priceInputs.TM.value = data.prices.TM;
-          if(typeof data.prices.SM !== 'undefined') priceInputs.SM.value = data.prices.SM;
-          if(typeof data.prices['SMALL M'] !== 'undefined') priceInputs['SMALL M'].value = data.prices['SMALL M'];
-          if(typeof data.prices['SMALL C'] !== 'undefined') priceInputs['SMALL C'].value = data.prices['SMALL C'];
-          if(typeof data.prices.A400 !== 'undefined') priceInputs.A400.value = data.prices.A400;
-          if(typeof data.prices.H500 !== 'undefined') priceInputs.H500.value = data.prices.H500;
-          if(typeof data.prices.FC400 !== 'undefined') priceInputs.FC400.value = data.prices.FC400;
-          if(typeof data.prices.FC1L !== 'undefined') priceInputs.FC1L.value = data.prices.FC1L;
-        }
-        if(data.plan){ Object.keys(planEls).forEach(k => { if(typeof data.plan[k] !== 'undefined') planEls[k].value = data.plan[k]; }); }
-        dataBody.innerHTML = '';
-        if(Array.isArray(data.rows) && data.rows.length){
-          data.rows.forEach(r=>{
-            const tr = createRow(r); dataBody.appendChild(tr);
-            if(r.customPrices) tr._customPrices = r.customPrices;
-            calculateRow(tr);
-          });
-          updateAllSums();
-          return;
-        }
-      }catch(e){ console.error('parse error', e); }
-    }
-
-    if(autoCopyPrev){
-      const prev = previousDate(dateStr);
-      const prevRaw = localStorage.getItem(STORAGE_PREFIX + prev);
-      if(prevRaw){
-        try{
-          const prevData = JSON.parse(prevRaw);
-          if(Array.isArray(prevData.rows) && prevData.rows.length){
-            dataBody.innerHTML = '';
-            prevData.rows.forEach(r=>{
-              const newRow = {
-                shop: r.shop || '', mobile: r.mobile || '',
-                TM:0, SM:0, SMALLM:0, SMALLC:0, A400:0, H500:0, FC400:0, FC1L:0, paid:0,
-                customPrices: r.customPrices || null
-              };
-              const tr = createRow(newRow);
-              if(newRow.customPrices) tr._customPrices = newRow.customPrices;
-              dataBody.appendChild(tr);
-              calculateRow(tr);
-            });
-            updateAllSums();
-            saveForDate(dateStr);
-            showToast('Copied shops & custom prices from previous day');
-            return;
-          }
-        }catch(e){ console.error('prev parse error', e); }
-      }
-    }
-
-    dataBody.innerHTML = '';
-    dataBody.appendChild(createRow());
-    updateAllSums();
+        const data=JSON.parse(raw);
+        if(data.rows) data.rows.forEach(r=>{const tr=createRow(r);dataBody.appendChild(tr);calcRow(tr);});
+      }catch(e){}
+    } else dataBody.appendChild(createRow());
+    updateAll();
   }
 
-  function previousDate(dateStr){
-    const d = new Date(dateStr + 'T00:00:00'); d.setDate(d.getDate() - 1);
-    return d.toISOString().slice(0,10);
-  }
-
-  function addShop(){
-    const tr = createRow(); dataBody.appendChild(tr);
-    setTimeout(()=> scrollIntoView(tr), 70);
-    autosaveSilent();
-  }
-  function scrollIntoView(el){
-    const headerH = document.querySelector('header').offsetHeight + 8;
-    const rect = el.getBoundingClientRect();
-    const absoluteTop = window.scrollY + rect.top;
-    window.scrollTo({top: absoluteTop - headerH, behavior: 'smooth'});
-  }
-
-  function exportCSV(){
-    // kept for compatibility if needed (not used by UI)
-    const cur = dateInput.value || TODAY;
-    const rows = collectRows();
-    const types = ['TM','SM','SMALL M','SMALL C','A400','H500','FC400','FC1L'];
-    const lines = [];
-    lines.push(['Planned', ...types.map(t=>String(Number(planEls[t].value||0))).join(',')]);
-    lines.push('');
-    lines.push(['Shop','Mobile',...types,'Total','Paid','Due','Date','CustomPrices'].join(','));
-    const g = readGlobalPricesSafe();
-    rows.forEach(r=>{
-      let total = 0;
-      const p = r.customPrices || {};
-      const qtys = [r.TM||0, r.SM||0, r.SMALLM||0, r.SMALLC||0, r.A400||0, r.H500||0, r.FC400||0, r.FC1L||0];
-      types.forEach((t,i)=>{ const q=Number(qtys[i]||0); const priceUsed = (p && typeof p[t]==='number')?p[t]:g[t]; total+= q*(priceUsed||0); });
-      const paid = Number(r.paid||0), due = Math.max(0,total-paid);
-      const customDesc = r.customPrices ? JSON.stringify(r.customPrices).replace(/"/g,"'") : '';
-      const cols = [r.shop||'', r.mobile||'', r.TM||0, r.SM||0, r.SMALLM||0, r.SMALLC||0, r.A400||0, r.H500||0, r.FC400||0, r.FC1L||0, total.toFixed(2), paid.toFixed(2), due.toFixed(2), cur, customDesc];
-      lines.push(cols.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(','));
-    });
-    const csv = lines.join('\n');
-    const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-    a.download = `milk${(cur||TODAY).replace(/-/g,'')}.csv`; a.click(); URL.revokeObjectURL(a.href);
-    showToast('CSV downloaded');
-  }
-
-  function sendWhatsAppForRow(tr){
-    const shop = tr.querySelector('.shop').value || 'Customer';
-    let mobile = (tr.querySelector('.mobile').value||'').replace(/\D/g,'');
-    if(!mobile){ alert('Please enter mobile'); return; }
-    if(mobile.length>10 && mobile.startsWith('91')) mobile = mobile.slice(-10);
-    if(mobile.length!==10){ alert('Enter valid 10-digit mobile'); return; }
-    const tm = Number(tr.querySelector('.tm').value||0), sm = Number(tr.querySelector('.sm').value||0),
-      smm = Number(tr.querySelector('.smm').value||0), smc = Number(tr.querySelector('.smc').value||0),
-      a400 = Number(tr.querySelector('.a400').value||0), h500 = Number(tr.querySelector('.h500').value||0),
-      fc400 = Number(tr.querySelector('.fc400').value||0), fc1l = Number(tr.querySelector('.fc1l').value||0);
-    const total = tr.querySelector('.total-cell').textContent || '0';
-    const paid = Number(tr.querySelector('.paid').value||0);
-    const due = tr.querySelector('.due-cell').textContent || '0';
-    const date = dateInput.value || TODAY;
-    const global = readGlobalPricesSafe(); const custom = tr._customPrices || null;
-    const priceUsed = { TM: custom&&typeof custom.TM==='number'?custom.TM:global.TM, SM: custom&&typeof custom.SM==='number'?custom.SM:global.SM, 'SMALL M': custom&&typeof custom['SMALL M'] === 'number'?custom['SMALL M']:global['SMALL M'], 'SMALL C': custom&&typeof custom['SMALL C'] === 'number'?custom['SMALL C']:global['SMALL C'], A400: custom&&typeof custom.A400==='number'?custom.A400:global.A400, H500: custom&&typeof custom.H500==='number'?custom.H500:global.H500, FC400: custom&&typeof custom.FC400==='number'?custom.FC400:global.FC400, FC1L: custom&&typeof custom.FC1L==='number'?custom.FC1L:global.FC1L };
-    let msg = `Hello ${shop},%0AYour milk bill for ${date}:%0A`; const list=[];
-    if(tm) list.push(`TM ${tm}x${priceUsed.TM}=${(tm*priceUsed.TM).toFixed(2)}`); if(sm) list.push(`SM ${sm}x${priceUsed.SM}=${(sm*priceUsed.SM).toFixed(2)}`); if(smm) list.push(`SML M ${smm}x${priceUsed['SMALL M']}=${(smm*priceUsed['SMALL M']).toFixed(2)}`); if(smc) list.push(`SML C ${smc}x${priceUsed['SMALL C']}=${(smc*priceUsed['SMALL C']).toFixed(2)}`); if(a400) list.push(`A400 ${a400}x${priceUsed.A400}=${(a400*priceUsed.A400).toFixed(2)}`); if(h500) list.push(`H500 ${h500}x${priceUsed.H500}=${(h500*priceUsed.H500).toFixed(2)}`); if(fc400) list.push(`FCM ${fc400}x${priceUsed.FC400}=${(fc400*priceUsed.FC400).toFixed(2)}`); if(fc1l) list.push(`FC1L ${fc1l}x${priceUsed.FC1L}=${(fc1l*priceUsed.FC1L).toFixed(2)}`);
-    if(list.length) msg += list.join('%0A') + '%0A'; msg += `Total: ₹${total}%0APaid: ₹${paid.toFixed(2)}%0ADue: ₹${due}%0A- Sambashiva Milk Agency`;
-    window.open(`https://wa.me/91${mobile}?text=${msg}`, '_blank');
-  }
-
-  // PDF generation (captures banner + page, direct A4 portrait download)
-  async function downloadPdfDirect(){
-    try{
-      showToast('Preparing PDF...');
-      const container = document.body;
-      const canvas = await html2canvas(container, { scale: 2, useCORS:true, allowTaint:true });
-      const imgData = canvas.toDataURL('image/png');
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
-      const pageWidth = pdf.internal.pageSize.getWidth();
-      const pageHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = pageWidth;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-      if(imgHeight <= pageHeight){
-        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      } else {
-        const canvasH = canvas.height;
-        const sliceHeight = Math.floor(canvas.width * (pageHeight / pageWidth));
-        let y = 0;
-        while(y < canvasH){
-          const slice = document.createElement('canvas');
-          slice.width = canvas.width;
-          slice.height = Math.min(sliceHeight, canvasH - y);
-          const ctx = slice.getContext('2d');
-          ctx.drawImage(canvas, 0, y, canvas.width, slice.height, 0, 0, slice.width, slice.height);
-          const sliceData = slice.toDataURL('image/png');
-          const sliceImgH = (slice.height * imgWidth) / canvas.width;
-          pdf.addImage(sliceData, 'PNG', 0, 0, imgWidth, sliceImgH);
-          y += sliceHeight;
-          if(y < canvasH) pdf.addPage();
-        }
-      }
-      const filename = `MilkReport_${(dateInput.value||TODAY)}.pdf`;
-      pdf.save(filename);
-      showToast('PDF downloaded');
-    }catch(e){ console.error(e); alert('PDF generation failed: ' + (e && e.message)); }
-  }
-
-  function init(){
-    dateInput.value = TODAY; dateInput._current = TODAY;
-    const deleted = deleteOldRecords();
-    if(deleted) showToast(`🧹 Deleted ${deleted} old record(s)`);
-    loadForDate(TODAY, true);
-
-    addBtn.addEventListener('click', addShop);
-    copyPrevBtn.addEventListener('click', ()=>{ copyPreviousManual(); });
-    clearBtn.addEventListener('click', ()=>{
-      if(confirm('Clear all data for this date? This will remove rows & saved data for this date only.')){ localStorage.removeItem(STORAGE_PREFIX + (dateInput.value||TODAY)); dataBody.innerHTML=''; dataBody.appendChild(createRow()); updateAllSums(); showToast('Cleared current date'); }
-    });
-    saveBtn.addEventListener('click', ()=>{ saveForDate(dateInput.value||TODAY); showToast('Saved'); });
-    downloadPdfBtn.addEventListener('click', ()=>{ downloadPdfDirect(); });
-
-    Object.values(priceInputs).forEach(inp => inp.addEventListener('input', ()=>{ Array.from(dataBody.querySelectorAll('tr')).forEach(tr=>{ if(!tr.classList.contains('custom-price-row')) calculateRow(tr); }); updateAllSums(); autosaveSilent(); }));
-    Object.values(planEls).forEach(inp => inp.addEventListener('input', ()=>{ updateAllSums(); autosaveSilent(); }));
-
-    // bottom planned inputs sync
-    Object.keys(b_plan).forEach(k => {
-      b_plan[k].addEventListener('input', ()=> {
-        // update the top planned inputs to stay in sync
-        const topEl = planEls[k];
-        if(topEl) topEl.value = b_plan[k].value;
-        updateAllSums();
-      });
-    });
-
-    dateInput.addEventListener('change', ()=>{ const newDate = dateInput.value || TODAY; loadForDate(newDate, true); showToast(`Loaded ${newDate}`); });
-    window.addEventListener('beforeunload', ()=>{ saveForDate(dateInput.value || TODAY); });
-  }
-
-  function copyPreviousManual(){
-    const cur = dateInput.value || TODAY; const prev = previousDate(cur);
-    const prevRaw = localStorage.getItem(STORAGE_PREFIX + prev);
-    if(!prevRaw){ alert('No data found for previous day'); return; }
-    try{
-      const prevData = JSON.parse(prevRaw);
-      if(!Array.isArray(prevData.rows) || !prevData.rows.length){ alert('Previous day had no shops'); return; }
-      if(!confirm('Copy shops & custom prices from previous day? Litres and payments will be reset.')) return;
-      prevData.rows.forEach(r=>{
-        const newRow = { shop: r.shop||'', mobile: r.mobile||'', TM:0, SM:0, SMALLM:0, SMALLC:0, A400:0, H500:0, FC400:0, FC1L:0, paid:0, customPrices: r.customPrices||null };
-        const tr = createRow(newRow); if(newRow.customPrices) tr._customPrices = newRow.customPrices; dataBody.appendChild(tr);
-      });
-      updateAllSums(); autosaveSilent(); showToast('Copied from previous day');
-    }catch(e){ console.error(e); alert('Copy failed'); }
-  }
-
-  init();
-
-  // expose small API
-  window._milkApp = { loadForDate, saveForDate, listSavedDates, deleteOldRecords, collectRows, downloadPdfDirect };
-
+  addBtn.onclick=()=>{const tr=createRow();dataBody.appendChild(tr);calcRow(tr);autosaveSilent();};
+  dateInput.value=TODAY;
+  loadForDate(TODAY);
 })();
 </script>
 </body>
