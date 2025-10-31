@@ -4,6 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>SAMBASHIVA MILK AGENCY</title>
+<link rel="icon" href="data:,">
 <style>
   :root{
     --orange:#f97316;
@@ -12,10 +13,10 @@
     --card:#ffffff;
     --muted:#6b7280;
     --input-h:40px;
-    --header-h:92px;
+    --header-h:96px;
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:#222;padding-bottom:120px}
+  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:#222;padding-bottom:140px}
   header{position:sticky;top:0;z-index:320;background:linear-gradient(90deg,var(--orange),var(--orange-dark));color:white;padding:12px 14px;box-shadow:0 6px 20px rgba(0,0,0,0.12)}
   .container{max-width:1200px;margin:0 auto;padding:0 14px}
   .header-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
@@ -33,13 +34,15 @@
   .price-item{background:var(--card);padding:8px;border-radius:8px;min-width:86px;box-shadow:0 6px 18px rgba(2,6,23,0.04);text-align:center}
   .price-item label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}
   .price-item input{width:78px;padding:6px;border-radius:6px;border:1px solid #e6e6e6;height:34px;text-align:center;font-size:13px}
-  .table-wrap{background:var(--card);border-radius:10px;box-shadow:0 8px 30px rgba(2,6,23,0.06);padding:8px}
-  table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
+  .table-wrap{background:transparent;border-radius:10px;box-shadow:none;padding:0}
+  /* table background fixed and full-width */
+  table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px;background:var(--card);box-shadow:0 8px 30px rgba(2,6,23,0.06);border-radius:8px;overflow:hidden}
   thead th{background:linear-gradient(180deg,var(--orange),var(--orange-dark));color:white;position:sticky;top:calc(var(--header-h) - 8px);z-index:280;padding:8px 6px}
-  th,td{padding:6px;border-bottom:1px solid #f3f3f3;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+  th,td{padding:6px;border-bottom:1px solid #f3f3f3;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;background:transparent}
+  /* Planned row special */
   .planned-row td{background:#fff7f0;color:#4b2f0a;font-weight:800}
-  input[type="number"],input[type="text"],input[type="tel"]{padding:6px;border-radius:6px;border:1px solid #eaeaea;text-align:center;font-size:13px;height:34px;min-width:44px}
-  .total-cell,.due-cell{font-weight:800}
+  input[type="number"],input[type="text"],input[type="tel"]{padding:6px;border-radius:6px;border:1px solid #eaeaea;text-align:center;font-size:13px;height:34px;min-width:44px;background:#fff}
+  .total-cell,.due-cell{font-weight:800;background:transparent}
   .send-btn{background:#25D366;border:0;color:white;padding:6px 8px;border-radius:6px;cursor:pointer;height:34px;font-size:13px}
   .delete-btn{background:#ef4444;border:0;color:white;padding:6px 8px;border-radius:6px;cursor:pointer;height:34px;font-size:13px}
   .custom-btn{background:#ffd27a;border:0;color:#6b3d00;padding:6px 8px;border-radius:6px;cursor:pointer;height:34px;font-size:13px}
@@ -53,19 +56,19 @@
   .toast.show{opacity:1;transform:none}
 
   /* tuned widths */
-  .col-shop { width:220px; min-width:160px; text-align:left; padding-left:8px; }
-  .col-mobile { width:140px; min-width:110px; }
-  .small-num { width:64px; min-width:52px; max-width:80px; }
+  .col-shop { width:260px; min-width:160px; text-align:left; padding-left:12px; background:transparent }
+  .col-mobile { width:150px; min-width:110px; background:transparent }
+  .small-num { width:68px; min-width:52px; max-width:80px; background:transparent }
 
   /* Desktop: fit table within container — avoid horizontal scroll */
   @media (min-width:1100px){
     table{font-size:13px}
-    .col-shop { width:260px; }
+    .col-shop { width:280px; }
     .col-mobile { width:150px; }
-    .small-num { width:60px; }
+    .small-num { width:64px; }
   }
 
-  /* Mobile: allow horizontal scroll for narrow screens (so inputs stay usable) */
+  /* Mobile: allow horizontal scroll for narrow screens */
   @media (max-width:899px){
     .container{padding:0 8px}
     table{min-width:980px} /* allow the table to be scrollable on small screens */
@@ -84,6 +87,7 @@
     <div class="container header-row">
       <div style="display:flex;align-items:center;gap:8px">
         <div class="logo" aria-hidden="true">
+          <!-- Left demo logo -->
           <svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <circle cx="50" cy="50" r="48" fill="#fff" stroke="#f97316" stroke-width="4"/>
             <text x="50" y="58" font-family="sans-serif" font-weight="800" font-size="26" fill="#f97316" text-anchor="middle">HAP</text>
@@ -101,6 +105,7 @@
       <div style="display:flex;align-items:center;gap:10px">
         <input id="dateInput" class="date-input" type="date" />
         <div style="width:42px;height:42px">
+          <!-- Right demo icon -->
           <svg viewBox="0 0 64 64" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <rect width="64" height="64" rx="8" fill="#fff" stroke="#f97316" stroke-width="2"/>
             <path d="M32 10c6 0 10 3 10 7s-4 7-10 7-10-3-10-7 4-7 10-7z" fill="#f97316"/>
@@ -111,17 +116,17 @@
     </div>
   </header>
 
-  <main style="padding:14px 12px 140px">
+  <main style="padding:14px 12px 160px">
     <div class="container">
 
       <div class="price-panel" aria-label="Global prices">
         <div class="price-item"><label>TM (₹)</label><input id="price_TM" type="number" min="0" value="57"></div>
         <div class="price-item"><label>SM (₹)</label><input id="price_SM" type="number" min="0" value="67"></div>
-        <div class="price-item"><label>SMALL M (₹)</label><input id="price_SMM" type="number" min="0" value="45"></div>
-        <div class="price-item"><label>SMALL C (₹)</label><input id="price_SMC" type="number" min="0" value="45"></div>
+        <div class="price-item"><label>SML M (₹)</label><input id="price_SMM" type="number" min="0" value="45"></div>
+        <div class="price-item"><label>SML C (₹)</label><input id="price_SMC" type="number" min="0" value="45"></div>
         <div class="price-item"><label>A400 (₹)</label><input id="price_A400" type="number" min="0" value="70"></div>
         <div class="price-item"><label>H500 (₹)</label><input id="price_H500" type="number" min="0" value="86"></div>
-        <div class="price-item"><label>FC400 (₹)</label><input id="price_FC400" type="number" min="0" value="77"></div>
+        <div class="price-item"><label>FCM (₹)</label><input id="price_FC400" type="number" min="0" value="77"></div>
         <div class="price-item"><label>FC1L (₹)</label><input id="price_FC1L" type="number" min="0" value="76"></div>
       </div>
 
@@ -142,11 +147,11 @@
               <th class="col-mobile">Mobile</th>
               <th class="small-num">TM</th>
               <th class="small-num">SM</th>
-              <th class="small-num">SMALL M</th>
-              <th class="small-num">SMALL C</th>
+              <th class="small-num">SML M</th>
+              <th class="small-num">SML C</th>
               <th class="small-num">A400</th>
               <th class="small-num">H500</th>
-              <th class="small-num">FC400</th>
+              <th class="small-num">FCM</th>
               <th class="small-num">FC1L</th>
               <th class="small-num">Total</th>
               <th class="small-num">Paid</th>
@@ -197,8 +202,8 @@
       <div class="bottom-summary" id="bottomSummary" aria-hidden="false">
         <div class="summary-grid">
           <div class="summary-label">Metric</div>
-          <div class="summary-label">TM</div><div class="summary-label">SM</div><div class="summary-label">SMALL M</div><div class="summary-label">SMALL C</div>
-          <div class="summary-label">A400</div><div class="summary-label">H500</div><div class="summary-label">FC400</div><div class="summary-label">FC1L</div>
+          <div class="summary-label">TM</div><div class="summary-label">SM</div><div class="summary-label">SML M</div><div class="summary-label">SML C</div>
+          <div class="summary-label">A400</div><div class="summary-label">H500</div><div class="summary-label">FCM</div><div class="summary-label">FC1L</div>
 
           <div class="summary-label">Total Litres Sold</div>
           <div class="summary-cell"><span id="b_sold_TM">0</span></div>
@@ -298,6 +303,7 @@
     clearTimeout(toast._t); toast._t = setTimeout(()=>{ toast.classList.remove('show'); toast.setAttribute('aria-hidden','true'); }, ms);
   }
 
+  // storage helpers
   function keyForDate(d){ return STORAGE_PREFIX + d; }
   function listSavedDates(){
     const keys = [];
@@ -322,6 +328,7 @@
     return deleted;
   }
 
+  // row creation
   function createRow(data){
     const tr = document.createElement('tr');
     tr.innerHTML = `
@@ -378,11 +385,11 @@
         <div style="font-weight:800;color:#7a4300">Custom prices:</div>
         <label>TM ₹<input class="c_tm" type="number" min="0" style="width:92px;padding:6px" /></label>
         <label>SM ₹<input class="c_sm" type="number" min="0" style="width:92px;padding:6px" /></label>
-        <label>SMALL M ₹<input class="c_smm" type="number" min="0" style="width:92px;padding:6px" /></label>
-        <label>SMALL C ₹<input class="c_smc" type="number" min="0" style="width:92px;padding:6px" /></label>
+        <label>SML M ₹<input class="c_smm" type="number" min="0" style="width:92px;padding:6px" /></label>
+        <label>SML C ₹<input class="c_smc" type="number" min="0" style="width:92px;padding:6px" /></label>
         <label>A400 ₹<input class="c_a400" type="number" min="0" style="width:92px;padding:6px" /></label>
         <label>H500 ₹<input class="c_h500" type="number" min="0" style="width:92px;padding:6px" /></label>
-        <label>FC400 ₹<input class="c_fc400" type="number" min="0" style="width:92px;padding:6px" /></label>
+        <label>FCM ₹<input class="c_fc400" type="number" min="0" style="width:92px;padding:6px" /></label>
         <label>FC1L ₹<input class="c_fc1l" type="number" min="0" style="width:92px;padding:6px" /></label>
         <button class="btn small save-cust">Save</button>
         <button class="btn small ghost cancel-cust">Cancel</button>
@@ -663,16 +670,17 @@
     const global = readGlobalPricesSafe(); const custom = tr._customPrices || null;
     const priceUsed = { TM: custom&&typeof custom.TM==='number'?custom.TM:global.TM, SM: custom&&typeof custom.SM==='number'?custom.SM:global.SM, 'SMALL M': custom&&typeof custom['SMALL M'] === 'number'?custom['SMALL M']:global['SMALL M'], 'SMALL C': custom&&typeof custom['SMALL C'] === 'number'?custom['SMALL C']:global['SMALL C'], A400: custom&&typeof custom.A400==='number'?custom.A400:global.A400, H500: custom&&typeof custom.H500==='number'?custom.H500:global.H500, FC400: custom&&typeof custom.FC400==='number'?custom.FC400:global.FC400, FC1L: custom&&typeof custom.FC1L==='number'?custom.FC1L:global.FC1L };
     let msg = `Hello ${shop},%0AYour milk bill for ${date}:%0A`; const list=[];
-    if(tm) list.push(`TM ${tm}x${priceUsed.TM}=${(tm*priceUsed.TM).toFixed(2)}`); if(sm) list.push(`SM ${sm}x${priceUsed.SM}=${(sm*priceUsed.SM).toFixed(2)}`); if(smm) list.push(`SMALL M ${smm}x${priceUsed['SMALL M']}=${(smm*priceUsed['SMALL M']).toFixed(2)}`); if(smc) list.push(`SMALL C ${smc}x${priceUsed['SMALL C']}=${(smc*priceUsed['SMALL C']).toFixed(2)}`); if(a400) list.push(`A400 ${a400}x${priceUsed.A400}=${(a400*priceUsed.A400).toFixed(2)}`); if(h500) list.push(`H500 ${h500}x${priceUsed.H500}=${(h500*priceUsed.H500).toFixed(2)}`); if(fc400) list.push(`FC400 ${fc400}x${priceUsed.FC400}=${(fc400*priceUsed.FC400).toFixed(2)}`); if(fc1l) list.push(`FC1L ${fc1l}x${priceUsed.FC1L}=${(fc1l*priceUsed.FC1L).toFixed(2)}`);
+    if(tm) list.push(`TM ${tm}x${priceUsed.TM}=${(tm*priceUsed.TM).toFixed(2)}`); if(sm) list.push(`SM ${sm}x${priceUsed.SM}=${(sm*priceUsed.SM).toFixed(2)}`); if(smm) list.push(`SML M ${smm}x${priceUsed['SMALL M']}=${(smm*priceUsed['SMALL M']).toFixed(2)}`); if(smc) list.push(`SML C ${smc}x${priceUsed['SMALL C']}=${(smc*priceUsed['SMALL C']).toFixed(2)}`); if(a400) list.push(`A400 ${a400}x${priceUsed.A400}=${(a400*priceUsed.A400).toFixed(2)}`); if(h500) list.push(`H500 ${h500}x${priceUsed.H500}=${(h500*priceUsed.H500).toFixed(2)}`); if(fc400) list.push(`FCM ${fc400}x${priceUsed.FC400}=${(fc400*priceUsed.FC400).toFixed(2)}`); if(fc1l) list.push(`FC1L ${fc1l}x${priceUsed.FC1L}=${(fc1l*priceUsed.FC1L).toFixed(2)}`);
     if(list.length) msg += list.join('%0A') + '%0A'; msg += `Total: ₹${total}%0APaid: ₹${paid.toFixed(2)}%0ADue: ₹${due}%0A- Sambashiva Milk Agency`;
     window.open(`https://wa.me/91${mobile}?text=${msg}`, '_blank');
   }
 
-  // PDF generation (direct download portrait)
+  // PDF generation (captures banner + page, direct A4 portrait download)
   async function downloadPdfDirect(){
     try{
       showToast('Preparing PDF...');
-      const container = document.querySelector('main');
+      // capture entire body (banner + main)
+      const container = document.body;
       const canvas = await html2canvas(container, { scale: 2, useCORS:true, allowTaint:true });
       const imgData = canvas.toDataURL('image/png');
       const { jsPDF } = window.jspdf;
@@ -684,6 +692,7 @@
       if(imgHeight <= pageHeight){
         pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
       } else {
+        // If content is taller than one page, slice it
         const canvasH = canvas.height;
         const sliceHeight = Math.floor(canvas.width * (pageHeight / pageWidth));
         let y = 0;
