@@ -13,7 +13,7 @@
     --card:#ffffff;
     --muted:#6b7280;
     --input-h:36px;
-    --header-h:92px; /* used for sticky top offset */
+    --header-h:92px;
     --compact-width:64px;
   }
   *{box-sizing:border-box}
@@ -36,20 +36,19 @@
   .price-item label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}
   .price-item input{width:72px;padding:6px;border-radius:6px;border:1px solid #e6e6e6;height:var(--input-h);text-align:center;font-size:13px;background:#fff}
 
-  /* Table layout */
-  .table-wrap{background:transparent;border-radius:10px;box-shadow:none;padding:0;margin-top:6px}
+  .table-wrap{background:transparent;border-radius:10px;box-shadow:none;padding:0;margin-top:6px;overflow:auto}
   table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px;background:var(--card);box-shadow:0 8px 30px rgba(2,6,23,0.06);border-radius:8px;overflow:hidden}
   thead th{background:linear-gradient(180deg,var(--orange),var(--orange-dark));color:white;position:sticky;top:calc(var(--header-h) - 8px);z-index:280;padding:8px 6px;font-weight:800}
   th,td{padding:6px;border-bottom:1px solid #f3f3f3;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;background:transparent}
   .planned-row td{background:#fff7f0;color:#4b2f0a;font-weight:800;text-align:left;padding-left:12px}
   input[type="number"],input[type="text"],input[type="tel"]{padding:6px;border-radius:6px;border:1px solid #eaeaea;text-align:center;font-size:13px;height:var(--input-h);background:#fff;outline:none}
   input:focus{border-color:rgba(249,115,22,0.9);box-shadow:0 0 0 3px rgba(249,115,22,0.08)}
-  .total-cell,.due-cell{font-weight:800;background:transparent}
+  .total-cell,.due-cell,.paid-cell{font-weight:800;background:transparent}
   .send-btn{background:#25D366;border:0;color:white;padding:6px 8px;border-radius:6px;cursor:pointer;height:34px;font-size:13px}
   .delete-btn{background:#ef4444;border:0;color:white;padding:6px 8px;border-radius:6px;cursor:pointer;height:34px;font-size:13px}
   .custom-btn{background:#ffd27a;border:0;color:#6b3d00;padding:6px 8px;border-radius:6px;cursor:pointer;height:34px;font-size:13px}
   .custom-price-row td{background:#fff8ed;padding:8px}
-  .row-customized{background:linear-gradient(90deg,#fff6e8,#fff2e0)} /* highlight for special price rows */
+  .row-customized{background:linear-gradient(90deg,#fff6e8,#fff2e0)}
 
   .footer-note{text-align:center;color:var(--muted);margin-top:8px}
   .bottom-summary{margin-top:12px;background:#fff6ee;padding:10px;border-radius:8px;box-shadow:0 6px 18px rgba(2,6,23,0.04)}
@@ -60,32 +59,15 @@
   .toast{position:fixed;right:16px;bottom:110px;background:#111;color:#fff;padding:10px 12px;border-radius:8px;opacity:0;transform:translateY(8px);transition:all .18s;z-index:360}
   .toast.show{opacity:1;transform:none}
 
-  /* tuned widths (compact) */
   .col-shop { width:240px; min-width:140px; text-align:left; padding-left:12px }
   .col-mobile { width:120px; min-width:100px }
   .small-num { width:var(--compact-width); min-width:48px; max-width:78px; }
 
-  /* responsive rules */
-  @media (max-width:1180px){
-    .container{max-width:980px}
-    .col-shop{width:200px}
-    .col-mobile{width:110px}
-  }
-  @media (max-width:900px){
-    /* allow horizontal scroll on small phones but not on tablets/laptop */
-    .table-wrap{overflow:auto}
-    table{min-width:960px}
-  }
-  @media (max-width:480px){
-    .title{font-size:15px}
-    .price-item{min-width:84px}
-    :root{--compact-width:74px}
-  }
+  @media (max-width:1180px){ .container{max-width:980px} .col-shop{width:200px} .col-mobile{width:110px} }
+  @media (max-width:900px){ .table-wrap{overflow:auto} table{min-width:960px} }
+  @media (max-width:480px){ .title{font-size:15px} .price-item{min-width:84px} :root{--compact-width:74px} }
 
-  /* visually reduce default cell padding so inputs fit */
   tbody td input{padding:6px;height:30px;line-height:30px}
-  /* small helper */
-  .muted{color:var(--muted);font-size:13px}
 </style>
 </head>
 <body>
@@ -251,11 +233,12 @@
 
 <script>
 (() => {
-  // Config
   const STORAGE_PREFIX = 'milkData_';
   const MAX_DAYS = 365;
   const now = new Date();
   const TODAY = now.toISOString().slice(0,10);
+
+  // elements
   const dateInput = document.getElementById('dateInput');
   const addBtn = document.getElementById('addBtn');
   const copyPrevBtn = document.getElementById('copyPrevBtn');
@@ -272,7 +255,7 @@
     'SMALL C': document.getElementById('price_SMC'),
     A400: document.getElementById('price_A400'),
     H500: document.getElementById('price_H500'),
-    FCM: document.getElementById('price_FC400'),
+    FC400: document.getElementById('price_FC400'),
     FC1L: document.getElementById('price_FC1L')
   };
 
@@ -306,12 +289,31 @@
     clearTimeout(toast._t); toast._t = setTimeout(()=>{ toast.classList.remove('show'); toast.setAttribute('aria-hidden','true'); }, ms);
   }
 
-  // Storage helpers
   function keyForDate(d){ return STORAGE_PREFIX + d; }
   function listSavedDates(){ const keys=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith(STORAGE_PREFIX)) keys.push(k.slice(STORAGE_PREFIX.length)); } return keys.sort(); }
   function deleteOldRecords(){ const keys=listSavedDates(); if(!keys.length) return 0; const now=new Date(); const cutoff=new Date(now); cutoff.setDate(cutoff.getDate()-MAX_DAYS); let deleted=0; keys.forEach(d=>{ const dt=new Date(d+'T00:00:00'); if(dt<cutoff){ localStorage.removeItem(keyForDate(d)); deleted++; } }); if(deleted) showToast(`🧹 Deleted ${deleted} old record(s)`); return deleted; }
 
-  // Row creation
+  function formatNum(n){ if(!isFinite(n)) return '0'; if(Math.round(n)===n) return String(Math.round(n)); return Number(n).toFixed(2); }
+
+  // read global prices safely
+  function readGlobalPricesSafe(){
+    try{
+      return {
+        TM: Number(document.getElementById('price_TM').value||0),
+        SM: Number(document.getElementById('price_SM').value||0),
+        'SMALL M': Number(document.getElementById('price_SMM').value||0),
+        'SMALL C': Number(document.getElementById('price_SMC').value||0),
+        A400: Number(document.getElementById('price_A400').value||0),
+        H500: Number(document.getElementById('price_H500').value||0),
+        FC400: Number(document.getElementById('price_FC400').value||0),
+        FC1L: Number(document.getElementById('price_FC1L').value||0)
+      };
+    }catch(e){
+      return {TM:0,SM:0,'SMALL M':0,'SMALL C':0,A400:0,H500:0,FC400:0,FC1L:0};
+    }
+  }
+
+  // create single row
   function createRow(data){
     const tr = document.createElement('tr');
     tr.innerHTML = `
@@ -348,9 +350,17 @@
       if(tr._customPrices) tr.classList.add('row-customized');
     }
 
-    // events
-    const inputs = tr.querySelectorAll('input[type="number"], input[type="text"], input[type="tel"]');
+    const inputs = tr.querySelectorAll('input');
     inputs.forEach(inp => inp.addEventListener('input', ()=>{ calculateRow(tr); updateAllSums(); autosaveSilent(); }));
+
+    // when user edits due -> recalc paid
+    tr.querySelector('.due').addEventListener('input', ()=>{
+      const total = parseFloat(tr.querySelector('.total-cell').textContent||'0')||0;
+      const dueVal = Number(tr.querySelector('.due').value||0);
+      const paid = Math.max(0, total - dueVal);
+      tr.querySelector('.paid-cell').textContent = formatNum(paid);
+      updateAllSums(); autosaveSilent();
+    });
 
     tr.querySelector('.delete-btn').addEventListener('click', ()=> {
       if(confirm('Are you sure you want to delete this row?')) {
@@ -361,20 +371,16 @@
 
     tr.querySelector('.custom-btn').addEventListener('click', ()=> toggleCustomRow(tr));
     tr.querySelector('.send-btn').addEventListener('click', ()=> sendWhatsAppForRow(tr));
-    // when due changed, recalc paid = total - due (so user edits due)
-    tr.querySelector('.due').addEventListener('input', ()=>{
-      const total = parseFloat(tr.querySelector('.total-cell').textContent||'0')||0;
-      const due = Number(tr.querySelector('.due').value||0);
-      const paid = Math.max(0, total - due);
-      tr.querySelector('.paid-cell').textContent = formatNum(paid);
-      updateAllSums(); autosaveSilent();
-    });
 
+    // initial calc
+    calculateRow(tr);
     return tr;
   }
 
   function toggleCustomRow(tr){
-    if(tr.nextSibling && tr.nextSibling.classList && tr.nextSibling.classList.contains('custom-price-row')){ tr.parentNode.removeChild(tr.nextSibling); updateAllSums(); autosaveSilent(); return; }
+    if(tr.nextSibling && tr.nextSibling.classList && tr.nextSibling.classList.contains('custom-price-row')){
+      tr.parentNode.removeChild(tr.nextSibling); updateAllSums(); autosaveSilent(); return;
+    }
     const row = document.createElement('tr'); row.classList.add('custom-price-row');
     row.innerHTML = `<td colspan="16" style="background:#fff8ed;padding:10px">
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
@@ -420,39 +426,8 @@
     row.querySelector('.cancel-cust').addEventListener('click', ()=>{ if(row && row.parentNode) row.parentNode.removeChild(row); });
   }
 
-  function readGlobalPricesSafe(){
-    return {
-      TM: Number(priceInputs.TM.value||0),
-      SM: Number(priceInputs.SM.value||0),
-      'SMALL M': Number(priceInputs['SMALL M'].value||0),
-      'SMALL C': Number(priceInputs['SMALL C'].value||0),
-      A400: Number(priceInputs.A400.value||0),
-      H500: Number(priceInputs.H500].value||0) // fallback fixed in next line
-    };
-  }
-
-  // safer global read with try-catch (older browsers)
-  function readGlobalPricesSafe(){
-    try{
-      return {
-        TM: Number(document.getElementById('price_TM').value||0),
-        SM: Number(document.getElementById('price_SM').value||0),
-        'SMALL M': Number(document.getElementById('price_SMM').value||0),
-        'SMALL C': Number(document.getElementById('price_SMC').value||0),
-        A400: Number(document.getElementById('price_A400').value||0),
-        H500: Number(document.getElementById('price_H500').value||0),
-        FC400: Number(document.getElementById('price_FC400').value||0),
-        FC1L: Number(document.getElementById('price_FC1L').value||0)
-      };
-    }catch(e){
-      return {TM:0,SM:0,'SMALL M':0,'SMALL C':0,A400:0,H500:0,FC400:0,FC1L:0};
-    }
-  }
-
-  function formatNum(n){ if(!isFinite(n)) return '0'; if(Math.round(n)===n) return String(Math.round(n)); return Number(n).toFixed(2); }
-
   function calculateRow(tr){
-    const global = readGlobalPricesSafe();
+    const g = readGlobalPricesSafe();
     const custom = tr._customPrices || null;
     const tm = Number(tr.querySelector('.tm').value||0), sm = Number(tr.querySelector('.sm').value||0),
       smm = Number(tr.querySelector('.smm').value||0), smc = Number(tr.querySelector('.smc').value||0),
@@ -460,25 +435,22 @@
       fc400 = Number(tr.querySelector('.fc400').value||0), fc1l = Number(tr.querySelector('.fc1l').value||0);
 
     const p = {
-      TM: (custom && typeof custom.TM === 'number') ? custom.TM : global.TM,
-      SM: (custom && typeof custom.SM === 'number') ? custom.SM : global.SM,
-      'SMALL M': (custom && typeof custom['SMALL M'] === 'number') ? custom['SMALL M'] : global['SMALL M'],
-      'SMALL C': (custom && typeof custom['SMALL C'] === 'number') ? custom['SMALL C'] : global['SMALL C'],
-      A400: (custom && typeof custom.A400 === 'number') ? custom.A400 : global.A400,
-      H500: (custom && typeof custom.H500 === 'number') ? custom.H500 : global.H500,
-      FC400: (custom && typeof custom.FC400 === 'number') ? custom.FC400 : global.FC400,
-      FC1L: (custom && typeof custom.FC1L === 'number') ? custom.FC1L : global.FC1L
+      TM: (custom && typeof custom.TM === 'number') ? custom.TM : g.TM,
+      SM: (custom && typeof custom.SM === 'number') ? custom.SM : g.SM,
+      'SMALL M': (custom && typeof custom['SMALL M'] === 'number') ? custom['SMALL M'] : g['SMALL M'],
+      'SMALL C': (custom && typeof custom['SMALL C'] === 'number') ? custom['SMALL C'] : g['SMALL C'],
+      A400: (custom && typeof custom.A400 === 'number') ? custom.A400 : g.A400,
+      H500: (custom && typeof custom.H500 === 'number') ? custom.H500 : g.H500,
+      FC400: (custom && typeof custom.FC400 === 'number') ? custom.FC400 : g.FC400,
+      FC1L: (custom && typeof custom.FC1L === 'number') ? custom.FC1L : g.FC1L
     };
 
     const total = (tm * p.TM) + (sm * p.SM) + (smm * p['SMALL M']) + (smc * p['SMALL C'])
                   + (a400 * p.A400) + (h500 * p.H500) + (fc400 * p.FC400) + (fc1l * p.FC1L);
-    const dueEl = tr.querySelector('.due');
-    const due = Number(dueEl.value||0);
-    const paid = Math.max(0, total - due);
+    const dueVal = Number(tr.querySelector('.due').value||0);
+    const paid = Math.max(0, total - dueVal);
     tr.querySelector('.total-cell').textContent = formatNum(total);
     tr.querySelector('.paid-cell').textContent = formatNum(paid);
-    // keep due as user-entered (if they left empty, show 0)
-    if(!dueEl.value) dueEl.placeholder = '0';
   }
 
   function updateAllSums(){
@@ -497,7 +469,6 @@
       totalMoney += total; paidSum += paid; dueSum += due;
     });
 
-    // totals into footer
     document.getElementById('tot_tm').textContent = formatNum(tmSum);
     document.getElementById('tot_sm').textContent = formatNum(smSum);
     document.getElementById('tot_smm').textContent = formatNum(smmSum);
@@ -519,7 +490,7 @@
     let plannedSum = 0; types.forEach(t=> plannedSum += Number(planEls[t] ? planEls[t].value||0 : 0));
     plan_total.textContent = formatNum(plannedSum);
 
-    // bottom summary: sold (by liters), planned (from planEls) and remaining
+    // bottom summary update
     b_sold.TM.textContent = formatNum(tmSum);
     b_sold.SM.textContent = formatNum(smSum);
     b_sold['SMALL M'].textContent = formatNum(smmSum);
@@ -529,7 +500,7 @@
     b_sold.FC400.textContent = formatNum(fc400Sum);
     b_sold.FC1L.textContent = formatNum(fc1lSum);
 
-    types.forEach((t,i)=>{
+    types.forEach(t=>{
       const planVal = Number(planEls[t] ? planEls[t].value||0 : 0);
       const soldVal = Number(b_sold[t].textContent||0);
       if(b_plan[t]) b_plan[t].value = planVal || '';
@@ -577,7 +548,6 @@
   function autosaveSilent(){ const cur = dateInput.value || TODAY; saveForDate(cur); }
 
   function loadForDate(dateStr, autoCopyPrev=true){
-    // save current before switching
     const curNow = dateInput._current || TODAY;
     if(curNow && curNow !== dateStr) saveForDate(curNow);
     dateInput._current = dateStr;
@@ -635,7 +605,6 @@
       }
     }
 
-    // default: one empty row
     dataBody.innerHTML = '';
     dataBody.appendChild(createRow());
     updateAllSums();
@@ -648,7 +617,6 @@
 
   function addShop(){
     const tr = createRow(); dataBody.appendChild(tr);
-    // scroll new row into view below header
     setTimeout(()=> scrollIntoView(tr), 80);
     autosaveSilent();
   }
@@ -699,12 +667,10 @@
     window.open(`https://wa.me/91${mobile}?text=${msg}`, '_blank');
   }
 
-  // PDF generation: full page (banner + entire table) portrait A4 direct download
   async function downloadPdfDirect(){
     try{
       showToast('Preparing PDF...');
       const container = document.body;
-      // temporarily expand width for good resolution on wide tables
       const canvas = await html2canvas(container, { scale: 2, useCORS:true, allowTaint:true });
       const imgData = canvas.toDataURL('image/png');
       const { jsPDF } = window.jspdf;
@@ -738,14 +704,28 @@
     }catch(e){ console.error(e); alert('PDF generation failed: ' + (e && e.message)); }
   }
 
-  // --- lifecycle & events
+  function copyPreviousManual(){
+    const cur = dateInput.value || TODAY; const prev = previousDate(cur);
+    const prevRaw = localStorage.getItem(STORAGE_PREFIX + prev);
+    if(!prevRaw){ alert('No data found for previous day'); return; }
+    try{
+      const prevData = JSON.parse(prevRaw);
+      if(!Array.isArray(prevData.rows) || !prevData.rows.length){ alert('Previous day had no shops'); return; }
+      if(!confirm('Copy shops & custom prices from previous day? Litres and due will reset.')) return;
+      prevData.rows.forEach(r=>{
+        const newRow = { shop: r.shop||'', mobile: r.mobile||'', TM:0, SM:0, SMALLM:0, SMALLC:0, A400:0, H500:0, FC400:0, FC1L:0, due:0, customPrices: r.customPrices||null };
+        const tr = createRow(newRow); if(newRow.customPrices) tr._customPrices = newRow.customPrices; dataBody.appendChild(tr);
+      });
+      updateAllSums(); autosaveSilent(); showToast('Copied from previous day');
+    }catch(e){ console.error(e); alert('Copy failed'); }
+  }
+
   function init(){
     dateInput.value = TODAY; dateInput._current = TODAY;
     deleteOldRecords();
     loadForDate(TODAY, true);
 
-    // listeners
-    addBtn.addEventListener('click', addShop);
+    addBtn.addEventListener('click', ()=>{ addShop(); });
     copyPrevBtn.addEventListener('click', ()=> copyPreviousManual());
     clearBtn.addEventListener('click', ()=> {
       if(confirm('Clear all data for this date? This will remove rows & saved data for this date only.')) {
@@ -757,10 +737,9 @@
     downloadPdfBtn.addEventListener('click', ()=>{ downloadPdfDirect(); });
 
     Object.values(priceInputs).forEach(inp => inp.addEventListener('input', ()=>{ Array.from(dataBody.querySelectorAll('tr')).forEach(tr=>{ if(!tr.classList.contains('custom-price-row')) calculateRow(tr); }); updateAllSums(); autosaveSilent(); }));
-
     Object.values(planEls).forEach(inp => inp.addEventListener('input', ()=>{ updateAllSums(); autosaveSilent(); }));
 
-    // bottom summary plan fields editable also update main plan fields when changed
+    // bottom summary plan fields update main plan fields
     Object.keys(b_plan).forEach(k=>{
       const el = b_plan[k];
       if(!el) return;
@@ -771,33 +750,10 @@
     });
 
     dateInput.addEventListener('change', ()=>{ const newDate = dateInput.value || TODAY; loadForDate(newDate, true); showToast(`Loaded ${newDate}`); });
-
     window.addEventListener('beforeunload', ()=>{ saveForDate(dateInput.value || TODAY); });
-
-    // small chime (optional)
-    try{ const Ctx = window.AudioContext || window.webkitAudioContext; if(Ctx){ const ctx = new Ctx(); const o = ctx.createOscillator(); const g = ctx.createGain(); o.type = 'sine'; o.frequency.value = 880; o.connect(g); g.connect(ctx.destination); const now = ctx.currentTime; g.gain.setValueAtTime(0, now); g.gain.linearRampToValueAtTime(0.06, now + 0.02); o.start(now); g.gain.exponentialRampToValueAtTime(0.0001, now + 0.6); setTimeout(()=>{ try{o.stop(); ctx.close();}catch(e){} }, 700); } }catch(e){}
   }
 
-  function copyPreviousManual(){
-    const cur = dateInput.value || TODAY; const prev = previousDate(cur);
-    const prevRaw = localStorage.getItem(STORAGE_PREFIX + prev);
-    if(!prevRaw){ alert('No data found for previous day'); return; }
-    try{
-      const prevData = JSON.parse(prevRaw);
-      if(!Array.isArray(prevData.rows) || !prevData.rows.length){ alert('Previous day had no shops'); return; }
-      if(!confirm('Copy shops & custom prices from previous day? Litres and payments will be reset.')) return;
-      prevData.rows.forEach(r=>{
-        const newRow = { shop: r.shop||'', mobile: r.mobile||'', TM:0, SM:0, SMALLM:0, SMALLC:0, A400:0, H500:0, FC400:0, FC1L:0, due:0, customPrices: r.customPrices||null };
-        const tr = createRow(newRow); if(newRow.customPrices) tr._customPrices = newRow.customPrices; dataBody.appendChild(tr);
-      });
-      updateAllSums(); autosaveSilent(); showToast('Copied from previous day');
-    }catch(e){ console.error(e); alert('Copy failed'); }
-  }
-
-  // boot
   init();
-
-  // expose small api for debugging in console
   window._milkApp = { loadForDate, saveForDate, listSavedDates, deleteOldRecords, collectRows, downloadPdfDirect };
 
 })();
