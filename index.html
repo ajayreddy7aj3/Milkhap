@@ -34,7 +34,7 @@
   .price-item label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}
   .price-item input{width:78px;padding:6px;border-radius:6px;border:1px solid #e6e6e6;height:34px;text-align:center;font-size:13px}
   .table-wrap{background:var(--card);border-radius:10px;box-shadow:0 8px 30px rgba(2,6,23,0.06);padding:8px}
-  table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
+  table{min-width:70px;width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px}
   thead th{background:linear-gradient(180deg,var(--orange),var(--orange-dark));color:white;position:sticky;top:calc(var(--header-h) - 8px);z-index:280;padding:8px 6px}
   th,td{padding:6px;border-bottom:1px solid #f3f3f3;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
   .planned-row td{background:#fff7f0;color:#4b2f0a;font-weight:800}
@@ -77,6 +77,60 @@
     .price-item{min-width:86px}
     .small-num{width:72px}
   }
+  /* === Responsive Auto-Fit Columns === */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* ensures equal column width distribution */
+}
+
+.table input {
+  width: 100%; /* fill full cell */
+  min-width: 55px; /* prevent from shrinking too much */
+  box-sizing: border-box; /* padding stays inside cell */
+  text-align: center;
+  padding: 4px 2px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.table input:focus {
+  outline: none;
+  border-color: #ff7f00; /* highlight color when editing */
+  background: #fff6ec;
+}
+
+/* For general layout alignment */
+th, td {
+  text-align: center;
+  vertical-align: middle;
+  padding: 4px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* Responsive tweaks for mobile */
+@media (max-width: 899px) {
+  table {
+    font-size: 13px;
+  }
+  .table input {
+    min-width: 45px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  table {
+    font-size: 12px;
+  }
+  .table input {
+    min-width: 40px;
+    font-size: 12px;
+  }
+}
+
 </style>
 </head>
 <body>
