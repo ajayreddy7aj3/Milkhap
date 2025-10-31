@@ -1,251 +1,306 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>SAMBASHIVA MILK AGENCY</title>
-<style>
-  body {
-    font-family: "Segoe UI", sans-serif;
-    background: #fff;
-    margin: 0;
-    padding: 0;
-  }
-  header {
-    background: linear-gradient(to right, #ff8800, #ffb84d);
-    color: white;
-    text-align: center;
-    padding: 10px;
-    position: sticky;
-    top: 0;
-    z-index: 10;
-  }
-  header .top-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  header img {
-    width: 50px;
-    height: 50px;
-    object-fit: contain;
-  }
-  header h1 {
-    margin: 0;
-    font-size: 1.6rem;
-  }
-  header p {
-    margin: 3px 0;
-    font-size: 0.9rem;
-  }
-  .controls {
-    margin: 10px;
-    text-align: center;
-  }
-  .controls button, .controls input[type="date"] {
-    background: #ff8800;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 8px 12px;
-    margin: 5px;
-    font-size: 0.9rem;
-  }
-  .controls button:hover {
-    background: #e67300;
-  }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 60px;
-  }
-  th, td {
-    border: 1px solid #ccc;
-    text-align: center;
-    padding: 6px;
-  }
-  th {
-    background: #ffe0b3;
-    position: sticky;
-    top: 130px;
-    z-index: 5;
-  }
-  tfoot td {
-    background: #fff4e0;
-    font-weight: bold;
-  }
-  @media (max-width: 768px) {
-    header h1 {
-      font-size: 1.2rem;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAMBASHIVA MILK AGENCY</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #fffaf5;
+      color: #333;
     }
-    th, td {
+    header {
+      background-color: #ffb347;
+      color: #fff;
+      text-align: center;
+      padding: 10px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0 auto;
+      font-size: 1.2rem;
+      white-space: nowrap;
+    }
+    header img {
+      height: 40px;
+      margin: 0 10px;
+    }
+    .top-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 10px 0;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    button {
+      background-color: #ff7b00;
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+    button:hover {
+      background-color: #e56f00;
+    }
+    input[type="date"] {
+      padding: 6px;
+      font-size: 0.9rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
       font-size: 0.8rem;
     }
-  }
-</style>
+    th, td {
+      border: 1px solid #ddd;
+      text-align: center;
+      padding: 4px;
+    }
+    th {
+      background-color: #ffe5b4;
+      position: sticky;
+      top: 65px;
+      z-index: 10;
+    }
+    tfoot td {
+      background-color: #fff3e0;
+      font-weight: bold;
+    }
+    .footer-row td {
+      background-color: #fff0d1;
+      font-weight: bold;
+    }
+    @media (max-width: 768px) {
+      table { font-size: 0.75rem; }
+      th, td { padding: 2px; }
+      header h1 { font-size: 1rem; }
+    }
+  </style>
 </head>
 <body>
 
-<audio id="chime" src="https://actions.google.com/sounds/v1/alarms/medium_bell_ringing.ogg" preload="auto"></audio>
+  <header>
+    <img src="https://upload.wikimedia.org/wikipedia/en/f/fd/Hatsun_Agro_Product_Ltd_Logo.png" alt="Left Logo">
+    <h1>SAMBASHIVA MILK AGENCY</h1>
+    <img src="https://upload.wikimedia.org/wikipedia/en/f/fd/Hatsun_Agro_Product_Ltd_Logo.png" alt="Right Logo">
+  </header>
 
-<header>
-  <div class="top-row">
-    <img src="./lakshmi.png" alt="Left Logo">
-    <div>
-      <h1>SAMBASHIVA MILK AGENCY</h1>
-      <p>Prop: K. AJAY KUMAR REDDY</p>
-      <p>Mobile: 7330892694</p>
-    </div>
-    <img src="./vinayaka.png" alt="Right Logo">
+  <div class="top-bar">
+    <label for="date">Date:</label>
+    <input type="date" id="date" />
+    <button id="addShop">Add Shop</button>
+    <button id="downloadPDF">Download PDF</button>
+    <button id="clearAll">Clear All</button>
   </div>
-</header>
 
-<div class="controls">
-  <input type="date" id="datePicker">
-  <button onclick="addShop()">Add Shop</button>
-  <button onclick="copyPreviousDay()">Copy Previous Day</button>
-  <button onclick="downloadCSV()">Download CSV</button>
-  <button onclick="clearAll()">Clear All</button>
-</div>
+  <table id="milkTable">
+    <thead>
+      <tr>
+        <th>Shop Name</th>
+        <th>Mobile</th>
+        <th>TM</th>
+        <th>SM</th>
+        <th>SMALL M</th>
+        <th>SMALL C</th>
+        <th>A400</th>
+        <th>H500</th>
+        <th>FC400</th>
+        <th>FC1L</th>
+        <th>Total</th>
+        <th>Paid</th>
+        <th>Due</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+    <tfoot>
+      <tr class="footer-row">
+        <td colspan="2">L Available</td>
+        <td contenteditable="true">0</td>
+        <td contenteditable="true">0</td>
+        <td contenteditable="true">0</td>
+        <td contenteditable="true">0</td>
+        <td contenteditable="true">0</td>
+        <td contenteditable="true">0</td>
+        <td contenteditable="true">0</td>
+        <td contenteditable="true">0</td>
+        <td colspan="4"></td>
+      </tr>
+      <tr class="footer-row">
+        <td colspan="2">L Sold</td>
+        <td id="soldTM">0</td>
+        <td id="soldSM">0</td>
+        <td id="soldSMALLM">0</td>
+        <td id="soldSMALLC">0</td>
+        <td id="soldA400">0</td>
+        <td id="soldH500">0</td>
+        <td id="soldFC400">0</td>
+        <td id="soldFC1L">0</td>
+        <td colspan="4"></td>
+      </tr>
+      <tr class="footer-row">
+        <td colspan="2">L To Sell</td>
+        <td id="remainTM">0</td>
+        <td id="remainSM">0</td>
+        <td id="remainSMALLM">0</td>
+        <td id="remainSMALLC">0</td>
+        <td id="remainA400">0</td>
+        <td id="remainH500">0</td>
+        <td id="remainFC400">0</td>
+        <td id="remainFC1L">0</td>
+        <td colspan="4"></td>
+      </tr>
+    </tfoot>
+  </table>
 
-<table id="milkTable">
-  <thead>
-    <tr>
-      <th>Shop Name</th>
-      <th>Mobile</th>
-      <th>TM</th>
-      <th>SM</th>
-      <th>SMALL M</th>
-      <th>SMALL C</th>
-      <th>A400</th>
-      <th>H500</th>
-      <th>FC400</th>
-      <th>FC1L</th>
-      <th>PAID</th>
-      <th>DUE</th>
-      <th>Delete</th>
-    </tr>
-  </thead>
-  <tbody id="tableBody"></tbody>
-  <tfoot id="totalsFooter">
-    <tr id="availableRow">
-      <td colspan="13">Litres Available (editable)</td>
-    </tr>
-    <tr id="soldRow">
-      <td colspan="13">Litres Sold</td>
-    </tr>
-    <tr id="remainingRow">
-      <td colspan="13">Litres Remaining</td>
-    </tr>
-  </tfoot>
-</table>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const tableBody = document.getElementById("tableBody");
+    const dateInput = document.getElementById("date");
+    const addShopBtn = document.getElementById("addShop");
+    const clearBtn = document.getElementById("clearAll");
+    const downloadPDF = document.getElementById("downloadPDF");
+    const prices = { TM:57, SM:67, "SMALL M":45, "SMALL C":45, A400:70, H500:86, FC400:77, FC1L:76 };
 
-<script>
-const tableBody = document.getElementById('tableBody');
-const datePicker = document.getElementById('datePicker');
-const chime = document.getElementById('chime');
-let available = {}, sold = {}, remaining = {};
-let prices = ["TM","SM","SMALL M","SMALL C","A400","H500","FC400","FC1L"];
+    // Set today's date
+    dateInput.valueAsDate = new Date();
 
-function playChime(){chime.play().catch(()=>{});}
+    function loadData() {
+      const key = "milkData_" + dateInput.value;
+      const data = JSON.parse(localStorage.getItem(key)) || [];
+      tableBody.innerHTML = "";
+      data.forEach(addRow);
+      updateTotals();
+    }
 
-function getToday(){return new Date().toISOString().split('T')[0];}
+    function saveData() {
+      const rows = [...tableBody.querySelectorAll("tr")].map(tr => {
+        const tds = tr.querySelectorAll("td");
+        return {
+          shop: tds[0].innerText,
+          mobile: tds[1].innerText,
+          TM: tds[2].innerText,
+          SM: tds[3].innerText,
+          SMALLM: tds[4].innerText,
+          SMALLC: tds[5].innerText,
+          A400: tds[6].innerText,
+          H500: tds[7].innerText,
+          FC400: tds[8].innerText,
+          FC1L: tds[9].innerText,
+          total: tds[10].innerText,
+          paid: tds[11].innerText,
+          due: tds[12].innerText
+        };
+      });
+      localStorage.setItem("milkData_" + dateInput.value, JSON.stringify(rows));
+    }
 
-function saveData(){
-  const data = [];
-  tableBody.querySelectorAll('tr').forEach(row=>{
-    const rowData = {};
-    row.querySelectorAll('input').forEach(inp=>{
-      rowData[inp.name] = inp.value;
+    function addRow(data = {}) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td contenteditable="true">${data.shop || ""}</td>
+        <td contenteditable="true">${data.mobile || ""}</td>
+        <td contenteditable="true">${data.TM || 0}</td>
+        <td contenteditable="true">${data.SM || 0}</td>
+        <td contenteditable="true">${data.SMALLM || 0}</td>
+        <td contenteditable="true">${data.SMALLC || 0}</td>
+        <td contenteditable="true">${data.A400 || 0}</td>
+        <td contenteditable="true">${data.H500 || 0}</td>
+        <td contenteditable="true">${data.FC400 || 0}</td>
+        <td contenteditable="true">${data.FC1L || 0}</td>
+        <td>${data.total || 0}</td>
+        <td contenteditable="true">${data.paid || 0}</td>
+        <td>${data.due || 0}</td>
+        <td><button onclick="this.parentElement.parentElement.remove(); updateTotals(); saveData();">🗑️</button></td>
+      `;
+      tableBody.appendChild(tr);
+      tr.querySelectorAll("[contenteditable]").forEach(cell => {
+        cell.addEventListener("input", () => {
+          updateRow(tr);
+          saveData();
+        });
+      });
+      updateRow(tr);
+    }
+
+    function updateRow(tr) {
+      const tds = tr.querySelectorAll("td");
+      let total = 0;
+      let keys = ["TM","SM","SMALLM","SMALLC","A400","H500","FC400","FC1L"];
+      keys.forEach((key, i) => {
+        let val = parseFloat(tds[i+2].innerText) || 0;
+        total += val * prices[key.replace(/ /g,"") || key];
+      });
+      tds[10].innerText = total.toFixed(0);
+      const paid = parseFloat(tds[11].innerText) || 0;
+      tds[12].innerText = (total - paid).toFixed(0);
+      updateTotals();
+    }
+
+    function updateTotals() {
+      const rows = [...tableBody.querySelectorAll("tr")];
+      const sold = { TM:0, SM:0, SMALLM:0, SMALLC:0, A400:0, H500:0, FC400:0, FC1L:0 };
+      rows.forEach(tr => {
+        const tds = tr.querySelectorAll("td");
+        sold.TM += +tds[2].innerText || 0;
+        sold.SM += +tds[3].innerText || 0;
+        sold.SMALLM += +tds[4].innerText || 0;
+        sold.SMALLC += +tds[5].innerText || 0;
+        sold.A400 += +tds[6].innerText || 0;
+        sold.H500 += +tds[7].innerText || 0;
+        sold.FC400 += +tds[8].innerText || 0;
+        sold.FC1L += +tds[9].innerText || 0;
+      });
+      for (let k in sold) {
+        document.getElementById("sold"+k).innerText = sold[k];
+        const avail = parseFloat(document.querySelector(`tfoot td[contenteditable][contenteditable][contenteditable][contenteditable][contenteditable]`) || 0);
+        const remain = document.getElementById("remain"+k);
+        const availVal = parseFloat(document.querySelector(`tfoot td:nth-child(${Object.keys(sold).indexOf(k)+3})`).innerText) || 0;
+        remain.innerText = (availVal - sold[k]).toFixed(0);
+      }
+    }
+
+    addShopBtn.onclick = () => { addRow(); saveData(); };
+    clearBtn.onclick = () => {
+      if (confirm("Are you sure you want to clear all data?")) {
+        tableBody.innerHTML = "";
+        localStorage.removeItem("milkData_" + dateInput.value);
+        updateTotals();
+      }
+    };
+    dateInput.addEventListener("change", loadData);
+
+    // Download PDF
+    downloadPDF.addEventListener("click", async () => {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      const content = document.body;
+      const canvas = await html2canvas(content, { scale: 1.5 });
+      const imgData = canvas.toDataURL("image/png");
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.save(`milk_${dateInput.value}.pdf`);
     });
-    data.push(rowData);
-  });
-  localStorage.setItem('milk_'+datePicker.value, JSON.stringify(data));
-}
 
-function loadData(date){
-  tableBody.innerHTML = '';
-  const data = JSON.parse(localStorage.getItem('milk_'+date) || '[]');
-  data.forEach(row=>{
-    addShop(row);
-  });
-  updateTotals();
-}
-
-function addShop(values={}){
-  const tr = document.createElement('tr');
-  tr.innerHTML = `
-    <td><input name="shop" value="${values.shop||''}" oninput="saveData()"></td>
-    <td><input name="mobile" value="${values.mobile||''}" oninput="saveData()"></td>
-    ${prices.map(p=>`<td><input name="${p}" type="number" min="0" value="${values[p]||0}" oninput="calcDue(this)"></td>`).join('')}
-    <td><input name="PAID" type="number" value="${values.PAID||0}" oninput="calcDue(this)"></td>
-    <td><input name="DUE" type="number" value="${values.DUE||0}" readonly></td>
-    <td><button onclick="deleteRow(this)">X</button></td>
-  `;
-  tableBody.appendChild(tr);
-  saveData();
-}
-
-function deleteRow(btn){
-  btn.closest('tr').remove();
-  saveData();
-  updateTotals();
-}
-
-function calcDue(el){
-  const row = el.closest('tr');
-  let total = prices.reduce((sum,p)=>sum+(parseFloat(row.querySelector(`[name='${p}']`).value)||0),0);
-  let paid = parseFloat(row.querySelector("[name='PAID']").value)||0;
-  row.querySelector("[name='DUE']").value = (total - paid).toFixed(2);
-  saveData();
-  updateTotals();
-}
-
-function updateTotals(){
-  let totals = {};
-  prices.forEach(p=>totals[p]=0);
-  tableBody.querySelectorAll('tr').forEach(row=>{
-    prices.forEach(p=>{
-      totals[p]+=parseFloat(row.querySelector(`[name='${p}']`).value)||0;
-    });
-  });
-  let soldRow=document.getElementById('soldRow');
-  soldRow.innerHTML='<td>Total Sold:</td>'+prices.map(p=>`<td>${totals[p]}</td>`).join('')+'<td colspan="5"></td>';
-}
-
-function clearAll(){
-  if(confirm("Are you sure you want to clear all data for today?")){
-    localStorage.removeItem('milk_'+datePicker.value);
-    tableBody.innerHTML='';
-    saveData();
-    updateTotals();
-  }
-}
-
-function copyPreviousDay(){
-  const d=new Date(datePicker.value);
-  d.setDate(d.getDate()-1);
-  const prevData=localStorage.getItem('milk_'+d.toISOString().split('T')[0]);
-  if(prevData){localStorage.setItem('milk_'+datePicker.value, prevData);loadData(datePicker.value);}
-}
-
-function downloadCSV(){
-  let csv='Shop,Mobile,'+prices.join(',')+',PAID,DUE\n';
-  tableBody.querySelectorAll('tr').forEach(row=>{
-    let rowData=[];
-    row.querySelectorAll('input').forEach(inp=>rowData.push(inp.value));
-    csv+=rowData.join(',')+'\n';
-  });
-  const blob=new Blob([csv],{type:'text/csv'});
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);
-  a.download='milk-'+datePicker.value+'.csv';
-  a.click();
-}
-
-datePicker.value=getToday();
-loadData(datePicker.value);
-playChime();
-</script>
+    loadData();
+  </script>
 </body>
 </html>
