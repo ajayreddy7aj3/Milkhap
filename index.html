@@ -9,88 +9,91 @@
   :root{
     --orange:#f97316;
     --orange-dark:#d65b12;
-    --muted:#6b7280;
     --bg:#faf7f3;
     --card:#ffffff;
+    --muted:#6b7280;
     --accent:#ffd27a;
-    --danger:#fee2e2;
-    --success:#ecfdf5;
-    --input-h:36px;
-    --max-width:1180px;
+    --danger-tint:#fff1f0;
+    --yellow-tint:#fff8e6;
+    --input-h:40px;
+    --max-width:1100px;
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:#222; -webkit-font-smoothing:antialiased;}
-  header{position:sticky;top:0;z-index:120;background:linear-gradient(90deg,var(--orange),var(--orange-dark));color:white;padding:12px 14px;box-shadow:0 6px 20px rgba(0,0,0,0.12)}
+  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:#111;-webkit-font-smoothing:antialiased}
+  header{position:sticky;top:0;z-index:200;background:linear-gradient(90deg,var(--orange),var(--orange-dark));color:white;padding:12px 14px;box-shadow:0 6px 20px rgba(0,0,0,0.12)}
   .container{max-width:var(--max-width);margin:0 auto;padding:0 14px}
   .header-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .logo{width:48px;height:48px;flex:0 0 48px}
-  .title-block{flex:1;text-align:center}
-  .title{font-size:1.12rem;font-weight:800;color:#fff;margin:0}
-  .subtitle{font-size:0.85rem;color:#fff;margin-top:6px}
+  .logo{width:44px;height:44px;flex:0 0 44px}
+  .title-block{text-align:center;flex:1}
+  .title{font-size:1.05rem;font-weight:800;margin:0;color:#fff}
+  .subtitle{font-size:0.82rem;margin-top:6px;color:#fff}
   .date-input{background:var(--card);border:0;padding:6px 10px;border-radius:8px;height:34px;font-weight:700}
   .top-controls{display:flex;gap:8px;align-items:center;justify-content:flex-end;margin:12px 0;flex-wrap:wrap}
   .btn{background:var(--orange);color:#fff;border:0;padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
   .btn.ghost{background:#fff;color:var(--orange);border:1px solid rgba(0,0,0,0.06)}
   .btn.clear{background:#ef4444}
   .btn.small{padding:6px 8px;font-size:13px}
-  .price-row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;margin-bottom:8px}
-  .price-card{background:var(--card);padding:8px;border-radius:8px;min-width:82px;box-shadow:0 6px 18px rgba(2,6,23,0.04);text-align:center}
+  .price-row{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;margin-bottom:6px}
+  .price-card{background:var(--card);padding:8px;border-radius:8px;min-width:86px;box-shadow:0 6px 18px rgba(2,6,23,0.04);text-align:center}
   .price-card label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}
   .price-card input{width:72px;padding:6px;border-radius:6px;border:1px solid #eaeaea;height:var(--input-h);text-align:center;background:#fff}
 
-  /* cards grid */
-  .cards-wrap{display:grid;grid-template-columns:repeat(auto-fill, minmax(300px, 1fr));gap:12px}
-  .shop-card{background:var(--card);border-radius:12px;padding:12px;box-shadow:0 8px 30px rgba(2,6,23,0.06);display:flex;flex-direction:column;gap:8px;min-height:120px}
-  .shop-card.yellow{box-shadow:0 10px 30px rgba(200,140,20,0.06);background:linear-gradient(180deg,#fffaf0,#fff8ef)}
-  .shop-card.red{background:linear-gradient(180deg,#fff5f5,#fff0f0)}
-  .shop-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
-  .shop-name {font-weight:800;font-size:15px;line-height:1.1}
-  .shop-mobile {color:var(--muted);font-size:13px;margin-top:6px}
-  .amounts {display:flex;gap:8px;align-items:center;font-size:13px}
-  .amount-box{background:#fff;border-radius:8px;padding:6px 8px;border:1px solid #f0e7de;display:flex;flex-direction:column;align-items:center;min-width:78px}
+  /* cards area - mobile first: single column */
+  .cards-wrap{display:grid;grid-template-columns:1fr;gap:12px}
+  .shop-card{background:var(--card);border-radius:12px;padding:12px;box-shadow:0 8px 30px rgba(2,6,23,0.06);display:flex;flex-direction:column;gap:10px;min-height:120px}
+  .shop-card.yellow{background:linear-gradient(180deg,var(--yellow-tint),#fffef6)}
+  .shop-card.red{background:linear-gradient(180deg,var(--danger-tint),#fff6f6)}
+  .shop-top{display:flex;gap:12px;align-items:flex-start}
+  .shop-left{flex:1}
+  .shop-name input{font-weight:800;border:0;background:transparent;font-size:16px;width:100%}
+  .shop-mobile input{border:0;background:transparent;color:var(--muted);font-size:14px;width:100%}
+  .paid-due{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+  .amount-box{background:#fff;border-radius:8px;padding:8px;border:1px solid #f0e7de;display:flex;flex-direction:column;align-items:flex-start;min-width:110px}
+  .amount-box label{font-size:11px;color:var(--muted);margin-bottom:4px}
   .amount-box strong{font-size:14px}
-  .milk-grid{display:grid;grid-template-columns:repeat(8,minmax(48px,1fr));gap:6px;align-items:center}
-  .milk-item{display:flex;flex-direction:column;align-items:center;gap:4px}
-  .milk-item label{font-size:11px;color:var(--muted)}
-  .milk-item input{width:56px;padding:6px;border-radius:6px;border:1px solid #eaeaea;text-align:center;height:30px;background:#fff}
+  .due-input{width:100px;padding:6px;border-radius:6px;border:1px solid #eaeaea;height:34px;text-align:center;background:#fff}
 
-  .actions {display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  /* milk grid compact - 4 columns on mobile (two rows), 8 columns on larger screens */
+  .milk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;align-items:center}
+  .milk-item{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+  .milk-item label{font-size:12px;color:var(--muted)}
+  .milk-item input{width:100%;padding:6px;border-radius:6px;border:1px solid #eaeaea;text-align:center;height:34px;background:#fff}
+
+  .card-actions{display:flex;justify-content:flex-end;gap:8px;align-items:center}
   .icon-btn{width:36px;height:36px;border-radius:8px;border:0;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:white}
   .icon-btn.send{background:#25D366}
-  .icon-btn.edit{background:#fbbf24;color:#4b2f0a}
+  .icon-btn.edit{background:#f59e0b;color:#4b2f0a}
   .icon-btn.del{background:#ef4444}
   .icon-btn.custom{background:#3b82f6}
-  .icon-btn[title]{position:relative}
-  .icon-btn[title]:hover::after{content:attr(title);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.78);color:#fff;padding:6px 8px;border-radius:6px;font-size:12px;white-space:nowrap}
+  .icon-btn[title]:hover::after{content:attr(title);position:absolute;background:rgba(0,0,0,0.78);color:#fff;padding:6px 8px;border-radius:6px;font-size:12px;white-space:nowrap;transform:translateY(-6px)}
+  .card-total{font-weight:800;text-align:center;margin-top:6px}
 
   .summary{margin-top:12px;background:#fff6ee;padding:10px;border-radius:8px;box-shadow:0 6px 18px rgba(2,6,23,0.04)}
-  .summary-grid{display:grid;grid-template-columns:180px repeat(8,1fr);gap:8px;align-items:center}
+  .summary-grid{display:grid;grid-template-columns:140px repeat(4,1fr);gap:8px;align-items:center}
   .summary-label{font-weight:800;color:#4b2f0a;font-size:13px}
-  .summary-cell{background:var(--card);padding:6px;border-radius:6px;text-align:center;font-weight:700}
-  .summary-input{width:62px;padding:6px;border-radius:6px;border:1px solid #eaeaea;text-align:center;height:30px;background:#fff}
+  .summary-cell{background:var(--card);padding:8px;border-radius:6px;text-align:center;font-weight:700}
+  .summary-input{width:70px;padding:6px;border-radius:6px;border:1px solid #eaeaea;text-align:center;height:34px;background:#fff}
 
   .footer-note{margin-top:8px;color:var(--muted);font-size:13px;text-align:center}
-  .top-line{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px}
-  .header-left{display:flex;align-items:center;gap:8px}
-  .header-right{display:flex;align-items:center;gap:8px}
 
-  @media (max-width:980px){
-    .milk-grid{grid-template-columns:repeat(4,minmax(48px,1fr))}
-    .summary-grid{grid-template-columns:140px repeat(4,1fr)}
+  @media (min-width:900px){
+    .cards-wrap{grid-template-columns:repeat(2,1fr)}
+    .milk-grid{grid-template-columns:repeat(8,1fr)}
+    .summary-grid{grid-template-columns:180px repeat(8,1fr)}
   }
-  @media (max-width:560px){
-    .cards-wrap{grid-template-columns:1fr}
-    .milk-grid{grid-template-columns:repeat(4,minmax(48px,1fr))}
+  @media (min-width:1200px){
+    .cards-wrap{grid-template-columns:repeat(3,1fr)}
   }
 </style>
 </head>
 <body>
   <header>
     <div class="container header-row">
-      <div class="header-left" style="align-items:center">
+      <div style="display:flex;align-items:center;gap:8px">
         <div class="logo" aria-hidden="true">
           <svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="50" cy="50" r="48" fill="#fff" stroke="#f97316" stroke-width="4"/><text x="50" y="58" font-family="sans-serif" font-weight="800" font-size="26" fill="#f97316" text-anchor="middle">HAP</text>
+            <circle cx="50" cy="50" r="48" fill="#fff" stroke="#f97316" stroke-width="4"/>
+            <text x="50" y="58" font-family="sans-serif" font-weight="800" font-size="26" fill="#f97316" text-anchor="middle">HAP</text>
           </svg>
         </div>
       </div>
@@ -100,18 +103,16 @@
         <div class="subtitle">Prop: <strong>K. AJAY KUMAR REDDY</strong> &nbsp; | &nbsp; Mobile: <strong>7330892694</strong></div>
       </div>
 
-      <div class="header-right">
+      <div>
         <input id="dateInput" class="date-input" type="date" />
       </div>
     </div>
   </header>
 
   <main class="container" style="padding:12px 14px 80px">
-    <div class="top-line">
-      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-        <div style="font-weight:700">Prices (editable)</div>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <div style="font-weight:800">Prices (editable)</div>
+      <div class="top-controls">
         <button id="addBtn" class="btn">+ Add Shop</button>
         <button id="copyPrevBtn" class="btn ghost small">📋 Copy Prev Day</button>
         <button id="saveBtn" class="btn ghost small">💾 Save</button>
@@ -120,7 +121,7 @@
       </div>
     </div>
 
-    <div class="price-row" aria-hidden="false">
+    <div class="price-row" aria-label="Global prices">
       <div class="price-card"><label>TM (₹)</label><input id="price_TM" type="number" min="0" value="57"></div>
       <div class="price-card"><label>SM (₹)</label><input id="price_SM" type="number" min="0" value="67"></div>
       <div class="price-card"><label>SML M (₹)</label><input id="price_SMM" type="number" min="0" value="45"></div>
@@ -131,17 +132,17 @@
       <div class="price-card"><label>FC1L (₹)</label><input id="price_FC1L" type="number" min="0" value="76"></div>
     </div>
 
-    <section style="margin-top:10px">
+    <section style="margin-top:12px">
       <div style="display:flex;justify-content:space-between;align-items:center">
         <div style="font-weight:800">Shops</div>
-        <div style="color:var(--muted);font-size:13px">Tap a number to edit — Due is editable, Paid auto-calculates</div>
+        <div style="color:var(--muted);font-size:13px">Tap a number to edit — Due editable; Paid auto-calculates</div>
       </div>
 
       <div id="cards" class="cards-wrap" style="margin-top:10px"></div>
 
       <div class="summary" style="margin-top:12px">
-        <div style="font-weight:800;margin-bottom:8px">Summary</div>
-        <div class="summary-grid">
+        <div style="font-weight:800;margin-bottom:8px">Summary (Planned / Sold / Remaining)</div>
+        <div class="summary-grid" id="summaryGrid">
           <div class="summary-label">Metric</div>
           <div class="summary-label">TM</div><div class="summary-label">SM</div><div class="summary-label">SML M</div><div class="summary-label">SML C</div>
           <div class="summary-label">A400</div><div class="summary-label">H500</div><div class="summary-label">FCM</div><div class="summary-label">FC1L</div>
@@ -177,23 +178,30 @@
           <div class="summary-cell" id="b_remain_FC1L">0</div>
         </div>
 
-        <div style="display:flex;justify-content:space-between;gap:8px;margin-top:10px;align-items:center">
+        <div style="display:flex;justify-content:space-between;gap:8px;margin-top:12px;align-items:center">
           <div style="font-weight:800">Grand Total: <span id="grandTotal">₹0</span></div>
           <div style="font-weight:700">Total Litres Sold: <span id="grandLitres">0</span> Ltrs</div>
         </div>
       </div>
 
-      <div class="footer-note">Saved locally on this device — data persists after refresh/close. (Last 365 days retained)</div>
+      <div class="footer-note">Saved locally — data persists after refresh/close. (Last 365 days retained)</div>
     </section>
   </main>
 
-  <div id="toast" style="position:fixed;right:16px;bottom:24px;background:#111;color:#fff;padding:10px 12px;border-radius:8px;opacity:0;transform:translateY(8px);transition:all .18s;z-index:200"></div>
+  <div id="toast" style="position:fixed;right:16px;bottom:24px;background:#111;color:#fff;padding:10px 12px;border-radius:8px;opacity:0;transform:translateY(8px);transition:all .18s;z-index:400"></div>
 
   <!-- libs -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
+/* Mobile-first, functional milk app
+   - Due editable (Paid auto-calculates)
+   - Custom price per shop (yellow tint)
+   - Rows with due >0 tinted red
+   - Autosave per date (localStorage), copy prev date feature
+   - PDF A4 portrait export
+*/
 (() => {
   const STORAGE_PREFIX = 'milkData_';
   const MAX_DAYS = 365;
@@ -226,16 +234,15 @@
   const grandTotalEl = document.getElementById('grandTotal');
   const grandLitresEl = document.getElementById('grandLitres');
 
-  const now = new Date();
-  const TODAY = now.toISOString().slice(0,10);
+  const TODAY = (new Date()).toISOString().slice(0,10);
 
-  function showToast(msg, ms = 1400){
+  function showToast(msg, ms = 1200){
     toast.textContent = msg; toast.style.opacity = 1; toast.style.transform = 'none';
     clearTimeout(toast._t); toast._t = setTimeout(()=>{ toast.style.opacity = 0; toast.style.transform = 'translateY(8px)'; }, ms);
   }
 
   function keyForDate(d){ return STORAGE_PREFIX + d; }
-  function listSavedDates(){ const keys=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith(STORAGE_PREFIX)) keys.push(k.slice(STORAGE_PREFIX.length)); } return keys.sort(); }
+  function listSavedDates(){ const keys=[]; for(let i=0;i<localStorage.length;i++){ const k = localStorage.key(i); if(k && k.startsWith(STORAGE_PREFIX)) keys.push(k.slice(STORAGE_PREFIX.length)); } return keys.sort(); }
   function deleteOldRecords(){ const keys = listSavedDates(); if(!keys.length) return 0; const now = new Date(); const cutoff = new Date(now); cutoff.setDate(cutoff.getDate() - MAX_DAYS); let deleted = 0; keys.forEach(d=>{ const dt = new Date(d + 'T00:00:00'); if(dt < cutoff){ localStorage.removeItem(keyForDate(d)); deleted++; } }); if(deleted) showToast(`Deleted ${deleted} old record(s)`); return deleted; }
 
   function readGlobalPrices(){
@@ -251,73 +258,74 @@
     };
   }
 
-  // utility
   function formatNum(n){ if(!isFinite(n)) return '0'; if(Math.round(n)===n) return String(Math.round(n)); return Number(n).toFixed(2); }
 
-  // create card element
+  // create card DOM
   function createCard(data){
     const div = document.createElement('div');
     div.className = 'shop-card';
     div.innerHTML = `
       <div class="shop-top">
-        <div style="flex:1">
-          <div class="shop-name"><input class="c_name" type="text" placeholder="Full name" style="font-weight:800;border:0;background:transparent;width:100%"></div>
-          <div class="shop-mobile"><input class="c_mobile" type="tel" placeholder="Mobile" style="border:0;background:transparent;width:100%"></div>
-          <div style="margin-top:8px;display:flex;gap:8px;align-items:center">
-            <div class="amount-box"><label style="font-size:11px;color:var(--muted)">Paid</label><strong class="c_paid">0</strong></div>
-            <div class="amount-box"><label style="font-size:11px;color:var(--muted)">Due</label><input class="c_due" type="number" placeholder="0" style="width:80px"></div>
+        <div class="shop-left">
+          <div class="shop-name"><input class="c_name" type="text" placeholder="Full name"></div>
+          <div class="shop-mobile" style="margin-top:6px"><input class="c_mobile" type="tel" placeholder="Mobile number"></div>
+
+          <div class="paid-due">
+            <div class="amount-box"><label>Paid</label><strong class="c_paid">0</strong></div>
+            <div class="amount-box"><label>Due</label><input class="c_due due-input" type="number" placeholder="0"></div>
           </div>
-          <div style="margin-top:8px" class="actions-row">
-            <div class="actions">
-              <button class="icon-btn send" title="Send to WhatsApp">✉️</button>
+
+          <div style="margin-top:8px" class="card-actions">
+            <div style="display:flex;gap:8px">
+              <button class="icon-btn send" title="Send">✉️</button>
               <button class="icon-btn edit" title="Edit">✏️</button>
               <button class="icon-btn del" title="Delete">🗑️</button>
-              <button class="icon-btn custom" title="Toggle custom prices">⭐</button>
+              <button class="icon-btn custom" title="Custom prices">⭐</button>
             </div>
           </div>
         </div>
-        <div style="width:280px">
+
+        <div style="width:290px;min-width:180px">
           <div class="milk-grid">
-            <div class="milk-item"><label>TM</label><input class="c_tm" type="number" placeholder="0"></div>
-            <div class="milk-item"><label>SM</label><input class="c_sm" type="number" placeholder="0"></div>
-            <div class="milk-item"><label>SML M</label><input class="c_smm" type="number" placeholder="0"></div>
-            <div class="milk-item"><label>SML C</label><input class="c_smc" type="number" placeholder="0"></div>
-            <div class="milk-item"><label>A400</label><input class="c_a400" type="number" placeholder="0"></div>
-            <div class="milk-item"><label>H500</label><input class="c_h500" type="number" placeholder="0"></div>
-            <div class="milk-item"><label>FCM</label><input class="c_fc400" type="number" placeholder="0"></div>
-            <div class="milk-item"><label>FC1L</label><input class="c_fc1l" type="number" placeholder="0"></div>
+            <div class="milk-item"><label>TM</label><input class="c_tm" type="number" inputmode="numeric" placeholder=""></div>
+            <div class="milk-item"><label>SM</label><input class="c_sm" type="number" inputmode="numeric" placeholder=""></div>
+            <div class="milk-item"><label>SML M</label><input class="c_smm" type="number" inputmode="numeric" placeholder=""></div>
+            <div class="milk-item"><label>SML C</label><input class="c_smc" type="number" inputmode="numeric" placeholder=""></div>
+            <div class="milk-item"><label>A400</label><input class="c_a400" type="number" inputmode="numeric" placeholder=""></div>
+            <div class="milk-item"><label>H500</label><input class="c_h500" type="number" inputmode="numeric" placeholder=""></div>
+            <div class="milk-item"><label>FCM</label><input class="c_fc400" type="number" inputmode="numeric" placeholder=""></div>
+            <div class="milk-item"><label>FC1L</label><input class="c_fc1l" type="number" inputmode="numeric" placeholder=""></div>
           </div>
-          <div style="margin-top:8px;text-align:center;font-weight:800">Total: <span class="c_total">0</span></div>
+          <div class="card-total">Total: <span class="c_total">0</span></div>
         </div>
       </div>
     `;
 
-    // fill data
+    // populate
     if(data){
       div.querySelector('.c_name').value = data.shop || '';
       div.querySelector('.c_mobile').value = data.mobile || '';
-      div.querySelector('.c_tm').value = data.TM || '';
-      div.querySelector('.c_sm').value = data.SM || '';
-      div.querySelector('.c_smm').value = data.SMALLM || '';
-      div.querySelector('.c_smc').value = data.SMALLC || '';
-      div.querySelector('.c_a400').value = data.A400 || '';
-      div.querySelector('.c_h500').value = data.H500 || '';
-      div.querySelector('.c_fc400').value = data.FC400 || '';
-      div.querySelector('.c_fc1l').value = data.FC1L || '';
-      div.querySelector('.c_due').value = (data.due || '') ;
+      if(data.TM) div.querySelector('.c_tm').value = data.TM;
+      if(data.SM) div.querySelector('.c_sm').value = data.SM;
+      if(data.SMALLM) div.querySelector('.c_smm').value = data.SMALLM;
+      if(data.SMALLC) div.querySelector('.c_smc').value = data.SMALLC;
+      if(data.A400) div.querySelector('.c_a400').value = data.A400;
+      if(data.H500) div.querySelector('.c_h500').value = data.H500;
+      if(data.FC400) div.querySelector('.c_fc400').value = data.FC400;
+      if(data.FC1L) div.querySelector('.c_fc1l').value = data.FC1L;
+      if(typeof data.due !== 'undefined') div.querySelector('.c_due').value = data.due;
       if(data.customPrices) div._customPrices = data.customPrices;
     }
 
-    // query subs
+    // elements
     const nameI = div.querySelector('.c_name');
     const mobileI = div.querySelector('.c_mobile');
     const dueI = div.querySelector('.c_due');
     const paidEl = div.querySelector('.c_paid');
     const totalEl = div.querySelector('.c_total');
-    const inputs = Array.from(div.querySelectorAll('.milk-grid input'));
+    const milkInputs = Array.from(div.querySelectorAll('.milk-grid input'));
 
-    // calc row
-    function calc(){
+    function calcRow(){
       const g = readGlobalPrices();
       const custom = div._customPrices || null;
       const tm = Number(div.querySelector('.c_tm').value||0);
@@ -343,49 +351,43 @@
       const total = (tm*p.TM) + (sm*p.SM) + (smm * p['SMALL M']) + (smc * p['SMALL C']) + (a400 * p.A400) + (h500 * p.H500) + (fc400 * p.FC400) + (fc1l * p.FC1L);
       totalEl.textContent = formatNum(total);
 
-      // Due editable => paid auto calc
+      // Due editable -> Paid auto calc
       const dueVal = Number(dueI.value||0);
       const paidVal = Math.max(0, total - dueVal);
       paidEl.textContent = formatNum(paidVal);
 
-      // highlight states
+      // visual highlights
       if(div._customPrices) div.classList.add('yellow'); else div.classList.remove('yellow');
       if(Number(dueI.value||0) > 0) div.classList.add('red'); else div.classList.remove('red');
     }
 
-    // attach input listeners
-    [nameI, mobileI, dueI, ...inputs].forEach(inp=>{
-      inp.addEventListener('input', ()=>{ calc(); updateAll(); autosave(); });
+    // attach listeners
+    [nameI, mobileI, dueI, ...milkInputs].forEach(inp => {
+      inp.addEventListener('input', ()=>{
+        calcRow(); updateAll(); autosave();
+      });
+      // tap to select for quick edit
+      inp.addEventListener('focus', (e)=> { if(e.target.tagName === 'INPUT') e.target.select(); });
     });
 
-    // icon buttons
-    const sendBtn = div.querySelector('.icon-btn.send');
-    const editBtn = div.querySelector('.icon-btn.edit');
-    const delBtn = div.querySelector('.icon-btn.del');
-    const customBtn = div.querySelector('.icon-btn.custom');
-
-    sendBtn.addEventListener('click', ()=> sendWhatsApp(div));
-    editBtn.addEventListener('click', ()=> {
-      // toggle focus to name
-      nameI.focus(); nameI.select();
-    });
-    delBtn.addEventListener('click', ()=> {
+    // buttons
+    div.querySelector('.icon-btn.send').addEventListener('click', ()=> sendWhatsApp(div));
+    div.querySelector('.icon-btn.edit').addEventListener('click', ()=> { nameI.focus(); nameI.select(); });
+    div.querySelector('.icon-btn.del').addEventListener('click', ()=> {
       if(confirm('Delete this shop?')){ if(div.nextSibling && div.nextSibling._isCustomEditor) div.parentNode.removeChild(div.nextSibling); div.parentNode.removeChild(div); updateAll(); autosave(); }
     });
-
-    customBtn.addEventListener('click', ()=> openCustomEditor(div));
+    div.querySelector('.icon-btn.custom').addEventListener('click', ()=> openCustomEditor(div));
 
     // initial calc
-    calc();
+    calcRow();
 
     return div;
   }
 
-  // open custom editor below card
+  // open custom price editor under card
   function openCustomEditor(card){
-    // if already open remove
+    // toggle
     if(card.nextSibling && card.nextSibling._isCustomEditor){ card.parentNode.removeChild(card.nextSibling); return; }
-    // create editor
     const ed = document.createElement('div');
     ed.style.background = '#fff8ed';
     ed.style.padding = '10px';
@@ -395,7 +397,7 @@
     ed._isCustomEditor = true;
     ed.innerHTML = `
       <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <div style="font-weight:800;color:#7a4300">Custom prices for this shop</div>
+        <div style="font-weight:800;color:#7a4300">Custom prices</div>
         <label>TM ₹<input class="ed_tm" type="number" style="width:90px;padding:6px;border-radius:6px"></label>
         <label>SM ₹<input class="ed_sm" type="number" style="width:90px;padding:6px;border-radius:6px"></label>
         <label>SML M ₹<input class="ed_smm" type="number" style="width:90px;padding:6px;border-radius:6px"></label>
@@ -408,7 +410,6 @@
         <button class="btn ghost small cancel-custom">Cancel</button>
       </div>
     `;
-    // set current values
     const g = readGlobalPrices();
     ed.querySelector('.ed_tm').value = (card._customPrices && typeof card._customPrices.TM === 'number') ? card._customPrices.TM : g.TM;
     ed.querySelector('.ed_sm').value = (card._customPrices && typeof card._customPrices.SM === 'number') ? card._customPrices.SM : g.SM;
@@ -419,12 +420,9 @@
     ed.querySelector('.ed_fc400').value = (card._customPrices && typeof card._customPrices.FC400 === 'number') ? card._customPrices.FC400 : g.FC400;
     ed.querySelector('.ed_fc1l').value = (card._customPrices && typeof card._customPrices.FC1L === 'number') ? card._customPrices.FC1L : g.FC1L;
 
-    // attach
     card.parentNode.insertBefore(ed, card.nextSibling);
 
-    ed.querySelector('.cancel-custom').addEventListener('click', ()=> {
-      if(ed && ed.parentNode) ed.parentNode.removeChild(ed);
-    });
+    ed.querySelector('.cancel-custom').addEventListener('click', ()=> { if(ed.parentNode) ed.parentNode.removeChild(ed); });
     ed.querySelector('.save-custom').addEventListener('click', ()=> {
       card._customPrices = {
         TM: Number(ed.querySelector('.ed_tm').value||0),
@@ -436,17 +434,15 @@
         FC400: Number(ed.querySelector('.ed_fc400').value||0),
         FC1L: Number(ed.querySelector('.ed_fc1l').value||0)
       };
-      if(ed && ed.parentNode) ed.parentNode.removeChild(ed);
-      // recalc card
-      const calcBtn = card.querySelector('.c_tm');
-      if(calcBtn) { // trigger calc
-        Array.from(card.querySelectorAll('input')).forEach(i=>i.dispatchEvent(new Event('input')));
-      }
+      if(ed.parentNode) ed.parentNode.removeChild(ed);
+      // re-calc this card
+      Array.from(card.querySelectorAll('input')).forEach(i=> i.dispatchEvent(new Event('input')));
       showToast('Custom prices saved');
       autosave();
     });
   }
 
+  // send whatsapp for a card
   function sendWhatsApp(card){
     const name = card.querySelector('.c_name').value || 'Customer';
     let mobile = (card.querySelector('.c_mobile').value||'').replace(/\D/g,'');
@@ -471,17 +467,17 @@
     const g = readGlobalPrices();
     const custom = card._customPrices || null;
     const p = {
-      TM: custom&&typeof custom.TM==='number'?custom.TM:g.TM,
-      SM: custom&&typeof custom.SM==='number'?custom.SM:g.SM,
-      'SMALL M': custom&&typeof custom['SMALL M']==='number'?custom['SMALL M']:g['SMALL M'],
-      'SMALL C': custom&&typeof custom['SMALL C']==='number'?custom['SMALL C']:g['SMALL C'],
-      A400: custom&&typeof custom.A400==='number'?custom.A400:g.A400,
-      H500: custom&&typeof custom.H500==='number'?custom.H500:g.H500,
-      FC400: custom&&typeof custom.FC400==='number'?custom.FC400:g.FC400,
-      FC1L: custom&&typeof custom.FC1L==='number'?custom.FC1L:g.FC1L
+      TM: (custom && typeof custom.TM === 'number') ? custom.TM : g.TM,
+      SM: (custom && typeof custom.SM === 'number') ? custom.SM : g.SM,
+      'SMALL M': (custom && typeof custom['SMALL M'] === 'number') ? custom['SMALL M'] : g['SMALL M'],
+      'SMALL C': (custom && typeof custom['SMALL C'] === 'number') ? custom['SMALL C'] : g['SMALL C'],
+      A400: (custom && typeof custom.A400 === 'number') ? custom.A400 : g.A400,
+      H500: (custom && typeof custom.H500 === 'number') ? custom.H500 : g.H500,
+      FC400: (custom && typeof custom.FC400 === 'number') ? custom.FC400 : g.FC400,
+      FC1L: (custom && typeof custom.FC1L === 'number') ? custom.FC1L : g.FC1L
     };
 
-    let msg = `Hello ${name},%0AMilk bill for ${date}:%0A`;
+    let msg = `Hello ${name},%0AInvoice for ${date}:%0A`;
     const lines = [];
     if(tm) lines.push(`TM ${tm} x ${p.TM} = ${(tm*p.TM).toFixed(2)}`);
     if(sm) lines.push(`SM ${sm} x ${p.SM} = ${(sm*p.SM).toFixed(2)}`);
@@ -496,20 +492,19 @@
     window.open(`https://wa.me/91${mobile}?text=${msg}`, '_blank');
   }
 
-  // create + append new shop
+  // add shop
   function addShop(data){
     const card = createCard(data || {});
     cardsWrap.appendChild(card);
-    // scroll into view
     setTimeout(()=> card.scrollIntoView({behavior:'smooth', block:'center'}), 60);
     autosave();
   }
 
-  // collect rows for saving/export
+  // collect rows
   function collectRows(){
     const rows = [];
-    const cards = Array.from(cardsWrap.children).filter(c=>!c._isCustomEditor);
-    cards.forEach(c=>{
+    const cards = Array.from(cardsWrap.children).filter(c => !c._isCustomEditor);
+    cards.forEach(c => {
       rows.push({
         shop: c.querySelector('.c_name').value || '',
         mobile: c.querySelector('.c_mobile').value || '',
@@ -528,41 +523,35 @@
     return rows;
   }
 
-  // save/load
   function saveForDate(d){
     try{
-      const payload = {
-        date: d,
-        prices: readGlobalPrices(),
-        rows: collectRows()
-      };
+      const payload = { date: d, prices: readGlobalPrices(), rows: collectRows() };
       localStorage.setItem(keyForDate(d), JSON.stringify(payload));
       return true;
     }catch(e){ console.error(e); return false; }
   }
-  function loadForDate(d, copyPrev=true){
-    // save current
+
+  function loadForDate(d, copyPrev = true){
     const curNow = dateInput._current || TODAY;
     if(curNow && curNow !== d) saveForDate(curNow);
-
     dateInput._current = d; dateInput.value = d;
+
     const raw = localStorage.getItem(keyForDate(d));
     if(raw){
       try{
         const obj = JSON.parse(raw);
-        if(obj.prices) {
-          Object.keys(priceInputs).forEach(k=>{ if(typeof obj.prices[k] !== 'undefined') priceInputs[k].value = obj.prices[k]; });
+        if(obj.prices){
+          Object.keys(priceInputs).forEach(k => { if(typeof obj.prices[k] !== 'undefined') priceInputs[k].value = obj.prices[k]; });
         }
         cardsWrap.innerHTML = '';
         if(Array.isArray(obj.rows) && obj.rows.length){
-          obj.rows.forEach(r=> addShop(r));
+          obj.rows.forEach(r => addShop(r));
           updateAll();
           return;
         }
       }catch(e){ console.error(e); }
     }
 
-    // copy prev shops (only names & mobiles & custom prices)
     if(copyPrev){
       const prev = previousDate(d);
       const prevRaw = localStorage.getItem(keyForDate(prev));
@@ -571,12 +560,11 @@
           const prevObj = JSON.parse(prevRaw);
           if(Array.isArray(prevObj.rows) && prevObj.rows.length){
             cardsWrap.innerHTML = '';
-            prevObj.rows.forEach(r=>{
+            prevObj.rows.forEach(r => {
               const newR = { shop: r.shop||'', mobile: r.mobile||'', TM:0, SM:0, SMALLM:0, SMALLC:0, A400:0, H500:0, FC400:0, FC1L:0, due:0, customPrices: r.customPrices||null };
               addShop(newR);
             });
-            updateAll();
-            saveForDate(d);
+            updateAll(); saveForDate(d);
             showToast('Copied shops & custom prices from previous day');
             return;
           }
@@ -584,10 +572,7 @@
       }
     }
 
-    // default: empty card
-    cardsWrap.innerHTML = '';
-    addShop();
-    updateAll();
+    cardsWrap.innerHTML = ''; addShop(); updateAll();
   }
 
   function previousDate(d){
@@ -595,19 +580,16 @@
     return dt.toISOString().slice(0,10);
   }
 
-  // update summary and totals
   function updateAll(){
-    // sums
     let tmSum=0, smSum=0, smmSum=0, smcSum=0, a400Sum=0, h500Sum=0, fc400Sum=0, fc1lSum=0;
     let totalMoney=0, paidSum=0, dueSum=0;
-    const cards = Array.from(cardsWrap.children).filter(c=>!c._isCustomEditor);
-    cards.forEach(c=>{
+    const cards = Array.from(cardsWrap.children).filter(c => !c._isCustomEditor);
+    cards.forEach(c => {
       const tm = Number(c.querySelector('.c_tm').value||0), sm = Number(c.querySelector('.c_sm').value||0),
         smm = Number(c.querySelector('.c_smm').value||0), smc = Number(c.querySelector('.c_smc').value||0),
         a400 = Number(c.querySelector('.c_a400').value||0), h500 = Number(c.querySelector('.c_h500').value||0),
         fc400 = Number(c.querySelector('.c_fc400').value||0), fc1l = Number(c.querySelector('.c_fc1l').value||0);
 
-      // total money is taken from displayed total (string)
       const total = parseFloat((c.querySelector('.c_total').textContent||'0').replace(/,/g,''))||0;
       const paid = parseFloat((c.querySelector('.c_paid').textContent||'0').replace(/,/g,''))||0;
       const due = Number(c.querySelector('.c_due').value||0);
@@ -616,6 +598,7 @@
       totalMoney += total; paidSum += paid; dueSum += due;
     });
 
+    // update sold
     document.getElementById(summaryIds.sold.TM).textContent = formatNum(tmSum);
     document.getElementById(summaryIds.sold.SM).textContent = formatNum(smSum);
     document.getElementById(summaryIds.sold['SMALL M']).textContent = formatNum(smmSum);
@@ -625,15 +608,15 @@
     document.getElementById(summaryIds.sold.FC400).textContent = formatNum(fc400Sum);
     document.getElementById(summaryIds.sold.FC1L).textContent = formatNum(fc1lSum);
 
-    // planned -> read from bottom inputs (user may edit any of them)
+    // planned & remain
     const types = ['TM','SM','SMALL M','SMALL C','A400','H500','FC400','FC1L'];
     types.forEach(t=>{
-      const el = document.getElementById(summaryIds.planInputs[t]);
-      if(el) {
-        const val = Number(el.value||0);
-        // update remain
-        const remainEl = document.getElementById(summaryIds.remain[t]);
-        if(remainEl) remainEl.textContent = formatNum(Math.max(0, val - (Number(document.getElementById(summaryIds.sold[t]).textContent||0))));
+      const planEl = document.getElementById(summaryIds.planInputs[t]);
+      const soldEl = document.getElementById(summaryIds.sold[t]);
+      const remainEl = document.getElementById(summaryIds.remain[t]);
+      if(planEl && remainEl && soldEl){
+        const pval = Number(planEl.value||0);
+        remainEl.textContent = formatNum(Math.max(0, pval - Number(soldEl.textContent||0)));
       }
     });
 
@@ -641,80 +624,33 @@
     grandLitresEl.textContent = formatNum(tmSum + smSum + smmSum + smcSum + a400Sum + h500Sum + fc400Sum + fc1lSum);
   }
 
-  // autosave
   function autosave(){ saveForDate(dateInput.value || TODAY); }
   function saveAndNotify(){ saveForDate(dateInput.value || TODAY); showToast('Saved'); }
 
-  // doc listeners init
-  function init(){
-    dateInput.value = TODAY;
-    deleteOldRecords();
-    loadForDate(TODAY, true);
-
-    addBtn.addEventListener('click', ()=> { addShop(); updateAll(); autosave(); });
-    saveBtn.addEventListener('click', ()=> saveAndNotify());
-    copyPrevBtn.addEventListener('click', ()=> {
-      const cur = dateInput.value || TODAY;
-      const prev = previousDate(cur);
-      const prevRaw = localStorage.getItem(keyForDate(prev));
-      if(!prevRaw){ alert('No data for previous day'); return; }
-      if(!confirm('Copy shops & custom prices from previous day? Quantities and due will be reset.')) return;
-      try{
-        const prevObj = JSON.parse(prevRaw);
-        if(Array.isArray(prevObj.rows) && prevObj.rows.length){
-          prevObj.rows.forEach(r=>{
-            const newRow = { shop: r.shop||'', mobile: r.mobile||'', TM:0, SM:0, SMALLM:0, SMALLC:0, A400:0, H500:0, FC400:0, FC1L:0, due:0, customPrices: r.customPrices||null };
-            addShop(newRow);
-          });
-          updateAll(); autosave(); showToast('Copied from previous day');
-        }
-      }catch(e){ console.error(e); alert('Copy failed'); }
-    });
-
-    clearBtn.addEventListener('click', ()=> {
-      if(confirm('Clear all data for this date? This will remove rows & saved data for this date only.')) {
-        localStorage.removeItem(keyForDate(dateInput.value || TODAY));
-        cardsWrap.innerHTML=''; addShop(); updateAll(); autosave(); showToast('Cleared');
+  // copy previous manual action
+  function copyPreviousManual(){
+    const cur = dateInput.value || TODAY; const prev = previousDate(cur);
+    const prevRaw = localStorage.getItem(keyForDate(prev));
+    if(!prevRaw){ alert('No data for previous day'); return; }
+    if(!confirm('Copy shops & custom prices from previous day? Quantities and due will be reset.')) return;
+    try{
+      const prevObj = JSON.parse(prevRaw);
+      if(Array.isArray(prevObj.rows) && prevObj.rows.length){
+        prevObj.rows.forEach(r=>{
+          const newR = { shop: r.shop||'', mobile: r.mobile||'', TM:0, SM:0, SMALLM:0, SMALLC:0, A400:0, H500:0, FC400:0, FC1L:0, due:0, customPrices: r.customPrices||null };
+          addShop(newR);
+        });
+        updateAll(); autosave(); showToast('Copied from previous day');
       }
-    });
-
-    downloadPdfBtn.addEventListener('click', ()=> downloadPdfDirect());
-
-    // price changes should recalc all
-    Object.values(priceInputs).forEach(inp=>{
-      inp.addEventListener('input', ()=> {
-        Array.from(cardsWrap.querySelectorAll('.shop-card')).forEach(c=> Array.from(c.querySelectorAll('input')).forEach(i=> i.dispatchEvent(new Event('input'))));
-        updateAll(); autosave();
-      });
-    });
-
-    // summary plan inputs reflect main plan fields
-    Object.keys(summaryIds.planInputs).forEach(k=>{
-      const el = document.getElementById(summaryIds.planInputs[k]);
-      if(!el) return;
-      el.addEventListener('input', ()=> {
-        document.getElementById(summaryIds.remain[k]).textContent = formatNum(Math.max(0, Number(el.value||0) - Number(document.getElementById(summaryIds.sold[k]).textContent||0)));
-        // copy up to top plan row if exists
-        const topPlan = document.getElementById('plan_TM');
-        if(topPlan && k === 'TM') topPlan.value = el.value;
-        updateAll();
-        autosave();
-      });
-    });
-
-    dateInput.addEventListener('change', ()=> {
-      const newDate = dateInput.value || TODAY; loadForDate(newDate, true); showToast(`Loaded ${newDate}`);
-    });
-
-    window.addEventListener('beforeunload', ()=> saveForDate(dateInput.value || TODAY));
+    }catch(e){ console.error(e); alert('Copy failed'); }
   }
 
-  // PDF generation: full page portrait A4
+  // PDF: full A4 portrait direct download
   async function downloadPdfDirect(){
     try{
       showToast('Preparing PDF...');
-      const elem = document.body;
-      const canvas = await html2canvas(elem, { scale: 2, useCORS:true, allowTaint:true });
+      const el = document.body;
+      const canvas = await html2canvas(el, { scale: 2, useCORS:true, allowTaint:true });
       const imgData = canvas.toDataURL('image/png');
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({ orientation:'portrait', unit:'pt', format:'a4' });
@@ -747,65 +683,50 @@
     }catch(e){ console.error(e); alert('PDF generation failed: ' + (e && e.message)); }
   }
 
-  // load saved data for date
-  function loadForDate(d, copyPrev = true){
-    // save current before switching
-    const curNow = dateInput._current || TODAY;
-    if(curNow && curNow !== d) saveForDate(curNow);
+  // init
+  function init(){
+    dateInput.value = TODAY;
+    deleteOldRecords();
+    loadForDate(TODAY, true);
 
-    dateInput._current = d; dateInput.value = d;
-    const raw = localStorage.getItem(keyForDate(d));
-    if(raw){
-      try{
-        const obj = JSON.parse(raw);
-        if(obj.prices){
-          Object.keys(priceInputs).forEach(k=>{ if(typeof obj.prices[k] !== 'undefined') priceInputs[k].value = obj.prices[k]; });
-        }
-        cardsWrap.innerHTML = '';
-        if(Array.isArray(obj.rows) && obj.rows.length){
-          obj.rows.forEach(r=> addShop(r));
-          updateAll();
-          return;
-        }
-      }catch(e){ console.error(e); }
-    }
-    // copy prev if available
-    if(copyPrev){
-      const prev = previousDate(d);
-      const prevRaw = localStorage.getItem(keyForDate(prev));
-      if(prevRaw){
-        try{
-          const prevObj = JSON.parse(prevRaw);
-          if(Array.isArray(prevObj.rows) && prevObj.rows.length){
-            cardsWrap.innerHTML = '';
-            prevObj.rows.forEach(r=>{
-              const newR = { shop: r.shop||'', mobile: r.mobile||'', TM:0, SM:0, SMALLM:0, SMALLC:0, A400:0, H500:0, FC400:0, FC1L:0, due:0, customPrices: r.customPrices||null };
-              addShop(newR);
-            });
-            updateAll();
-            saveForDate(d);
-            showToast('Copied shops & custom prices from previous day');
-            return;
-          }
-        }catch(e){ console.error(e); }
+    addBtn.addEventListener('click', ()=> { addShop(); updateAll(); autosave(); });
+    saveBtn.addEventListener('click', ()=> saveAndNotify());
+    copyPrevBtn.addEventListener('click', ()=> copyPreviousManual());
+    clearBtn.addEventListener('click', ()=> {
+      if(confirm('Clear all data for this date? This will remove rows & saved data for this date only.')){
+        localStorage.removeItem(keyForDate(dateInput.value || TODAY));
+        cardsWrap.innerHTML = ''; addShop(); updateAll(); autosave(); showToast('Cleared');
       }
-    }
-    // default blank
-    cardsWrap.innerHTML = ''; addShop(); updateAll();
+    });
+    downloadPdfBtn.addEventListener('click', ()=> downloadPdfDirect());
+
+    Object.values(priceInputs).forEach(inp => inp.addEventListener('input', ()=> {
+      Array.from(cardsWrap.querySelectorAll('.shop-card')).forEach(c => Array.from(c.querySelectorAll('input')).forEach(i=> i.dispatchEvent(new Event('input'))));
+      updateAll(); autosave();
+    }));
+
+    Object.values(summaryIds.planInputs).forEach(id => {
+      const el = document.getElementById(id);
+      if(!el) return;
+      el.addEventListener('input', ()=> {
+        updateAll();
+        autosave();
+      });
+    });
+
+    dateInput.addEventListener('change', ()=> {
+      const newDate = dateInput.value || TODAY;
+      loadForDate(newDate, true);
+      showToast(`Loaded ${newDate}`);
+    });
+
+    window.addEventListener('beforeunload', ()=> saveForDate(dateInput.value || TODAY));
   }
 
-  // save API
-  function saveForDate(d){
-    try{
-      const payload = { date: d, prices: readGlobalPrices(), rows: collectRows() };
-      localStorage.setItem(keyForDate(d), JSON.stringify(payload));
-      return true;
-    }catch(e){ console.error(e); return false; }
-  }
+  // helper wrapper exposing a small API (debug)
+  window._milkApp = { addShop, loadForDate, saveForDate, collectRows, downloadPdfDirect, listSavedDates, deleteOldRecords };
 
-  // init app
   init();
-
 })();
 </script>
 </body>
