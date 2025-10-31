@@ -13,98 +13,116 @@
     --card:#ffffff;
     --muted:#6b7280;
     --input-h:36px;
-    --header-h:96px;
-    --accent:#ffd27a;
-    --danger:#ef4444;
-    --success:#25D366;
-    --highlight:#fffbe6;
+    --header-h:92px; /* used for sticky top offset */
+    --compact-width:64px;
   }
   *{box-sizing:border-box}
-  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:#222;min-height:100vh}
-  header{position:sticky;top:0;z-index:1000;background:linear-gradient(90deg,var(--orange),var(--orange-dark));color:white;padding:10px 14px;box-shadow:0 6px 20px rgba(0,0,0,0.12)}
-  .container{max-width:1180px;margin:0 auto;padding:8px 14px}
+  body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:#222;padding-bottom:140px}
+  header{position:sticky;top:0;z-index:320;background:linear-gradient(90deg,var(--orange),var(--orange-dark));color:white;padding:10px 12px;box-shadow:0 6px 20px rgba(0,0,0,0.12)}
+  .container{max-width:1180px;margin:0 auto;padding:0 14px}
   .header-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
-  .logo{width:44px;height:44px;flex:0 0 44px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--orange);font-weight:800}
+  .logo{width:44px;height:44px;flex:0 0 44px}
   .title-block{text-align:center;flex:1}
-  .title{font-size:18px;font-weight:800;margin:0;display:flex;align-items:center;justify-content:center;gap:10px;color:#fff}
-  .subtitle{font-size:12px;margin-top:6px;color:#fff;opacity:.95}
+  .title{font-size:1.12rem;font-weight:800;margin:0;display:flex;align-items:center;justify-content:center;gap:10px;color:#fff}
+  .subtitle{font-size:0.86rem;margin-top:6px;color:#fff}
   .date-input{background:var(--card);border:0;padding:6px 10px;border-radius:8px;height:34px;font-weight:700}
-  /* top buttons and prices */
-  .top-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:14px 0}
+  .controls{display:flex;gap:8px;justify-content:flex-end;margin:12px 0;align-items:center;flex-wrap:wrap}
   .btn{background:var(--orange);color:#fff;border:0;padding:8px 12px;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px}
-  .btn.ghost{background:#fff;color:var(--orange);border:1px solid rgba(0,0,0,.06)}
-  .btn.small{padding:6px 10px;font-size:13px}
-  .btn.danger{background:var(--danger)}
-  .price-panel{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-  .price-item{background:var(--card);padding:6px;border-radius:8px;min-width:74px;box-shadow:0 8px 18px rgba(2,6,23,0.04);text-align:center}
+  .btn.ghost{background:#fff;color:var(--orange);border:1px solid rgba(0,0,0,0.06)}
+  .btn.clear{background:#ef4444}
+  .btn.small{padding:6px 8px;font-size:13px}
+  .price-panel{display:flex;gap:8px;overflow:auto;padding-bottom:8px;margin-bottom:6px;align-items:flex-end}
+  .price-item{background:var(--card);padding:8px;border-radius:8px;min-width:86px;box-shadow:0 6px 18px rgba(2,6,23,0.04);text-align:center}
   .price-item label{display:block;color:var(--muted);font-size:12px;margin-bottom:6px}
   .price-item input{width:72px;padding:6px;border-radius:6px;border:1px solid #e6e6e6;height:var(--input-h);text-align:center;font-size:13px;background:#fff}
-  /* table-like compact grid */
-  .sheet{background:var(--card);border-radius:10px;padding:0;margin-top:10px;box-shadow:0 8px 30px rgba(2,6,23,0.06);overflow:hidden}
-  .sheet .header-row-grid{display:grid;grid-template-columns:240px 120px repeat(10, 64px) 120px;align-items:center;background:linear-gradient(180deg,var(--orange),var(--orange-dark));color:#fff;padding:8px 10px;font-weight:700}
-  .sheet .header-row-grid div{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:center}
-  .sheet .planned-row{display:grid;grid-template-columns:240px 120px repeat(10, 64px) 120px;gap:8px;align-items:center;padding:10px;background:#fff7f0;color:#4b2f0a;font-weight:800}
-  .sheet .planned-row input{height:var(--input-h);border-radius:6px;padding:6px;border:1px solid #eee;text-align:center}
-  .rows{display:flex;flex-direction:column;gap:6px;padding:10px;background:transparent}
-  .shop-row{display:grid;grid-template-columns:240px 120px repeat(10, 64px) 120px;gap:8px;align-items:center;padding:8px 6px;background:transparent;border-radius:6px}
-  .shop-row input[type="text"], .shop-row input[type="tel"], .shop-row input[type="number"]{height:var(--input-h);border-radius:6px;padding:6px;border:1px solid #eee;text-align:center;background:#fff}
-  .shop-row .col-shop{padding-left:10px;text-align:left}
-  .shop-row .actions{display:flex;gap:6px;justify-content:center}
-  .shop-row .btn-send{background:var(--success);color:#fff;padding:6px 8px;border-radius:6px;border:0}
-  .shop-row .btn-edit{background:#ffd27a;color:#6b3d00;padding:6px 8px;border-radius:6px;border:0}
-  .shop-row .btn-del{background:var(--danger);color:#fff;padding:6px 8px;border-radius:6px;border:0}
-  .shop-row.customed{background:linear-gradient(90deg,#fffdf2,#fff8ed)}
-  .summary{padding:18px;margin-top:14px;border-radius:10px;background:#fff6ee;box-shadow:0 8px 18px rgba(2,6,23,0.04)}
-  .summary-grid{display:grid;grid-template-columns:160px repeat(8,1fr);gap:10px;align-items:center}
-  .summary-grid .label{font-weight:800;color:#4b2f0a;padding:6px}
-  .summary-grid .cell{background:var(--card);padding:6px;border-radius:6px;text-align:center}
-  .totals-row{text-align:center;margin-top:10px;font-weight:800}
+
+  /* Table layout */
+  .table-wrap{background:transparent;border-radius:10px;box-shadow:none;padding:0;margin-top:6px}
+  table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13px;background:var(--card);box-shadow:0 8px 30px rgba(2,6,23,0.06);border-radius:8px;overflow:hidden}
+  thead th{background:linear-gradient(180deg,var(--orange),var(--orange-dark));color:white;position:sticky;top:calc(var(--header-h) - 8px);z-index:280;padding:8px 6px;font-weight:800}
+  th,td{padding:6px;border-bottom:1px solid #f3f3f3;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;background:transparent}
+  .planned-row td{background:#fff7f0;color:#4b2f0a;font-weight:800;text-align:left;padding-left:12px}
+  input[type="number"],input[type="text"],input[type="tel"]{padding:6px;border-radius:6px;border:1px solid #eaeaea;text-align:center;font-size:13px;height:var(--input-h);background:#fff;outline:none}
+  input:focus{border-color:rgba(249,115,22,0.9);box-shadow:0 0 0 3px rgba(249,115,22,0.08)}
+  .total-cell,.due-cell{font-weight:800;background:transparent}
+  .send-btn{background:#25D366;border:0;color:white;padding:6px 8px;border-radius:6px;cursor:pointer;height:34px;font-size:13px}
+  .delete-btn{background:#ef4444;border:0;color:white;padding:6px 8px;border-radius:6px;cursor:pointer;height:34px;font-size:13px}
+  .custom-btn{background:#ffd27a;border:0;color:#6b3d00;padding:6px 8px;border-radius:6px;cursor:pointer;height:34px;font-size:13px}
+  .custom-price-row td{background:#fff8ed;padding:8px}
+  .row-customized{background:linear-gradient(90deg,#fff6e8,#fff2e0)} /* highlight for special price rows */
+
+  .footer-note{text-align:center;color:var(--muted);margin-top:8px}
+  .bottom-summary{margin-top:12px;background:#fff6ee;padding:10px;border-radius:8px;box-shadow:0 6px 18px rgba(2,6,23,0.04)}
+  .summary-grid{display:grid;grid-template-columns:160px repeat(8,1fr);gap:8px;align-items:center;font-size:13px}
+  .summary-label{font-weight:800;color:#4b2f0a}
+  .summary-cell{background:var(--card);padding:8px;border-radius:6px;text-align:center}
+
   .toast{position:fixed;right:16px;bottom:110px;background:#111;color:#fff;padding:10px 12px;border-radius:8px;opacity:0;transform:translateY(8px);transition:all .18s;z-index:360}
   .toast.show{opacity:1;transform:none}
-  /* smaller widths on mobile to avoid scrolling: table becomes horizontally scrollable inside container only when necessary */
-  @media (max-width:1100px){
+
+  /* tuned widths (compact) */
+  .col-shop { width:240px; min-width:140px; text-align:left; padding-left:12px }
+  .col-mobile { width:120px; min-width:100px }
+  .small-num { width:var(--compact-width); min-width:48px; max-width:78px; }
+
+  /* responsive rules */
+  @media (max-width:1180px){
     .container{max-width:980px}
-    .sheet .header-row-grid, .sheet .planned-row, .shop-row{grid-template-columns:200px 120px repeat(10,58px) 100px}
+    .col-shop{width:200px}
+    .col-mobile{width:110px}
   }
-  @media (max-width:820px){
-    /* make columns slimmer on phones; we avoid horizontal scroll by stacking labels in small devices */
-    .sheet .header-row-grid, .sheet .planned-row, .shop-row{grid-template-columns:160px 110px repeat(10,50px) 96px}
-    .price-item input{width:56px}
+  @media (max-width:900px){
+    /* allow horizontal scroll on small phones but not on tablets/laptop */
+    .table-wrap{overflow:auto}
+    table{min-width:960px}
   }
-  @media (max-width:520px){
-    .sheet .header-row-grid{grid-template-columns:1fr}
-    .sheet .planned-row{grid-template-columns:1fr;gap:6px}
-    .shop-row{grid-template-columns:1fr;gap:6px}
-    .shop-row .col-shop{text-align:left}
-    .shop-row .actions{justify-content:flex-end}
-    .summary-grid{grid-template-columns:130px repeat(4,1fr) ; /* keep compact */ }
+  @media (max-width:480px){
+    .title{font-size:15px}
+    .price-item{min-width:84px}
+    :root{--compact-width:74px}
   }
 
-  /* tiny helpers */
+  /* visually reduce default cell padding so inputs fit */
+  tbody td input{padding:6px;height:30px;line-height:30px}
+  /* small helper */
   .muted{color:var(--muted);font-size:13px}
-  .pill{display:inline-block;padding:6px 8px;border-radius:8px;background:#fff}
 </style>
 </head>
 <body>
   <header>
     <div class="container header-row">
       <div style="display:flex;align-items:center;gap:8px">
-        <div class="logo" aria-hidden="true">HAP</div>
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="50" cy="50" r="48" fill="#fff" stroke="#f97316" stroke-width="4"/>
+            <text x="50" y="58" font-family="sans-serif" font-weight="800" font-size="26" fill="#f97316" text-anchor="middle">HAP</text>
+          </svg>
+        </div>
       </div>
 
       <div class="title-block" aria-live="polite">
-        <div class="title">SAMBASHIVA MILK AGENCY</div>
+        <div class="title" role="banner">
+          <span>SAMBASHIVA MILK AGENCY</span>
+        </div>
         <div class="subtitle">Prop: <strong>K. AJAY KUMAR REDDY</strong> &nbsp; | &nbsp; Mobile: <strong>7330892694</strong></div>
       </div>
 
       <div style="display:flex;align-items:center;gap:10px">
         <input id="dateInput" class="date-input" type="date" />
+        <div style="width:40px;height:40px">
+          <svg viewBox="0 0 64 64" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+            <rect width="64" height="64" rx="8" fill="#fff" stroke="#f97316" stroke-width="2"/>
+            <path d="M32 10c6 0 10 3 10 7s-4 7-10 7-10-3-10-7 4-7 10-7z" fill="#f97316"/>
+            <path d="M22 32c0-4 4-7 10-7s10 3 10 7v12H22V32z" fill="#fff"/>
+          </svg>
+        </div>
       </div>
     </div>
   </header>
 
-  <main class="container" style="padding-bottom:80px">
-    <div class="top-controls" role="toolbar">
+  <main style="padding:14px 12px 160px">
+    <div class="container">
+
       <div class="price-panel" aria-label="Global prices">
         <div class="price-item"><label>TM (₹)</label><input id="price_TM" type="number" min="0" value="57"></div>
         <div class="price-item"><label>SM (₹)</label><input id="price_SM" type="number" min="0" value="67"></div>
@@ -116,111 +134,128 @@
         <div class="price-item"><label>FC1L (₹)</label><input id="price_FC1L" type="number" min="0" value="76"></div>
       </div>
 
-      <div style="flex:1"></div>
-
-      <button id="addBtn" class="btn">+ Add Shop</button>
-      <button id="downloadPdfBtn" class="btn small">Download PDF</button>
-      <button id="copyPrevBtn" class="btn ghost small">📋 Copy Prev Day</button>
-      <button id="saveBtn" class="btn ghost small">Save Data</button>
-      <button id="clearBtn" class="btn danger small">Clear All</button>
-    </div>
-
-    <section class="sheet" aria-label="Shops sheet">
-      <!-- header row -->
-      <div class="header-row-grid">
-        <div style="text-align:left;padding-left:10px">Full name</div>
-        <div>Mobile</div>
-        <div>TM</div><div>SM</div><div>SML M</div><div>SML C</div><div>A400</div><div>H500</div><div>FCM</div><div>FC1L</div><div>Total</div><div>Paid</div><div>Due</div><div>Send</div><div>Edit</div><div>Delete</div>
+      <div class="controls" role="toolbar" aria-label="Main controls">
+        <div style="flex:1"></div>
+        <button id="addBtn" class="btn">+ Add Shop</button>
+        <button id="downloadPdfBtn" class="btn small" title="Download PDF">Download PDF</button>
+        <button id="copyPrevBtn" class="btn ghost small" title="Copy shops from previous day">📋 Copy Prev Day</button>
+        <button id="saveBtn" class="btn ghost small">Save Data</button>
+        <button id="clearBtn" class="btn clear small" title="Clear all data">Clear All</button>
       </div>
 
-      <!-- planned / available row -->
-      <div class="planned-row">
-        <div style="text-align:left;padding-left:10px">Planned litres to sell (editable)</div>
-        <div class="muted">Available</div>
-        <input id="plan_TM" type="number" min="0" placeholder="">
-        <input id="plan_SM" type="number" min="0" placeholder="">
-        <input id="plan_SMM" type="number" min="0" placeholder="">
-        <input id="plan_SMC" type="number" min="0" placeholder="">
-        <input id="plan_A400" type="number" min="0" placeholder="">
-        <input id="plan_H500" type="number" min="0" placeholder="">
-        <input id="plan_FC400" type="number" min="0" placeholder="">
-        <input id="plan_FC1L" type="number" min="0" placeholder="">
-        <div id="plan_total">0</div>
-        <div></div><div></div><div></div><div></div><div></div>
+      <div class="table-wrap" role="region" aria-label="Shops table">
+        <table id="dataTable" aria-describedby="tableDesc">
+          <thead>
+            <tr>
+              <th class="col-shop">Full name</th>
+              <th class="col-mobile">Mobile</th>
+              <th class="small-num">TM</th>
+              <th class="small-num">SM</th>
+              <th class="small-num">SML M</th>
+              <th class="small-num">SML C</th>
+              <th class="small-num">A400</th>
+              <th class="small-num">H500</th>
+              <th class="small-num">FCM</th>
+              <th class="small-num">FC1L</th>
+              <th class="small-num">Total</th>
+              <th class="small-num">Paid</th>
+              <th class="small-num">Due</th>
+              <th class="small-num">Send</th>
+              <th class="small-num">Custom</th>
+              <th class="small-num">Delete</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr class="planned-row">
+              <td>Planned litres to sell (editable)</td>
+              <td>Available</td>
+              <td><input id="plan_TM" type="number" min="0" placeholder="0"></td>
+              <td><input id="plan_SM" type="number" min="0" placeholder="0"></td>
+              <td><input id="plan_SMM" type="number" min="0" placeholder="0"></td>
+              <td><input id="plan_SMC" type="number" min="0" placeholder="0"></td>
+              <td><input id="plan_A400" type="number" min="0" placeholder="0"></td>
+              <td><input id="plan_H500" type="number" min="0" placeholder="0"></td>
+              <td><input id="plan_FC400" type="number" min="0" placeholder="0"></td>
+              <td><input id="plan_FC1L" type="number" min="0" placeholder="0"></td>
+              <td id="plan_total">0</td>
+              <td colspan="5"></td>
+            </tr>
+          </tbody>
+
+          <tbody id="dataBody"></tbody>
+
+          <tfoot>
+            <tr class="summary-row">
+              <td style="text-align:left;padding-left:8px">Totals per column</td><td>—</td>
+              <td id="tot_tm">0</td><td id="tot_sm">0</td><td id="tot_smm">0</td><td id="tot_smc">0</td>
+              <td id="tot_a400">0</td><td id="tot_h500">0</td><td id="tot_fc400">0</td><td id="tot_fc1l">0</td>
+              <td id="tot_total">0</td><td id="tot_paid">0</td><td id="tot_due">0</td><td colspan="3"></td>
+            </tr>
+          </tfoot>
+        </table>
       </div>
 
-      <!-- rows go here -->
-      <div class="rows" id="dataBody" aria-live="polite">
-        <!-- created dynamically -->
+      <div style="margin-top:12px;text-align:center;font-weight:700">
+        <div id="grandTotalLine">Grand Total: <span id="grandTotal">₹0</span></div>
+        <div id="grandLitresLine">Total Litres Sold: <span id="grandLitres">0</span> Ltrs</div>
       </div>
 
-      <!-- footer totals row -->
-      <div class="header-row-grid" style="background:#fff;padding:10px 8px;color:#4b2f0a">
-        <div style="text-align:left;padding-left:10px">Totals per column</div>
-        <div>—</div>
-        <div id="tot_tm">0</div><div id="tot_sm">0</div><div id="tot_smm">0</div><div id="tot_smc">0</div><div id="tot_a400">0</div><div id="tot_h500">0</div><div id="tot_fc400">0</div><div id="tot_fc1l">0</div><div id="tot_total">0</div><div id="tot_paid">0</div><div id="tot_due">0</div><div></div><div></div><div></div>
-      </div>
-    </section>
+      <div class="footer-note" style="margin-top:8px;color:var(--muted);font-size:13px">Saved locally on this device — data persists after refresh/close. (Last 365 days retained)</div>
 
-    <div class="totals-row">
-      <div style="font-weight:900;font-size:16px;margin-top:10px">Grand Total: <span id="grandTotal">₹0</span></div>
-      <div style="font-size:14px;margin-top:6px">Total Litres Sold: <strong id="grandLitres">0</strong> Ltrs</div>
-      <div class="muted" style="margin-top:6px">Saved locally on this device — data persists after refresh/close. (Last 365 days retained)</div>
-    </div>
+      <div class="bottom-summary" id="bottomSummary" aria-hidden="false">
+        <div class="summary-grid">
+          <div class="summary-label">Metric</div>
+          <div class="summary-label">TM</div><div class="summary-label">SM</div><div class="summary-label">SML M</div><div class="summary-label">SML C</div>
+          <div class="summary-label">A400</div><div class="summary-label">H500</div><div class="summary-label">FCM</div><div class="summary-label">FC1L</div>
 
-    <div class="summary" style="margin-top:20px">
-      <div class="summary-grid">
-        <div class="label">Metric</div>
-        <div class="label">TM</div><div class="label">SM</div><div class="label">SML M</div><div class="label">SML C</div>
-        <div class="label">A400</div><div class="label">H500</div><div class="label">FCM</div><div class="label">FC1L</div>
+          <div class="summary-label">Total Litres Sold</div>
+          <div class="summary-cell"><span id="b_sold_TM">0</span></div>
+          <div class="summary-cell"><span id="b_sold_SM">0</span></div>
+          <div class="summary-cell"><span id="b_sold_SMM">0</span></div>
+          <div class="summary-cell"><span id="b_sold_SMC">0</span></div>
+          <div class="summary-cell"><span id="b_sold_A400">0</span></div>
+          <div class="summary-cell"><span id="b_sold_H500">0</span></div>
+          <div class="summary-cell"><span id="b_sold_FC400">0</span></div>
+          <div class="summary-cell"><span id="b_sold_FC1L">0</span></div>
 
-        <div class="label">Total Litres Sold</div>
-        <div class="cell"><span id="b_sold_TM">0</span></div>
-        <div class="cell"><span id="b_sold_SM">0</span></div>
-        <div class="cell"><span id="b_sold_SMM">0</span></div>
-        <div class="cell"><span id="b_sold_SMC">0</span></div>
-        <div class="cell"><span id="b_sold_A400">0</span></div>
-        <div class="cell"><span id="b_sold_H500">0</span></div>
-        <div class="cell"><span id="b_sold_FC400">0</span></div>
-        <div class="cell"><span id="b_sold_FC1L">0</span></div>
+          <div class="summary-label">Planned Litres</div>
+          <div class="summary-cell"><input id="b_plan_TM" class="summary-input" placeholder="0"></div>
+          <div class="summary-cell"><input id="b_plan_SM" class="summary-input" placeholder="0"></div>
+          <div class="summary-cell"><input id="b_plan_SMM" class="summary-input" placeholder="0"></div>
+          <div class="summary-cell"><input id="b_plan_SMC" class="summary-input" placeholder="0"></div>
+          <div class="summary-cell"><input id="b_plan_A400" class="summary-input" placeholder="0"></div>
+          <div class="summary-cell"><input id="b_plan_H500" class="summary-input" placeholder="0"></div>
+          <div class="summary-cell"><input id="b_plan_FC400" class="summary-input" placeholder="0"></div>
+          <div class="summary-cell"><input id="b_plan_FC1L" class="summary-input" placeholder="0"></div>
 
-        <div class="label">Planned Litres</div>
-        <div class="cell"><input id="b_plan_TM" class="summary-input" type="number" placeholder="" /></div>
-        <div class="cell"><input id="b_plan_SM" class="summary-input" type="number" placeholder="" /></div>
-        <div class="cell"><input id="b_plan_SMM" class="summary-input" type="number" placeholder="" /></div>
-        <div class="cell"><input id="b_plan_SMC" class="summary-input" type="number" placeholder="" /></div>
-        <div class="cell"><input id="b_plan_A400" class="summary-input" type="number" placeholder="" /></div>
-        <div class="cell"><input id="b_plan_H500" class="summary-input" type="number" placeholder="" /></div>
-        <div class="cell"><input id="b_plan_FC400" class="summary-input" type="number" placeholder="" /></div>
-        <div class="cell"><input id="b_plan_FC1L" class="summary-input" type="number" placeholder="" /></div>
-
-        <div class="label">Remaining</div>
-        <div class="cell"><span id="b_remain_TM">0</span></div>
-        <div class="cell"><span id="b_remain_SM">0</span></div>
-        <div class="cell"><span id="b_remain_SMM">0</span></div>
-        <div class="cell"><span id="b_remain_SMC">0</span></div>
-        <div class="cell"><span id="b_remain_A400">0</span></div>
-        <div class="cell"><span id="b_remain_H500">0</span></div>
-        <div class="cell"><span id="b_remain_FC400">0</span></div>
-        <div class="cell"><span id="b_remain_FC1L">0</span></div>
+          <div class="summary-label">Remaining</div>
+          <div class="summary-cell"><span id="b_remain_TM">0</span></div>
+          <div class="summary-cell"><span id="b_remain_SM">0</span></div>
+          <div class="summary-cell"><span id="b_remain_SMM">0</span></div>
+          <div class="summary-cell"><span id="b_remain_SMC">0</span></div>
+          <div class="summary-cell"><span id="b_remain_A400">0</span></div>
+          <div class="summary-cell"><span id="b_remain_H500">0</span></div>
+          <div class="summary-cell"><span id="b_remain_FC400">0</span></div>
+          <div class="summary-cell"><span id="b_remain_FC1L">0</span></div>
+        </div>
       </div>
     </div>
   </main>
 
   <div id="toast" class="toast" aria-hidden="true"></div>
 
-  <!-- pdf libs -->
+  <!-- libs for PDF -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <script>
 (() => {
-  // Constants
+  // Config
   const STORAGE_PREFIX = 'milkData_';
   const MAX_DAYS = 365;
-  const todayStr = d => d.toISOString().slice(0,10);
-  const TODAY = todayStr(new Date());
-  // DOM
+  const now = new Date();
+  const TODAY = now.toISOString().slice(0,10);
   const dateInput = document.getElementById('dateInput');
   const addBtn = document.getElementById('addBtn');
   const copyPrevBtn = document.getElementById('copyPrevBtn');
@@ -229,6 +264,18 @@
   const downloadPdfBtn = document.getElementById('downloadPdfBtn');
   const dataBody = document.getElementById('dataBody');
   const toast = document.getElementById('toast');
+
+  const priceInputs = {
+    TM: document.getElementById('price_TM'),
+    SM: document.getElementById('price_SM'),
+    'SMALL M': document.getElementById('price_SMM'),
+    'SMALL C': document.getElementById('price_SMC'),
+    A400: document.getElementById('price_A400'),
+    H500: document.getElementById('price_H500'),
+    FCM: document.getElementById('price_FC400'),
+    FC1L: document.getElementById('price_FC1L')
+  };
+
   const planEls = {
     TM: document.getElementById('plan_TM'),
     SM: document.getElementById('plan_SM'),
@@ -237,143 +284,181 @@
     A400: document.getElementById('plan_A400'),
     H500: document.getElementById('plan_H500'),
     FC400: document.getElementById('plan_FC400'),
-    FC1L: document.getElementById('plan_FC1L'),
+    FC1L: document.getElementById('plan_FC1L')
   };
-  const priceInputs = {
-    TM: document.getElementById('price_TM'),
-    SM: document.getElementById('price_SM'),
-    'SMALL M': document.getElementById('price_SMM'),
-    'SMALL C': document.getElementById('price_SMC'),
-    A400: document.getElementById('price_A400'),
-    H500: document.getElementById('price_H500'),
-    FC400: document.getElementById('price_FC400'),
-    FC1L: document.getElementById('price_FC1L'),
-  };
-  // summary elements
-  const totals = {
-    tm: document.getElementById('tot_tm'), sm: document.getElementById('tot_sm'), smm: document.getElementById('tot_smm'),
-    smc: document.getElementById('tot_smc'), a400: document.getElementById('tot_a400'), h500: document.getElementById('tot_h500'),
-    fc400: document.getElementById('tot_fc400'), fc1l: document.getElementById('tot_fc1l'),
-    total: document.getElementById('tot_total'), paid: document.getElementById('tot_paid'), due: document.getElementById('tot_due')
-  };
+
   const b_sold = { TM: document.getElementById('b_sold_TM'), SM: document.getElementById('b_sold_SM'), 'SMALL M': document.getElementById('b_sold_SMM'), 'SMALL C': document.getElementById('b_sold_SMC'), A400: document.getElementById('b_sold_A400'), H500: document.getElementById('b_sold_H500'), FC400: document.getElementById('b_sold_FC400'), FC1L: document.getElementById('b_sold_FC1L') };
   const b_plan = { TM: document.getElementById('b_plan_TM'), SM: document.getElementById('b_plan_SM'), 'SMALL M': document.getElementById('b_plan_SMM'), 'SMALL C': document.getElementById('b_plan_SMC'), A400: document.getElementById('b_plan_A400'), H500: document.getElementById('b_plan_H500'), FC400: document.getElementById('b_plan_FC400'), FC1L: document.getElementById('b_plan_FC1L') };
   const b_remain = { TM: document.getElementById('b_remain_TM'), SM: document.getElementById('b_remain_SM'), 'SMALL M': document.getElementById('b_remain_SMM'), 'SMALL C': document.getElementById('b_remain_SMC'), A400: document.getElementById('b_remain_A400'), H500: document.getElementById('b_remain_H500'), FC400: document.getElementById('b_remain_FC400'), FC1L: document.getElementById('b_remain_FC1L') };
+
+  const totEls = {
+    tm: document.getElementById('tot_tm'), sm: document.getElementById('tot_sm'), smm: document.getElementById('tot_smm'), smc: document.getElementById('tot_smc'),
+    a400: document.getElementById('tot_a400'), h500: document.getElementById('tot_h500'), fc400: document.getElementById('tot_fc400'), fc1l: document.getElementById('tot_fc1l'),
+    total: document.getElementById('tot_total'), paid: document.getElementById('tot_paid'), due: document.getElementById('tot_due')
+  };
+
   const grandTotalEl = document.getElementById('grandTotal');
   const grandLitresEl = document.getElementById('grandLitres');
+  const plan_total = document.getElementById('plan_total');
 
-  // Toast
   function showToast(msg, ms=1400){
-    toast.textContent = msg; toast.classList.add('show');
-    clearTimeout(toast._t); toast._t = setTimeout(()=>{ toast.classList.remove('show'); }, ms);
+    toast.textContent = msg; toast.classList.add('show'); toast.setAttribute('aria-hidden','false');
+    clearTimeout(toast._t); toast._t = setTimeout(()=>{ toast.classList.remove('show'); toast.setAttribute('aria-hidden','true'); }, ms);
   }
 
-  // storage utils
-  function keyFor(d){ return STORAGE_PREFIX + d; }
-  function saveForDate(d){
-    try{
-      const payload = {
-        date: d,
-        prices: readGlobalPrices(),
-        plan: {
-          TM: Number(planEls.TM.value||0), SM: Number(planEls.SM.value||0),
-          'SMALL M': Number(planEls['SMALL M'].value||0), 'SMALL C': Number(planEls['SMALL C'].value||0),
-          A400: Number(planEls.A400.value||0), H500: Number(planEls.H500.value||0),
-          FC400: Number(planEls.FC400.value||0), FC1L: Number(planEls.FC1L.value||0)
-        },
-        rows: collectRows()
-      };
-      localStorage.setItem(keyFor(d), JSON.stringify(payload));
-      return true;
-    }catch(e){ console.error(e); return false; }
-  }
-  function listSavedDates(){
-    const out=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith(STORAGE_PREFIX)) out.push(k.slice(STORAGE_PREFIX.length)); } return out.sort();
-  }
-  function deleteOld(){
-    const cut = new Date(); cut.setDate(cut.getDate()-MAX_DAYS);
-    const keys = listSavedDates(); let deleted=0;
-    keys.forEach(d=>{
-      const dt = new Date(d+'T00:00:00'); if(dt < cut){ localStorage.removeItem(keyFor(d)); deleted++; }
+  // Storage helpers
+  function keyForDate(d){ return STORAGE_PREFIX + d; }
+  function listSavedDates(){ const keys=[]; for(let i=0;i<localStorage.length;i++){ const k=localStorage.key(i); if(k && k.startsWith(STORAGE_PREFIX)) keys.push(k.slice(STORAGE_PREFIX.length)); } return keys.sort(); }
+  function deleteOldRecords(){ const keys=listSavedDates(); if(!keys.length) return 0; const now=new Date(); const cutoff=new Date(now); cutoff.setDate(cutoff.getDate()-MAX_DAYS); let deleted=0; keys.forEach(d=>{ const dt=new Date(d+'T00:00:00'); if(dt<cutoff){ localStorage.removeItem(keyForDate(d)); deleted++; } }); if(deleted) showToast(`🧹 Deleted ${deleted} old record(s)`); return deleted; }
+
+  // Row creation
+  function createRow(data){
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="col-shop"><input class="shop" type="text" placeholder="Full name"></td>
+      <td class="col-mobile"><input class="mobile" type="tel" placeholder="Mobile"></td>
+      <td><input class="tm small-num" type="number" min="0" placeholder="0"></td>
+      <td><input class="sm small-num" type="number" min="0" placeholder="0"></td>
+      <td><input class="smm small-num" type="number" min="0" placeholder="0"></td>
+      <td><input class="smc small-num" type="number" min="0" placeholder="0"></td>
+      <td><input class="a400 small-num" type="number" min="0" placeholder="0"></td>
+      <td><input class="h500 small-num" type="number" min="0" placeholder="0"></td>
+      <td><input class="fc400 small-num" type="number" min="0" placeholder="0"></td>
+      <td><input class="fc1l small-num" type="number" min="0" placeholder="0"></td>
+      <td class="total-cell small-num">0</td>
+      <td class="paid-cell small-num">0</td>
+      <td><input class="due small-num" type="number" min="0" placeholder="0"></td>
+      <td><button class="send-btn" type="button">Send</button></td>
+      <td><button class="custom-btn" type="button">Edit</button></td>
+      <td><button class="delete-btn" type="button">Delete</button></td>
+    `;
+    if(data){
+      tr.querySelector('.shop').value = data.shop || '';
+      tr.querySelector('.mobile').value = data.mobile || '';
+      tr.querySelector('.tm').value = data.TM || '';
+      tr.querySelector('.sm').value = data.SM || '';
+      tr.querySelector('.smm').value = data.SMALLM || '';
+      tr.querySelector('.smc').value = data.SMALLC || '';
+      tr.querySelector('.a400').value = data.A400 || '';
+      tr.querySelector('.h500').value = data.H500 || '';
+      tr.querySelector('.fc400').value = data.FC400 || '';
+      tr.querySelector('.fc1l').value = data.FC1L || '';
+      tr.querySelector('.due').value = data.due || '';
+      tr._customPrices = data.customPrices || null;
+      if(tr._customPrices) tr.classList.add('row-customized');
+    }
+
+    // events
+    const inputs = tr.querySelectorAll('input[type="number"], input[type="text"], input[type="tel"]');
+    inputs.forEach(inp => inp.addEventListener('input', ()=>{ calculateRow(tr); updateAllSums(); autosaveSilent(); }));
+
+    tr.querySelector('.delete-btn').addEventListener('click', ()=> {
+      if(confirm('Are you sure you want to delete this row?')) {
+        if(tr.nextSibling && tr.nextSibling.classList && tr.nextSibling.classList.contains('custom-price-row')) tr.parentNode.removeChild(tr.nextSibling);
+        tr.parentNode.removeChild(tr); updateAllSums(); autosaveSilent();
+      }
     });
-    if(deleted) showToast(`Deleted ${deleted} old records`);
+
+    tr.querySelector('.custom-btn').addEventListener('click', ()=> toggleCustomRow(tr));
+    tr.querySelector('.send-btn').addEventListener('click', ()=> sendWhatsAppForRow(tr));
+    // when due changed, recalc paid = total - due (so user edits due)
+    tr.querySelector('.due').addEventListener('input', ()=>{
+      const total = parseFloat(tr.querySelector('.total-cell').textContent||'0')||0;
+      const due = Number(tr.querySelector('.due').value||0);
+      const paid = Math.max(0, total - due);
+      tr.querySelector('.paid-cell').textContent = formatNum(paid);
+      updateAllSums(); autosaveSilent();
+    });
+
+    return tr;
   }
 
-  // read global prices safely
-  function readGlobalPrices(){
+  function toggleCustomRow(tr){
+    if(tr.nextSibling && tr.nextSibling.classList && tr.nextSibling.classList.contains('custom-price-row')){ tr.parentNode.removeChild(tr.nextSibling); updateAllSums(); autosaveSilent(); return; }
+    const row = document.createElement('tr'); row.classList.add('custom-price-row');
+    row.innerHTML = `<td colspan="16" style="background:#fff8ed;padding:10px">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <div style="font-weight:800;color:#7a4300">Custom prices:</div>
+        <label>TM ₹<input class="c_tm" type="number" min="0" style="width:92px;padding:6px" /></label>
+        <label>SM ₹<input class="c_sm" type="number" min="0" style="width:92px;padding:6px" /></label>
+        <label>SML M ₹<input class="c_smm" type="number" min="0" style="width:92px;padding:6px" /></label>
+        <label>SML C ₹<input class="c_smc" type="number" min="0" style="width:92px;padding:6px" /></label>
+        <label>A400 ₹<input class="c_a400" type="number" min="0" style="width:92px;padding:6px" /></label>
+        <label>H500 ₹<input class="c_h500" type="number" min="0" style="width:92px;padding:6px" /></label>
+        <label>FCM ₹<input class="c_fc400" type="number" min="0" style="width:92px;padding:6px" /></label>
+        <label>FC1L ₹<input class="c_fc1l" type="number" min="0" style="width:92px;padding:6px" /></label>
+        <button class="btn small save-cust">Save</button>
+        <button class="btn small ghost cancel-cust">Cancel</button>
+      </div></td>`;
+    tr.parentNode.insertBefore(row, tr.nextSibling);
+
+    const g = readGlobalPricesSafe();
+    row.querySelector('.c_tm').value = (tr._customPrices && typeof tr._customPrices.TM === 'number') ? tr._customPrices.TM : g.TM;
+    row.querySelector('.c_sm').value = (tr._customPrices && typeof tr._customPrices.SM === 'number') ? tr._customPrices.SM : g.SM;
+    row.querySelector('.c_smm').value = (tr._customPrices && typeof tr._customPrices['SMALL M'] === 'number') ? tr._customPrices['SMALL M'] : g['SMALL M'];
+    row.querySelector('.c_smc').value = (tr._customPrices && typeof tr._customPrices['SMALL C'] === 'number') ? tr._customPrices['SMALL C'] : g['SMALL C'];
+    row.querySelector('.c_a400').value = (tr._customPrices && typeof tr._customPrices.A400 === 'number') ? tr._customPrices.A400 : g.A400;
+    row.querySelector('.c_h500').value = (tr._customPrices && typeof tr._customPrices.H500 === 'number') ? tr._customPrices.H500 : g.H500;
+    row.querySelector('.c_fc400').value = (tr._customPrices && typeof tr._customPrices.FC400 === 'number') ? tr._customPrices.FC400 : g.FC400;
+    row.querySelector('.c_fc1l').value = (tr._customPrices && typeof tr._customPrices.FC1L === 'number') ? tr._customPrices.FC1L : g.FC1L;
+
+    row.querySelector('.save-cust').addEventListener('click', ()=>{
+      tr._customPrices = {
+        TM: Number(row.querySelector('.c_tm').value||0),
+        SM: Number(row.querySelector('.c_sm').value||0),
+        'SMALL M': Number(row.querySelector('.c_smm').value||0),
+        'SMALL C': Number(row.querySelector('.c_smc').value||0),
+        A400: Number(row.querySelector('.c_a400').value||0),
+        H500: Number(row.querySelector('.c_h500').value||0),
+        FC400: Number(row.querySelector('.c_fc400').value||0),
+        FC1L: Number(row.querySelector('.c_fc1l').value||0)
+      };
+      tr.classList.add('row-customized');
+      calculateRow(tr); updateAllSums(); autosaveSilent(); showToast('Custom prices saved');
+      if(row && row.parentNode) row.parentNode.removeChild(row);
+    });
+    row.querySelector('.cancel-cust').addEventListener('click', ()=>{ if(row && row.parentNode) row.parentNode.removeChild(row); });
+  }
+
+  function readGlobalPricesSafe(){
     return {
       TM: Number(priceInputs.TM.value||0),
       SM: Number(priceInputs.SM.value||0),
       'SMALL M': Number(priceInputs['SMALL M'].value||0),
       'SMALL C': Number(priceInputs['SMALL C'].value||0),
       A400: Number(priceInputs.A400.value||0),
-      H500: Number(priceInputs.H500.value||0),
-      FC400: Number(priceInputs.FC400.value||0),
-      FC1L: Number(priceInputs.FC1L.value||0)
+      H500: Number(priceInputs.H500].value||0) // fallback fixed in next line
     };
   }
 
-  // row creation (single shop row card)
-  function createRow(data = {}){
-    // data: shop, mobile, TM, SM, SMALLM, SMALLC, A400, H500, FC400, FC1L, paid, customPrices
-    const row = document.createElement('div');
-    row.className = 'shop-row';
-    row.innerHTML = `
-      <div class="col-shop"><input class="shop-name" type="text" placeholder="Full name" value="${escapeHtml(data.shop||'')}"></div>
-      <div><input class="shop-mobile" type="tel" placeholder="Mobile" value="${escapeHtml(data.mobile||'')}"></div>
-      <div><input class="inp tm" type="number" min="0" inputmode="numeric" placeholder="" value="${valOrEmpty(data.TM)}"></div>
-      <div><input class="inp sm" type="number" min="0" inputmode="numeric" placeholder="" value="${valOrEmpty(data.SM)}"></div>
-      <div><input class="inp smm" type="number" min="0" inputmode="numeric" placeholder="" value="${valOrEmpty(data.SMALLM)}"></div>
-      <div><input class="inp smc" type="number" min="0" inputmode="numeric" placeholder="" value="${valOrEmpty(data.SMALLC)}"></div>
-      <div><input class="inp a400" type="number" min="0" inputmode="numeric" placeholder="" value="${valOrEmpty(data.A400)}"></div>
-      <div><input class="inp h500" type="number" min="0" inputmode="numeric" placeholder="" value="${valOrEmpty(data.H500)}"></div>
-      <div><input class="inp fc400" type="number" min="0" inputmode="numeric" placeholder="" value="${valOrEmpty(data.FC400)}"></div>
-      <div><input class="inp fc1l" type="number" min="0" inputmode="numeric" placeholder="" value="${valOrEmpty(data.FC1L)}"></div>
-      <div class="total-cell">0</div>
-      <div><input class="paid inp" type="number" min="0" inputmode="numeric" placeholder="" value="${valOrEmpty(data.paid)}"></div>
-      <div class="due-cell">0</div>
-      <div class="actions"><button class="btn-send">Send</button></div>
-      <div class="actions"><button class="btn-edit">Edit</button></div>
-      <div class="actions"><button class="btn-del">Delete</button></div>
-    `;
-    // attach custom prices if present
-    if(data.customPrices) row._custom = data.customPrices;
-
-    // listeners
-    const inputs = row.querySelectorAll('.inp');
-    inputs.forEach(i=>{
-      // clear placeholder "0" behavior: allow direct typing — no prefilled 0s
-      i.addEventListener('focus', e=>{
-        // select all to make editing fast
-        if(e.target.value) e.target.select();
-      });
-      i.addEventListener('input', ()=>{ recalcRow(row); recalcAll(); autosave(); });
-    });
-
-    row.querySelector('.btn-del').addEventListener('click', ()=>{
-      if(confirm('Delete this shop? This action cannot be undone.')){ row.remove(); recalcAll(); autosave(); }
-    });
-
-    row.querySelector('.btn-edit').addEventListener('click', ()=>{ toggleCustomEditor(row); });
-
-    row.querySelector('.btn-send').addEventListener('click', ()=>{ sendWhatsApp(row); });
-
-    // initial calc
-    recalcRow(row);
-    // mark if custom present
-    applyCustomHighlight(row);
-    return row;
+  // safer global read with try-catch (older browsers)
+  function readGlobalPricesSafe(){
+    try{
+      return {
+        TM: Number(document.getElementById('price_TM').value||0),
+        SM: Number(document.getElementById('price_SM').value||0),
+        'SMALL M': Number(document.getElementById('price_SMM').value||0),
+        'SMALL C': Number(document.getElementById('price_SMC').value||0),
+        A400: Number(document.getElementById('price_A400').value||0),
+        H500: Number(document.getElementById('price_H500').value||0),
+        FC400: Number(document.getElementById('price_FC400').value||0),
+        FC1L: Number(document.getElementById('price_FC1L').value||0)
+      };
+    }catch(e){
+      return {TM:0,SM:0,'SMALL M':0,'SMALL C':0,A400:0,H500:0,FC400:0,FC1L:0};
+    }
   }
 
-  function valOrEmpty(v){ return (typeof v === 'number' && !isNaN(v)) ? v : (v?escapeHtml(v):''); }
-  function escapeHtml(s){ if(!s) return ''; return String(s).replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+  function formatNum(n){ if(!isFinite(n)) return '0'; if(Math.round(n)===n) return String(Math.round(n)); return Number(n).toFixed(2); }
 
-  function recalcRow(row){
-    const global = readGlobalPrices();
-    const custom = row._custom || null;
-    const get = sel => Number(row.querySelector('.' + sel).value || 0);
-    const tm = get('tm'), sm = get('sm'), smm = get('smm'), smc = get('smc'), a400 = get('a400'), h500 = get('h500'), fc400 = get('fc400'), fc1l = get('fc1l');
-    const paid = Number(row.querySelector('.paid').value || 0);
+  function calculateRow(tr){
+    const global = readGlobalPricesSafe();
+    const custom = tr._customPrices || null;
+    const tm = Number(tr.querySelector('.tm').value||0), sm = Number(tr.querySelector('.sm').value||0),
+      smm = Number(tr.querySelector('.smm').value||0), smc = Number(tr.querySelector('.smc').value||0),
+      a400 = Number(tr.querySelector('.a400').value||0), h500 = Number(tr.querySelector('.h500').value||0),
+      fc400 = Number(tr.querySelector('.fc400').value||0), fc1l = Number(tr.querySelector('.fc1l').value||0);
+
     const p = {
       TM: (custom && typeof custom.TM === 'number') ? custom.TM : global.TM,
       SM: (custom && typeof custom.SM === 'number') ? custom.SM : global.SM,
@@ -384,221 +469,242 @@
       FC400: (custom && typeof custom.FC400 === 'number') ? custom.FC400 : global.FC400,
       FC1L: (custom && typeof custom.FC1L === 'number') ? custom.FC1L : global.FC1L
     };
-    const total = tm*p.TM + sm*p.SM + smm*p['SMALL M'] + smc*p['SMALL C'] + a400*p.A400 + h500*p.H500 + fc400*p.FC400 + fc1l*p.FC1L;
-    const due = Math.max(0, total - paid);
-    row.querySelector('.total-cell').textContent = formatNum(total);
-    row.querySelector('.due-cell').textContent = formatNum(due);
-    applyCustomHighlight(row);
+
+    const total = (tm * p.TM) + (sm * p.SM) + (smm * p['SMALL M']) + (smc * p['SMALL C'])
+                  + (a400 * p.A400) + (h500 * p.H500) + (fc400 * p.FC400) + (fc1l * p.FC1L);
+    const dueEl = tr.querySelector('.due');
+    const due = Number(dueEl.value||0);
+    const paid = Math.max(0, total - due);
+    tr.querySelector('.total-cell').textContent = formatNum(total);
+    tr.querySelector('.paid-cell').textContent = formatNum(paid);
+    // keep due as user-entered (if they left empty, show 0)
+    if(!dueEl.value) dueEl.placeholder = '0';
   }
 
-  function applyCustomHighlight(row){
-    if(row._custom){
-      row.classList.add('customed');
-    } else row.classList.remove('customed');
-  }
-
-  function recalcAll(){
-    const rows = Array.from(dataBody.children);
-    let tm=0, sm=0, smm=0, smc=0, a400=0, h500=0, fc400=0, fc1l=0, totalMoney=0, paidSum=0, dueSum=0;
-    rows.forEach(r=>{
-      const get = sel => Number(r.querySelector('.' + sel).value || 0);
-      tm += get('tm'); sm += get('sm'); smm += get('smm'); smc += get('smc'); a400 += get('a400'); h500 += get('h500'); fc400 += get('fc400'); fc1l += get('fc1l');
-      totalMoney += Number(r.querySelector('.total-cell').textContent || 0);
-      paidSum += Number(r.querySelector('.paid').value || 0);
-      dueSum += Number(r.querySelector('.due-cell').textContent || 0);
+  function updateAllSums(){
+    let tmSum=0, smSum=0, smmSum=0, smcSum=0, a400Sum=0, h500Sum=0, fc400Sum=0, fc1lSum=0;
+    let totalMoney=0, paidSum=0, dueSum=0;
+    const rows = Array.from(dataBody.querySelectorAll('tr')).filter(r=>!r.classList.contains('custom-price-row'));
+    rows.forEach(tr=>{
+      const tm = Number(tr.querySelector('.tm').value||0), sm = Number(tr.querySelector('.sm').value||0),
+        smm = Number(tr.querySelector('.smm').value||0), smc = Number(tr.querySelector('.smc').value||0),
+        a400 = Number(tr.querySelector('.a400').value||0), h500 = Number(tr.querySelector('.h500').value||0),
+        fc400 = Number(tr.querySelector('.fc400').value||0), fc1l = Number(tr.querySelector('.fc1l').value||0);
+      const total = parseFloat((tr.querySelector('.total-cell').textContent||'0').replace(/,/g,''))||0;
+      const paid = parseFloat((tr.querySelector('.paid-cell').textContent||'0').replace(/,/g,''))||0;
+      const due = Number(tr.querySelector('.due').value||0);
+      tmSum += tm; smSum += sm; smmSum += smm; smcSum += smc; a400Sum += a400; h500Sum += h500; fc400Sum += fc400; fc1lSum += fc1l;
+      totalMoney += total; paidSum += paid; dueSum += due;
     });
-    totals.tm.textContent = tm; totals.sm.textContent = sm; totals.smm.textContent = smm; totals.smc.textContent = smc;
-    totals.a400.textContent = a400; totals.h500.textContent = h500; totals.fc400.textContent = fc400; totals.fc1l.textContent = fc1l;
-    totals.total.textContent = formatNum(totalMoney); totals.paid.textContent = formatNum(paidSum); totals.due.textContent = formatNum(dueSum);
-    grandTotalEl.textContent = '₹' + formatNum(totalMoney);
-    const litres = tm+sm+smm+smc+a400+h500+fc400+fc1l;
-    grandLitresEl.textContent = formatNum(litres);
 
-    // summary sold/planned/remaining
-    b_sold.TM.textContent = tm; b_sold.SM.textContent = sm; b_sold['SMALL M'].textContent = smm; b_sold['SMALL C'].textContent = smc;
-    b_sold.A400.textContent = a400; b_sold.H500.textContent = h500; b_sold.FC400.textContent = fc400; b_sold.FC1L.textContent = fc1l;
+    // totals into footer
+    document.getElementById('tot_tm').textContent = formatNum(tmSum);
+    document.getElementById('tot_sm').textContent = formatNum(smSum);
+    document.getElementById('tot_smm').textContent = formatNum(smmSum);
+    document.getElementById('tot_smc').textContent = formatNum(smcSum);
+    document.getElementById('tot_a400').textContent = formatNum(a400Sum);
+    document.getElementById('tot_h500').textContent = formatNum(h500Sum);
+    document.getElementById('tot_fc400').textContent = formatNum(fc400Sum);
+    document.getElementById('tot_fc1l').textContent = formatNum(fc1lSum);
+    document.getElementById('tot_total').textContent = formatNum(totalMoney);
+    document.getElementById('tot_paid').textContent = formatNum(paidSum);
+    document.getElementById('tot_due').textContent = formatNum(dueSum);
 
-    // planned top row and bottom summary planned interplay
+    grandTotalEl.textContent = `₹${formatNum(totalMoney)}`;
+    const litresSold = tmSum + smSum + smmSum + smcSum + a400Sum + h500Sum + fc400Sum + fc1lSum;
+    grandLitresEl.textContent = formatNum(litresSold);
+
+    // planned total
     const types = ['TM','SM','SMALL M','SMALL C','A400','H500','FC400','FC1L'];
-    let plannedTotal = 0;
-    types.forEach(t=>{
-      const val = Number(planEls[t].value || 0);
-      plannedTotal += val;
-      // summary planned sync only if user hasn't manually edited bottom planned fields (we'll keep bottom inputs independent) — to keep it simple below we copy top planned into bottom planned automatically
-      if(b_plan[t]) {
-        b_plan[t].value = val || '';
-      }
-      const remain = Math.max(0, (val || 0) - (b_sold[t].textContent*1 || 0));
-      if(b_remain[t]) b_remain[t].textContent = formatNum(remain);
+    let plannedSum = 0; types.forEach(t=> plannedSum += Number(planEls[t] ? planEls[t].value||0 : 0));
+    plan_total.textContent = formatNum(plannedSum);
+
+    // bottom summary: sold (by liters), planned (from planEls) and remaining
+    b_sold.TM.textContent = formatNum(tmSum);
+    b_sold.SM.textContent = formatNum(smSum);
+    b_sold['SMALL M'].textContent = formatNum(smmSum);
+    b_sold['SMALL C'].textContent = formatNum(smcSum);
+    b_sold.A400.textContent = formatNum(a400Sum);
+    b_sold.H500.textContent = formatNum(h500Sum);
+    b_sold.FC400.textContent = formatNum(fc400Sum);
+    b_sold.FC1L.textContent = formatNum(fc1lSum);
+
+    types.forEach((t,i)=>{
+      const planVal = Number(planEls[t] ? planEls[t].value||0 : 0);
+      const soldVal = Number(b_sold[t].textContent||0);
+      if(b_plan[t]) b_plan[t].value = planVal || '';
+      if(b_remain[t]) b_remain[t].textContent = formatNum(Math.max(0, planVal - soldVal));
     });
-    document.getElementById('plan_total').textContent = formatNum(plannedTotal);
+
+    autosaveSilent();
   }
 
-  // collect rows into JS objects for saving/export
   function collectRows(){
-    return Array.from(dataBody.children).map(r=>{
-      return {
-        shop: r.querySelector('.shop-name').value || '',
-        mobile: r.querySelector('.shop-mobile').value || '',
-        TM: Number(r.querySelector('.tm').value || 0),
-        SM: Number(r.querySelector('.sm').value || 0),
-        SMALLM: Number(r.querySelector('.smm').value || 0),
-        SMALLC: Number(r.querySelector('.smc').value || 0),
-        A400: Number(r.querySelector('.a400').value || 0),
-        H500: Number(r.querySelector('.h500').value || 0),
-        FC400: Number(r.querySelector('.fc400').value || 0),
-        FC1L: Number(r.querySelector('.fc1l').value || 0),
-        paid: Number(r.querySelector('.paid').value || 0),
-        customPrices: r._custom || null
-      };
-    });
-  }
-
-  // autosave small debounce
-  let _saveT;
-  function autosave(){ clearTimeout(_saveT); _saveT = setTimeout(()=> saveForDate(dateInput.value || TODAY), 350); }
-
-  // create and add a new empty shop row
-  function addShop(data){
-    const r = createRow(data || {});
-    dataBody.appendChild(r);
-    // scroll into view so row isn't hidden behind header
-    setTimeout(()=> {
-      r.scrollIntoView({behavior:'smooth', block:'center'});
-      const firstInput = r.querySelector('.shop-name');
-      if(firstInput) firstInput.focus();
-    }, 120);
-    recalcAll(); autosave();
-  }
-
-  // copy previous day's shop list (names, mobiles & custom prices) but reset quantities
-  function copyPrev(){
-    const cur = dateInput.value || TODAY;
-    const prev = previousDate(cur);
-    const raw = localStorage.getItem(keyFor(prev));
-    if(!raw){ alert('No previous day data to copy'); return; }
-    try{
-      const data = JSON.parse(raw);
-      if(!Array.isArray(data.rows) || !data.rows.length){ alert('Previous day has no shops'); return; }
-      if(!confirm('Copy shops & custom prices from previous day? Quantities and payments will be reset.')) return;
-      data.rows.forEach(r=>{
-        const newRow = {
-          shop: r.shop || '',
-          mobile: r.mobile || '',
-          TM: 0, SM:0, SMALLM:0, SMALLC:0, A400:0, H500:0, FC400:0, FC1L:0, paid:0,
-          customPrices: r.customPrices || null
-        };
-        addShop(newRow);
+    const out=[];
+    const rows = Array.from(dataBody.querySelectorAll('tr')).filter(r=>!r.classList.contains('custom-price-row'));
+    rows.forEach(tr=>{
+      out.push({
+        shop: tr.querySelector('.shop').value||'',
+        mobile: tr.querySelector('.mobile').value||'',
+        TM: Number(tr.querySelector('.tm').value||0),
+        SM: Number(tr.querySelector('.sm').value||0),
+        SMALLM: Number(tr.querySelector('.smm').value||0),
+        SMALLC: Number(tr.querySelector('.smc').value||0),
+        A400: Number(tr.querySelector('.a400').value||0),
+        H500: Number(tr.querySelector('.h500').value||0),
+        FC400: Number(tr.querySelector('.fc400').value||0),
+        FC1L: Number(tr.querySelector('.fc1l').value||0),
+        due: Number(tr.querySelector('.due').value||0),
+        customPrices: tr._customPrices || null
       });
-      showToast('Copied shops & custom prices from prev day');
-    }catch(e){ console.error(e); alert('Copy failed'); }
-  }
-
-  // toggle custom price editor inline (one below the row)
-  function toggleCustomEditor(row){
-    // if editor already exists remove it
-    if(row._editor){
-      row._editor.remove(); delete row._editor; return;
-    }
-    // create editor row element
-    const editor = document.createElement('div');
-    editor.style.gridColumn = '1 / -1';
-    editor.style.padding = '8px';
-    editor.style.background = '#fff8ed';
-    editor.style.borderRadius = '6px';
-    editor.innerHTML = `
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
-        <div style="font-weight:800;color:#7a4300">Custom prices</div>
-        <label>TM ₹<input class="c_tm" type="number" min="0" style="width:80px;padding:6px;border-radius:6px;border:1px solid #eee"></label>
-        <label>SM ₹<input class="c_sm" type="number" min="0" style="width:80px;padding:6px;border-radius:6px;border:1px solid #eee"></label>
-        <label>SML M ₹<input class="c_smm" type="number" min="0" style="width:80px;padding:6px;border-radius:6px;border:1px solid #eee"></label>
-        <label>SML C ₹<input class="c_smc" type="number" min="0" style="width:80px;padding:6px;border-radius:6px;border:1px solid #eee"></label>
-        <label>A400 ₹<input class="c_a400" type="number" min="0" style="width:80px;padding:6px;border-radius:6px;border:1px solid #eee"></label>
-        <label>H500 ₹<input class="c_h500" type="number" min="0" style="width:80px;padding:6px;border-radius:6px;border:1px solid #eee"></label>
-        <label>FCM ₹<input class="c_fc400" type="number" min="0" style="width:80px;padding:6px;border-radius:6px;border:1px solid #eee"></label>
-        <label>FC1L ₹<input class="c_fc1l" type="number" min="0" style="width:80px;padding:6px;border-radius:6px;border:1px solid #eee"></label>
-        <button class="btn save-cust small">Save</button><button class="btn small ghost cancel-cust">Cancel</button>
-      </div>`;
-    // insert editor after row
-    row.parentNode.insertBefore(editor, row.nextSibling);
-    row._editor = editor;
-    // fill initial values from either row._custom or global
-    const g = readGlobalPrices();
-    editor.querySelector('.c_tm').value = (row._custom && row._custom.TM !== undefined) ? row._custom.TM : g.TM;
-    editor.querySelector('.c_sm').value = (row._custom && row._custom.SM !== undefined) ? row._custom.SM : g.SM;
-    editor.querySelector('.c_smm').value = (row._custom && row._custom['SMALL M'] !== undefined) ? row._custom['SMALL M'] : g['SMALL M'];
-    editor.querySelector('.c_smc').value = (row._custom && row._custom['SMALL C'] !== undefined) ? row._custom['SMALL C'] : g['SMALL C'];
-    editor.querySelector('.c_a400').value = (row._custom && row._custom.A400 !== undefined) ? row._custom.A400 : g.A400;
-    editor.querySelector('.c_h500').value = (row._custom && row._custom.H500 !== undefined) ? row._custom.H500 : g.H500;
-    editor.querySelector('.c_fc400').value = (row._custom && row._custom.FC400 !== undefined) ? row._custom.FC400 : g.FC400;
-    editor.querySelector('.c_fc1l').value = (row._custom && row._custom.FC1L !== undefined) ? row._custom.FC1L : g.FC1L;
-
-    editor.querySelector('.cancel-cust').addEventListener('click', ()=>{ editor.remove(); delete row._editor; });
-    editor.querySelector('.save-cust').addEventListener('click', ()=>{
-      row._custom = {
-        TM: Number(editor.querySelector('.c_tm').value||0),
-        SM: Number(editor.querySelector('.c_sm').value||0),
-        'SMALL M': Number(editor.querySelector('.c_smm').value||0),
-        'SMALL C': Number(editor.querySelector('.c_smc').value||0),
-        A400: Number(editor.querySelector('.c_a400').value||0),
-        H500: Number(editor.querySelector('.c_h500').value||0),
-        FC400: Number(editor.querySelector('.c_fc400').value||0),
-        FC1L: Number(editor.querySelector('.c_fc1l').value||0)
-      };
-      editor.remove(); delete row._editor;
-      recalcRow(row); recalcAll(); autosave();
-      showToast('Custom prices saved');
     });
+    return out;
   }
 
-  // WhatsApp send compose
-  function sendWhatsApp(row){
-    const shop = row.querySelector('.shop-name').value || 'Customer';
-    let mobile = (row.querySelector('.shop-mobile').value || '').replace(/\D/g,'');
-    if(!mobile){ alert('Enter mobile to send'); return; }
+  function saveForDate(dateStr){
+    try{
+      const payload = {
+        date: dateStr,
+        prices: readGlobalPricesSafe(),
+        plan: { TM: Number(planEls.TM.value||0), SM: Number(planEls.SM.value||0), 'SMALL M': Number(planEls['SMALL M'].value||0), 'SMALL C': Number(planEls['SMALL C'].value||0), A400: Number(planEls.A400.value||0), H500: Number(planEls.H500.value||0), FC400: Number(planEls.FC400.value||0), FC1L: Number(planEls.FC1L.value||0) },
+        rows: collectRows()
+      };
+      localStorage.setItem(STORAGE_PREFIX+dateStr, JSON.stringify(payload));
+      return true;
+    }catch(e){ console.error(e); return false; }
+  }
+
+  function autosaveSilent(){ const cur = dateInput.value || TODAY; saveForDate(cur); }
+
+  function loadForDate(dateStr, autoCopyPrev=true){
+    // save current before switching
+    const curNow = dateInput._current || TODAY;
+    if(curNow && curNow !== dateStr) saveForDate(curNow);
+    dateInput._current = dateStr;
+    dateInput.value = dateStr;
+
+    const raw = localStorage.getItem(STORAGE_PREFIX + dateStr);
+    if(raw){
+      try{
+        const data = JSON.parse(raw);
+        if(data.prices){
+          if(typeof data.prices.TM !== 'undefined') priceInputs.TM.value = data.prices.TM;
+          if(typeof data.prices.SM !== 'undefined') priceInputs.SM.value = data.prices.SM;
+          if(typeof data.prices['SMALL M'] !== 'undefined') priceInputs['SMALL M'].value = data.prices['SMALL M'];
+          if(typeof data.prices['SMALL C'] !== 'undefined') priceInputs['SMALL C'].value = data.prices['SMALL C'];
+          if(typeof data.prices.A400 !== 'undefined') priceInputs.A400.value = data.prices.A400;
+          if(typeof data.prices.H500 !== 'undefined') priceInputs.H500.value = data.prices.H500;
+          if(typeof data.prices.FC400 !== 'undefined') priceInputs.FC400.value = data.prices.FC400;
+          if(typeof data.prices.FC1L !== 'undefined') priceInputs.FC1L.value = data.prices.FC1L;
+        }
+        if(data.plan){ Object.keys(planEls).forEach(k => { if(typeof data.plan[k] !== 'undefined') planEls[k].value = data.plan[k]; }); }
+        dataBody.innerHTML = '';
+        if(Array.isArray(data.rows) && data.rows.length){
+          data.rows.forEach(r=>{
+            const tr = createRow(r); dataBody.appendChild(tr);
+            if(r.customPrices) tr._customPrices = r.customPrices;
+            calculateRow(tr);
+          });
+          updateAllSums();
+          return;
+        }
+      }catch(e){ console.error('parse error', e); }
+    }
+
+    if(autoCopyPrev){
+      const prev = previousDate(dateStr);
+      const prevRaw = localStorage.getItem(STORAGE_PREFIX + prev);
+      if(prevRaw){
+        try{
+          const prevData = JSON.parse(prevRaw);
+          if(Array.isArray(prevData.rows) && prevData.rows.length){
+            dataBody.innerHTML = '';
+            prevData.rows.forEach(r=>{
+              const newRow = { shop: r.shop || '', mobile: r.mobile || '', TM:0, SM:0, SMALLM:0, SMALLC:0, A400:0, H500:0, FC400:0, FC1L:0, due:0, customPrices: r.customPrices || null };
+              const tr = createRow(newRow);
+              if(newRow.customPrices) tr._customPrices = newRow.customPrices;
+              dataBody.appendChild(tr);
+              calculateRow(tr);
+            });
+            updateAllSums();
+            saveForDate(dateStr);
+            showToast('Copied shops & custom prices from previous day');
+            return;
+          }
+        }catch(e){ console.error('prev parse error', e); }
+      }
+    }
+
+    // default: one empty row
+    dataBody.innerHTML = '';
+    dataBody.appendChild(createRow());
+    updateAllSums();
+  }
+
+  function previousDate(dateStr){
+    const d = new Date(dateStr + 'T00:00:00'); d.setDate(d.getDate() - 1);
+    return d.toISOString().slice(0,10);
+  }
+
+  function addShop(){
+    const tr = createRow(); dataBody.appendChild(tr);
+    // scroll new row into view below header
+    setTimeout(()=> scrollIntoView(tr), 80);
+    autosaveSilent();
+  }
+
+  function scrollIntoView(el){
+    const headerH = document.querySelector('header').offsetHeight + 12;
+    const rect = el.getBoundingClientRect();
+    const absoluteTop = window.scrollY + rect.top;
+    window.scrollTo({top: absoluteTop - headerH, behavior: 'smooth'});
+  }
+
+  function sendWhatsAppForRow(tr){
+    const shop = tr.querySelector('.shop').value || 'Customer';
+    let mobile = (tr.querySelector('.mobile').value||'').replace(/\D/g,'');
+    if(!mobile){ alert('Please enter mobile'); return; }
     if(mobile.length>10 && mobile.startsWith('91')) mobile = mobile.slice(-10);
-    if(mobile.length !== 10){ alert('Enter valid 10-digit mobile'); return; }
-    // build message
+    if(mobile.length!==10){ alert('Enter valid 10-digit mobile'); return; }
+    const tm = Number(tr.querySelector('.tm').value||0), sm = Number(tr.querySelector('.sm').value||0),
+      smm = Number(tr.querySelector('.smm').value||0), smc = Number(tr.querySelector('.smc').value||0),
+      a400 = Number(tr.querySelector('.a400').value||0), h500 = Number(tr.querySelector('.h500').value||0),
+      fc400 = Number(tr.querySelector('.fc400').value||0), fc1l = Number(tr.querySelector('.fc1l').value||0);
+    const total = tr.querySelector('.total-cell').textContent || '0';
+    const due = Number(tr.querySelector('.due').value||0);
+    const paid = parseFloat(tr.querySelector('.paid-cell').textContent||'0')||0;
     const date = dateInput.value || TODAY;
-    const tm = Number(row.querySelector('.tm').value || 0), sm = Number(row.querySelector('.sm').value || 0),
-      smm = Number(row.querySelector('.smm').value || 0), smc = Number(row.querySelector('.smc').value || 0),
-      a400 = Number(row.querySelector('.a400').value || 0), h500 = Number(row.querySelector('.h500').value || 0),
-      fc400 = Number(row.querySelector('.fc400').value || 0), fc1l = Number(row.querySelector('.fc1l').value || 0);
-    const total = row.querySelector('.total-cell').textContent || '0';
-    const paid = Number(row.querySelector('.paid').value || 0);
-    const due = row.querySelector('.due-cell').textContent || '0';
-    const global = readGlobalPrices(); const custom = row._custom || null;
+    const global = readGlobalPricesSafe(); const custom = tr._customPrices || null;
     const priceUsed = {
-      TM: custom && typeof custom.TM === 'number' ? custom.TM : global.TM,
-      SM: custom && typeof custom.SM === 'number' ? custom.SM : global.SM,
-      'SMALL M': custom && typeof custom['SMALL M'] === 'number' ? custom['SMALL M'] : global['SMALL M'],
-      'SMALL C': custom && typeof custom['SMALL C'] === 'number' ? custom['SMALL C'] : global['SMALL C'],
-      A400: custom && typeof custom.A400 === 'number' ? custom.A400 : global.A400,
-      H500: custom && typeof custom.H500 === 'number' ? custom.H500 : global.H500,
-      FC400: custom && typeof custom.FC400 === 'number' ? custom.FC400 : global.FC400,
-      FC1L: custom && typeof custom.FC1L === 'number' ? custom.FC1L : global.FC1L
+      TM: custom&&typeof custom.TM==='number'?custom.TM:global.TM,
+      SM: custom&&typeof custom.SM==='number'?custom.SM:global.SM,
+      'SMALL M': custom&&typeof custom['SMALL M'] === 'number'?custom['SMALL M']:global['SMALL M'],
+      'SMALL C': custom&&typeof custom['SMALL C'] === 'number'?custom['SMALL C']:global['SMALL C'],
+      A400: custom&&typeof custom.A400==='number'?custom.A400:global.A400,
+      H500: custom&&typeof custom.H500==='number'?custom.H500:global.H500,
+      FC400: custom&&typeof custom.FC400==='number'?custom.FC400:global.FC400,
+      FC1L: custom&&typeof custom.FC1L==='number'?custom.FC1L:global.FC1L
     };
-    const lines = [];
-    if(tm) lines.push(`TM ${tm} x ${priceUsed.TM} = ${(tm*priceUsed.TM).toFixed(2)}`);
-    if(sm) lines.push(`SM ${sm} x ${priceUsed.SM} = ${(sm*priceUsed.SM).toFixed(2)}`);
-    if(smm) lines.push(`SML M ${smm} x ${priceUsed['SMALL M']} = ${(smm*priceUsed['SMALL M']).toFixed(2)}`);
-    if(smc) lines.push(`SML C ${smc} x ${priceUsed['SMALL C']} = ${(smc*priceUsed['SMALL C']).toFixed(2)}`);
-    if(a400) lines.push(`A400 ${a400} x ${priceUsed.A400} = ${(a400*priceUsed.A400).toFixed(2)}`);
-    if(h500) lines.push(`H500 ${h500} x ${priceUsed.H500} = ${(h500*priceUsed.H500).toFixed(2)}`);
-    if(fc400) lines.push(`FCM ${fc400} x ${priceUsed.FC400} = ${(fc400*priceUsed.FC400).toFixed(2)}`);
-    if(fc1l) lines.push(`FC1L ${fc1l} x ${priceUsed.FC1L} = ${(fc1l*priceUsed.FC1L).toFixed(2)}`);
-    let msg = `Hello ${shop},%0AYour milk bill for ${date}:%0A`;
-    if(lines.length) msg += lines.join('%0A') + '%0A';
+    let msg = `Hello ${shop},%0AYour milk bill for ${date}:%0A`; const list=[];
+    if(tm) list.push(`TM ${tm} x ${priceUsed.TM} = ${(tm*priceUsed.TM).toFixed(2)}`);
+    if(sm) list.push(`SM ${sm} x ${priceUsed.SM} = ${(sm*priceUsed.SM).toFixed(2)}`);
+    if(smm) list.push(`SML M ${smm} x ${priceUsed['SMALL M']} = ${(smm*priceUsed['SMALL M']).toFixed(2)}`);
+    if(smc) list.push(`SML C ${smc} x ${priceUsed['SMALL C']} = ${(smc*priceUsed['SMALL C']).toFixed(2)}`);
+    if(a400) list.push(`A400 ${a400} x ${priceUsed.A400} = ${(a400*priceUsed.A400).toFixed(2)}`);
+    if(h500) list.push(`H500 ${h500} x ${priceUsed.H500} = ${(h500*priceUsed.H500).toFixed(2)}`);
+    if(fc400) list.push(`FCM ${fc400} x ${priceUsed.FC400} = ${(fc400*priceUsed.FC400).toFixed(2)}`);
+    if(fc1l) list.push(`FC1L ${fc1l} x ${priceUsed.FC1L} = ${(fc1l*priceUsed.FC1L).toFixed(2)}`);
+    if(list.length) msg += list.join('%0A') + '%0A';
     msg += `Total: ₹${total}%0APaid: ₹${paid.toFixed(2)}%0ADue: ₹${due}%0A- Sambashiva Milk Agency`;
-    const url = `https://wa.me/91${mobile}?text=${encodeURIComponent(msg)}`;
-    window.open(url,'_blank');
+    window.open(`https://wa.me/91${mobile}?text=${msg}`, '_blank');
   }
 
-  // PDF direct download A4 portrait with banner included
+  // PDF generation: full page (banner + entire table) portrait A4 direct download
   async function downloadPdfDirect(){
     try{
       showToast('Preparing PDF...');
       const container = document.body;
+      // temporarily expand width for good resolution on wide tables
       const canvas = await html2canvas(container, { scale: 2, useCORS:true, allowTaint:true });
       const imgData = canvas.toDataURL('image/png');
       const { jsPDF } = window.jspdf;
@@ -610,121 +716,90 @@
       if(imgHeight <= pageHeight){
         pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
       } else {
-        // slice vertically
         const canvasH = canvas.height;
-        const sliceH = Math.floor(canvas.width * (pageHeight / pageWidth));
+        const sliceHeight = Math.floor(canvas.width * (pageHeight / pageWidth));
         let y = 0;
         while(y < canvasH){
           const slice = document.createElement('canvas');
           slice.width = canvas.width;
-          slice.height = Math.min(sliceH, canvasH - y);
+          slice.height = Math.min(sliceHeight, canvasH - y);
           const ctx = slice.getContext('2d');
           ctx.drawImage(canvas, 0, y, canvas.width, slice.height, 0, 0, slice.width, slice.height);
           const sliceData = slice.toDataURL('image/png');
           const sliceImgH = (slice.height * imgWidth) / canvas.width;
           pdf.addImage(sliceData, 'PNG', 0, 0, imgWidth, sliceImgH);
-          y += sliceH;
+          y += sliceHeight;
           if(y < canvasH) pdf.addPage();
         }
       }
       const filename = `MilkReport_${(dateInput.value||TODAY)}.pdf`;
       pdf.save(filename);
       showToast('PDF downloaded');
-    }catch(e){ console.error(e); alert('PDF failed: '+(e && e.message)); }
+    }catch(e){ console.error(e); alert('PDF generation failed: ' + (e && e.message)); }
   }
 
-  // helpers
-  function formatNum(n){ if(!isFinite(n)) return '0'; if(Math.round(n)===n) return String(Math.round(n)); return Number(n).toFixed(2); }
-  function previousDate(d){ const dt=new Date(d+'T00:00:00'); dt.setDate(dt.getDate()-1); return dt.toISOString().slice(0,10); }
-
-  // load/save
-  function loadForDate(d, autoCopyPrev=true){
-    // save current before switching
-    const curNow = dateInput._current || TODAY;
-    if(curNow && curNow !== d) saveForDate(curNow);
-    dateInput._current = d;
-    dateInput.value = d;
-    const raw = localStorage.getItem(keyFor(d));
-    if(raw){
-      try{
-        const parsed = JSON.parse(raw);
-        if(parsed.prices) {
-          // restore prices
-          Object.keys(parsed.prices).forEach(k=>{
-            if(priceInputs[k]) priceInputs[k].value = parsed.prices[k];
-          });
-        }
-        if(parsed.plan){
-          Object.keys(parsed.plan).forEach(k=>{
-            if(planEls[k]) planEls[k].value = parsed.plan[k] || '';
-          });
-        }
-        dataBody.innerHTML = '';
-        if(Array.isArray(parsed.rows) && parsed.rows.length){
-          parsed.rows.forEach(r=> addShop(r));
-          recalcAll(); return;
-        }
-      }catch(e){ console.error('parse error',e); }
-    }
-    // if none & autoCopyPrev true, copy shops (names & custom prices) only
-    if(autoCopyPrev){
-      const prev = previousDate(d);
-      const rawp = localStorage.getItem(keyFor(prev));
-      if(rawp){
-        try{
-          const p = JSON.parse(rawp);
-          if(Array.isArray(p.rows) && p.rows.length){
-            dataBody.innerHTML = '';
-            p.rows.forEach(r=>{
-              addShop({ shop: r.shop||'', mobile: r.mobile||'', customPrices: r.customPrices||null });
-            });
-            recalcAll(); saveForDate(d); showToast('Copied shops & custom prices from previous day'); return;
-          }
-        }catch(e){ console.error('prev parse error', e); }
-      }
-    }
-    // default: single empty row
-    dataBody.innerHTML = '';
-    addShop();
-    recalcAll();
-  }
-
-  // export/import & actions
-  addBtn.addEventListener('click', ()=> addShop());
-  copyPrevBtn.addEventListener('click', ()=> copyPrev());
-  clearBtn.addEventListener('click', ()=>{
-    if(confirm('Clear all data for this date? This will remove rows & saved data for this date only.')) {
-      localStorage.removeItem(keyFor(dateInput.value || TODAY));
-      dataBody.innerHTML = '';
-      addShop();
-      recalcAll();
-      showToast('Cleared current date');
-    }
-  });
-  saveBtn.addEventListener('click', ()=>{ saveForDate(dateInput.value || TODAY); showToast('Saved'); });
-  downloadPdfBtn.addEventListener('click', downloadPdfDirect);
-
-  // price or plan changes recalc
-  Object.values(priceInputs).forEach(inp => inp.addEventListener('input', ()=>{ Array.from(dataBody.children).forEach(r=> recalcRow(r)); recalcAll(); autosave(); }));
-  Object.values(planEls).forEach(inp => inp.addEventListener('input', ()=>{ recalcAll(); autosave(); }));
-
-  // date change
-  dateInput.addEventListener('change', ()=> { const nd = dateInput.value || TODAY; loadForDate(nd, true); showToast('Loaded ' + nd); });
-
-  // beforeunload save
-  window.addEventListener('beforeunload', ()=> saveForDate(dateInput.value || TODAY));
-
-  // init
-  (function init(){
+  // --- lifecycle & events
+  function init(){
     dateInput.value = TODAY; dateInput._current = TODAY;
-    deleteOld();
+    deleteOldRecords();
     loadForDate(TODAY, true);
-    showToast('Ready');
-    window._milkApp = { loadForDate, saveForDate, listSavedDates, downloadPdfDirect };
-  })();
 
-  // small utilities
-  function sendTest(){}
+    // listeners
+    addBtn.addEventListener('click', addShop);
+    copyPrevBtn.addEventListener('click', ()=> copyPreviousManual());
+    clearBtn.addEventListener('click', ()=> {
+      if(confirm('Clear all data for this date? This will remove rows & saved data for this date only.')) {
+        localStorage.removeItem(STORAGE_PREFIX + (dateInput.value||TODAY));
+        dataBody.innerHTML=''; dataBody.appendChild(createRow()); updateAllSums(); showToast('Cleared current date');
+      }
+    });
+    saveBtn.addEventListener('click', ()=>{ saveForDate(dateInput.value||TODAY); showToast('Saved'); });
+    downloadPdfBtn.addEventListener('click', ()=>{ downloadPdfDirect(); });
+
+    Object.values(priceInputs).forEach(inp => inp.addEventListener('input', ()=>{ Array.from(dataBody.querySelectorAll('tr')).forEach(tr=>{ if(!tr.classList.contains('custom-price-row')) calculateRow(tr); }); updateAllSums(); autosaveSilent(); }));
+
+    Object.values(planEls).forEach(inp => inp.addEventListener('input', ()=>{ updateAllSums(); autosaveSilent(); }));
+
+    // bottom summary plan fields editable also update main plan fields when changed
+    Object.keys(b_plan).forEach(k=>{
+      const el = b_plan[k];
+      if(!el) return;
+      el.addEventListener('input', ()=> {
+        if(planEls[k]) planEls[k].value = el.value || '';
+        updateAllSums(); autosaveSilent();
+      });
+    });
+
+    dateInput.addEventListener('change', ()=>{ const newDate = dateInput.value || TODAY; loadForDate(newDate, true); showToast(`Loaded ${newDate}`); });
+
+    window.addEventListener('beforeunload', ()=>{ saveForDate(dateInput.value || TODAY); });
+
+    // small chime (optional)
+    try{ const Ctx = window.AudioContext || window.webkitAudioContext; if(Ctx){ const ctx = new Ctx(); const o = ctx.createOscillator(); const g = ctx.createGain(); o.type = 'sine'; o.frequency.value = 880; o.connect(g); g.connect(ctx.destination); const now = ctx.currentTime; g.gain.setValueAtTime(0, now); g.gain.linearRampToValueAtTime(0.06, now + 0.02); o.start(now); g.gain.exponentialRampToValueAtTime(0.0001, now + 0.6); setTimeout(()=>{ try{o.stop(); ctx.close();}catch(e){} }, 700); } }catch(e){}
+  }
+
+  function copyPreviousManual(){
+    const cur = dateInput.value || TODAY; const prev = previousDate(cur);
+    const prevRaw = localStorage.getItem(STORAGE_PREFIX + prev);
+    if(!prevRaw){ alert('No data found for previous day'); return; }
+    try{
+      const prevData = JSON.parse(prevRaw);
+      if(!Array.isArray(prevData.rows) || !prevData.rows.length){ alert('Previous day had no shops'); return; }
+      if(!confirm('Copy shops & custom prices from previous day? Litres and payments will be reset.')) return;
+      prevData.rows.forEach(r=>{
+        const newRow = { shop: r.shop||'', mobile: r.mobile||'', TM:0, SM:0, SMALLM:0, SMALLC:0, A400:0, H500:0, FC400:0, FC1L:0, due:0, customPrices: r.customPrices||null };
+        const tr = createRow(newRow); if(newRow.customPrices) tr._customPrices = newRow.customPrices; dataBody.appendChild(tr);
+      });
+      updateAllSums(); autosaveSilent(); showToast('Copied from previous day');
+    }catch(e){ console.error(e); alert('Copy failed'); }
+  }
+
+  // boot
+  init();
+
+  // expose small api for debugging in console
+  window._milkApp = { loadForDate, saveForDate, listSavedDates, deleteOldRecords, collectRows, downloadPdfDirect };
+
 })();
 </script>
 </body>
