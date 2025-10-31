@@ -645,7 +645,7 @@
       const paid = Number(r.paid||0), due = Math.max(0,total-paid);
       const customDesc = r.customPrices ? JSON.stringify(r.customPrices).replace(/"/g,"'") : '';
       const cols = [r.shop||'', r.mobile||'', r.TM||0, r.SM||0, r.SMALLM||0, r.SMALLC||0, r.A400||0, r.H500||0, r.FC400||0, r.FC1L||0, total.toFixed(2), paid.toFixed(2), due.toFixed(2), cur, customDesc];
-      lines.push(cols.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(','));
+      lines.push(cols.map(c=>`"${String(c).replace(/"/g,"""')}"`).join(','));
     });
     const csv = lines.join('\n');
     const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'}); const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
